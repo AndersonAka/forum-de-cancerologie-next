@@ -1,16 +1,14 @@
-'use client';
-
 import Image from 'next/image';
 
-export default function ContactSection() {
+export default function Footer() {
     return (
-        <section className="contacts-container">
+        <footer className="contacts-container">
             <div className="contact">
                 <div className="title">
-                    <h1 >Contacts</h1>
+                    <h1>Contacts</h1>
                 </div>
-                <div className="contacts-des">
-                    <p >
+                <div className="flex ">
+                    <p>
                         ROCHE Côte d&apos;Ivoire SARL Ivoire Trade Center,
                         Cocody les ambassades Angle de la rue Hassan 2
                         et de la rue Booker Washington, Bâtiment D 1er étage
@@ -21,12 +19,11 @@ export default function ContactSection() {
                     <Image
                         src="/img/logo-roche-white.png"
                         alt="Logo Roche"
-                        width={150}
-                        height={60}
-                        className="mx-auto"
+                        width={80}
+                        height={45}
                     />
                 </div>
             </div>
-        </section>
+        </footer>
     );
 } 

@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../contexts/AuthContext';
 import { RegisterData } from '../services/auth.service';
 import Toast from '../components/Toast';
-
 export default function Inscription() {
     const router = useRouter();
     const { register, error } = useAuth();
@@ -107,7 +106,7 @@ export default function Inscription() {
     };
 
     return (
-        <main>
+        <>
             {showToast && (
                 <Toast
                     message={toastMessage}
@@ -117,201 +116,197 @@ export default function Inscription() {
             )}
             <div className="flex flex-col items-center justify-center ">
                 <div className="flex flex-col items-center justify-center gap-2 space-y-2 mt-10">
-                    <h1 className='text-6xl font-bold text-blue-800 uppercase'>Ensemble contre le Cancer</h1>
-                    <p className='text-4xl text-blue-800'>DE ROCHE 2025</p>
-                    <p className='text-2xl '>Inscrivez vous en toute sécurité pour accéder au Forum de Cancerologie de Roche.</p>
+                    <h1 className='text-6xl font-bold text-bleu-roche uppercase'>Ensemble contre le Cancer</h1>
+                    <p className='text-4xl text-bleu-roche'>DE ROCHE 2025</p>
+                    <p className='text-2xl text-bleu-roche'>Inscrivez vous en toute sécurité pour accéder au Forum de Cancerologie de Roche.</p>
                 </div>
             </div>
-            <div className="inscriptionWrapper">
-                <div className="container">
-                    <div className="wrapper">
-                        <h1 className="title">Inscription</h1>
-                        {error && (
-                            <div className="error">
-                                {error}
-                            </div>
-                        )}
-                        <form className="form" onSubmit={handleSubmit}>
-                            <div className="inputBox">
-                                <select
-                                    name="title"
-                                    value={formData.title}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                    aria-label="Titre"
-                                >
-                                    <option value="Dr">Dr</option>
-                                    <option value="Pr">Pr</option>
-                                    <option value="M.">M.</option>
-                                    <option value="Mme">Mme</option>
-                                </select>
-                            </div>
-                            <div className="inputBox">
-                                <input
-                                    type="text"
-                                    name="firstName"
-                                    placeholder="Prénom"
-                                    value={formData.firstName}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                />
-                                {validationErrors.firstName && (
-                                    <span className="errorText">{validationErrors.firstName}</span>
-                                )}
-                            </div>
-                            <div className="inputBox">
-                                <input
-                                    type="text"
-                                    name="lastName"
-                                    placeholder="Nom"
-                                    value={formData.lastName}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                />
-                                {validationErrors.lastName && (
-                                    <span className="errorText">{validationErrors.lastName}</span>
-                                )}
-                            </div>
-                            <div className="inputBox">
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                />
-                                {validationErrors.email && (
-                                    <span className="errorText">{validationErrors.email}</span>
-                                )}
-                            </div>
-                            <div className="inputBox">
-                                <input
-                                    type="tel"
-                                    name="phoneNumber"
-                                    placeholder="Numéro de téléphone"
-                                    value={formData.phoneNumber}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                />
-                                {validationErrors.phoneNumber && (
-                                    <span className="errorText">{validationErrors.phoneNumber}</span>
-                                )}
-                            </div>
-                            <div className="inputBox">
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="Mot de passe"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                />
-                                {validationErrors.password && (
-                                    <span className="errorText">{validationErrors.password}</span>
-                                )}
-                            </div>
-                            <div className="inputBox">
-                                <input
-                                    type="password"
-                                    name="confirmPassword"
-                                    placeholder="Confirmer le mot de passe"
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                />
-                                {validationErrors.confirmPassword && (
-                                    <span className="errorText">{validationErrors.confirmPassword}</span>
-                                )}
-                            </div>
-                            <div className="inputBox">
-                                <input
-                                    type="text"
-                                    name="specialty"
-                                    placeholder="Spécialité"
-                                    value={formData.specialty}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                />
-                                {validationErrors.specialty && (
-                                    <span className="errorText">{validationErrors.specialty}</span>
-                                )}
-                            </div>
-                            <div className="inputBox">
-                                <input
-                                    type="text"
-                                    name="workplace"
-                                    placeholder="Établissement"
-                                    value={formData.workplace}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                />
-                                {validationErrors.workplace && (
-                                    <span className="errorText">{validationErrors.workplace}</span>
-                                )}
-                            </div>
-                            <div className="inputBox">
-                                <input
-                                    type="text"
-                                    name="country"
-                                    placeholder="Pays"
-                                    value={formData.country}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                />
-                                {validationErrors.country && (
-                                    <span className="errorText">{validationErrors.country}</span>
-                                )}
-                            </div>
-                            <div className="inputBox">
-                                <select
-                                    name="participationMode"
-                                    value={formData.participationMode}
-                                    onChange={handleChange}
-                                    required
-                                    disabled={isLoading}
-                                    className="input"
-                                    aria-label="Mode de participation"
-                                >
-                                    <option value="in_person">En présentiel</option>
-                                    <option value="online">En ligne</option>
-                                </select>
-                            </div>
-                            <button
-                                type="submit"
-                                disabled={isLoading}
-                                className="submitButton"
-                            >
-                                {isLoading ? 'Inscription en cours...' : 'S\'inscrire'}
-                            </button>
-                        </form>
-                        <div className="loginLink">
-                            <span>Déjà inscrit ?</span>
-                            <a href="/connexion">Se connecter</a>
+            <div className="connection-wrapper">
+                <div className="wrapper">
+                    <h1 className="title">Inscription</h1>
+                    {error && (
+                        <div className="error">
+                            {error}
                         </div>
+                    )}
+                    <form className="connection" onSubmit={handleSubmit}>
+                        <select
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            required
+                            disabled={isLoading}
+                            className="input mb-1"
+                            aria-label="Titre"
+                        >
+                            <option value="Dr">Dr</option>
+                            <option value="Pr">Pr</option>
+                            <option value="M.">M.</option>
+                            <option value="Mme">Mme</option>
+                        </select>
+                        <div className="inputBox">
+                            <input
+                                type="text"
+                                name="firstName"
+                                placeholder="Prénom"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoading}
+                                className="input"
+                            />
+                            {validationErrors.firstName && (
+                                <span className="errorText">{validationErrors.firstName}</span>
+                            )}
+                        </div>
+                        <div className="inputBox">
+                            <input
+                                type="text"
+                                name="lastName"
+                                placeholder="Nom"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoading}
+                                className="input"
+                            />
+                            {validationErrors.lastName && (
+                                <span className="errorText">{validationErrors.lastName}</span>
+                            )}
+                        </div>
+                        <div className="inputBox">
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoading}
+                                className="input"
+                            />
+                            {validationErrors.email && (
+                                <span className="errorText">{validationErrors.email}</span>
+                            )}
+                        </div>
+                        <div className="inputBox">
+                            <input
+                                type="tel"
+                                name="phoneNumber"
+                                placeholder="Numéro de téléphone"
+                                value={formData.phoneNumber}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoading}
+                                className="input"
+                            />
+                            {validationErrors.phoneNumber && (
+                                <span className="errorText">{validationErrors.phoneNumber}</span>
+                            )}
+                        </div>
+                        <div className="inputBox">
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Mot de passe"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoading}
+                                className="input"
+                            />
+                            {validationErrors.password && (
+                                <span className="errorText">{validationErrors.password}</span>
+                            )}
+                        </div>
+                        <div className="inputBox">
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                placeholder="Confirmer le mot de passe"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoading}
+                                className="input"
+                            />
+                            {validationErrors.confirmPassword && (
+                                <span className="errorText">{validationErrors.confirmPassword}</span>
+                            )}
+                        </div>
+                        <div className="inputBox">
+                            <input
+                                type="text"
+                                name="specialty"
+                                placeholder="Spécialité"
+                                value={formData.specialty}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoading}
+                                className="input"
+                            />
+                            {validationErrors.specialty && (
+                                <span className="errorText">{validationErrors.specialty}</span>
+                            )}
+                        </div>
+                        <div className="inputBox">
+                            <input
+                                type="text"
+                                name="workplace"
+                                placeholder="Établissement"
+                                value={formData.workplace}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoading}
+                                className="input"
+                            />
+                            {validationErrors.workplace && (
+                                <span className="errorText">{validationErrors.workplace}</span>
+                            )}
+                        </div>
+                        <div className="inputBox">
+                            <input
+                                type="text"
+                                name="country"
+                                placeholder="Pays"
+                                value={formData.country}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoading}
+                                className="input"
+                            />
+                            {validationErrors.country && (
+                                <span className="errorText">{validationErrors.country}</span>
+                            )}
+                        </div>
+                        <div className="inputBox">
+                            <select
+                                name="participationMode"
+                                value={formData.participationMode}
+                                onChange={handleChange}
+                                required
+                                disabled={isLoading}
+                                className="input mb-4"
+                                aria-label="Mode de participation"
+                            >
+                                <option value="in_person">En présentiel</option>
+                                <option value="online">En ligne</option>
+                            </select>
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="submitButton"
+                        >
+                            {isLoading ? 'Inscription en cours...' : 'S\'inscrire'}
+                        </button>
+                    </form>
+                    <div className="loginLink">
+                        <span>Déjà inscrit ?</span>
+                        <a href="/connexion">Se connecter</a>
                     </div>
                 </div>
             </div>
-        </main>
+        </>
     );
 } 
