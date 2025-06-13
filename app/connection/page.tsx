@@ -3,6 +3,7 @@
 import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../contexts/AuthContext';
+import Link from 'next/link';
 
 function ConnectionForm() {
     const [email, setEmail] = useState('');
@@ -64,18 +65,18 @@ function ConnectionForm() {
                                 className="input"
                             />
                         </div>
-                        <div className="rememberMe">
+                        <div className="se-souvenir">
                             <label>
                                 <input type="checkbox" name="remember" />
                                 Se souvenir de moi
                             </label>
                         </div>
-                        <button type="submit" disabled={isLoading}>
+                        <button type="submit" disabled={isLoading} className='submitButton'>
                             {isLoading ? 'Connexion en cours...' : 'Se connecter'}
                         </button>
                         <div className="lien-de-connection">
                             <p>Vous n&apos;avez pas de compte ?</p>
-                            <a href="/inscription">S&apos;inscrire</a>
+                            <Link href="/inscription">S&apos;inscrire</Link>
                         </div>
                     </form>
                 </div>
