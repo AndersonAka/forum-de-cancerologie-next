@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import styles from './agenda.module.css';
 
 interface Event {
     id: number;
@@ -41,27 +40,27 @@ const events: Event[] = [
 export default function Agenda() {
     return (
         <main>
-            <div className={styles.agendaWrapper}>
-                <div className={styles.container}>
-                    <h1 className={styles.title}>Agenda des Événements</h1>
-                    <div className={styles.eventGrid}>
+            <div className="agendaWrapper">
+                <div className="container">
+                    <h1 className="title">Agenda des Événements</h1>
+                    <div className="eventGrid">
                         {events.map((event) => (
-                            <div key={event.id} className={styles.eventCard}>
+                            <div key={event.id} className="eventCard">
                                 <Image
                                     src={event.image}
                                     alt={event.title}
                                     width={400}
                                     height={200}
-                                    className={styles.eventImage}
+                                    className="eventImage"
                                 />
-                                <div className={styles.eventContent}>
-                                    <p className={styles.eventDate}>{event.date}</p>
-                                    <h2 className={styles.eventTitle}>{event.title}</h2>
-                                    <p className={styles.eventTime}>{event.time}</p>
-                                    <p className={styles.eventLocation}>{event.location}</p>
-                                    <p className={styles.eventDescription}>{event.description}</p>
-                                    <p className={styles.eventSpeaker}>Intervenant : {event.speaker}</p>
-                                    <a href="/inscription" className={styles.registerButton}>
+                                <div className="eventContent">
+                                    <p className="eventDate">{event.date}</p>
+                                    <h2 className="eventTitle">{event.title}</h2>
+                                    <p className="eventTime">{event.time}</p>
+                                    <p className="eventLocation">{event.location}</p>
+                                    <p className="eventDescription">{event.description}</p>
+                                    <p className="eventSpeaker">Intervenant : {event.speaker}</p>
+                                    <a href="/inscription" className="registerButton">
                                         S&apos;inscrire
                                     </a>
                                 </div>

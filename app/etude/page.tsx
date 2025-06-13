@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import styles from './etude.module.css';
 
 interface Study {
     id: number;
@@ -39,25 +38,25 @@ const studies: Study[] = [
 export default function Etude() {
     return (
         <main>
-            <div className={styles.etudeWrapper}>
-                <div className={styles.container}>
-                    <h1 className={styles.title}>Études et Recherches</h1>
-                    <div className={styles.studiesGrid}>
+            <div className="etudeWrapper">
+                <div className="container">
+                    <h1 className="title">Études et Recherches</h1>
+                    <div className="studiesGrid">
                         {studies.map((study) => (
-                            <div key={study.id} className={styles.studyCard}>
+                            <div key={study.id} className="studyCard">
                                 <Image
                                     src={study.image}
                                     alt={study.title}
                                     width={400}
                                     height={200}
-                                    className={styles.studyImage}
+                                    className="studyImage"
                                 />
-                                <div className={styles.studyContent}>
-                                    <h2 className={styles.studyTitle}>{study.title}</h2>
-                                    <p className={styles.studyAuthor}>Par {study.author}</p>
-                                    <p className={styles.studyDate}>{study.date}</p>
-                                    <p className={styles.studyDescription}>{study.description}</p>
-                                    <span className={styles.studyCategory}>{study.category}</span>
+                                <div className="studyContent">
+                                    <h2 className="studyTitle">{study.title}</h2>
+                                    <p className="studyAuthor">Par {study.author}</p>
+                                    <p className="studyDate">{study.date}</p>
+                                    <p className="studyDescription">{study.description}</p>
+                                    <span className="studyCategory">{study.category}</span>
                                 </div>
                             </div>
                         ))}

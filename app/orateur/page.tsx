@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import styles from './orateur.module.css';
 
 interface Speaker {
     id: number;
@@ -38,25 +37,25 @@ const speakers: Speaker[] = [
 export default function Orateur() {
     return (
         <main>
-            <div className={styles.orateurWrapper}>
-                <div className={styles.container}>
-                    <h1 className={styles.title}>Nos Orateurs</h1>
-                    <div className={styles.speakerGrid}>
+            <div className="orateurWrapper">
+                <div className="container">
+                    <h1 className="title">Nos Orateurs</h1>
+                    <div className="speakerGrid">
                         {speakers.map((speaker) => (
-                            <div key={speaker.id} className={styles.speakerCard}>
+                            <div key={speaker.id} className="speakerCard">
                                 <Image
                                     src={speaker.image}
                                     alt={speaker.name}
                                     width={400}
                                     height={300}
-                                    className={styles.speakerImage}
+                                    className="speakerImage"
                                 />
-                                <div className={styles.speakerContent}>
-                                    <h2 className={styles.speakerName}>{speaker.name}</h2>
-                                    <p className={styles.speakerTitle}>{speaker.title}</p>
-                                    <p className={styles.speakerSpecialty}>{speaker.specialty}</p>
-                                    <p className={styles.speakerDescription}>{speaker.description}</p>
-                                    <a href={`mailto:${speaker.email}`} className={styles.speakerContact}>
+                                <div className="speakerContent">
+                                    <h2 className="speakerName">{speaker.name}</h2>
+                                    <p className="speakerTitle">{speaker.title}</p>
+                                    <p className="speakerSpecialty">{speaker.specialty}</p>
+                                    <p className="speakerDescription">{speaker.description}</p>
+                                    <a href={`mailto:${speaker.email}`} className="speakerContact">
                                         Contacter
                                     </a>
                                 </div>

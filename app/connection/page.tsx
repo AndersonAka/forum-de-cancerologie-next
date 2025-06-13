@@ -2,9 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import styles from './connection.module.css';
 import { useAuth } from '../contexts/AuthContext';
-import Image from 'next/image';
 
 export default function Connection() {
     const [email, setEmail] = useState('');
@@ -38,17 +36,17 @@ export default function Connection() {
                     <p className='text-2xl '>Connectez vous en toute sécurité pour accéder au Forum de Cancerologie de Roche.</p>
                 </div>
             </div>
-            <div className={styles.connectionWrapper}>
-                <div className={styles.container}>
-                    <div className={styles.wrapper}>
-                        <h1 className={styles.title}>Connexion</h1>
+            <div className="inscriptionWrapper">
+                <div className="container">
+                    <div className="wrapper">
+                        <h1 className="title">Connexion</h1>
                         {error && (
-                            <div className={styles.error}>
+                            <div className="error">
                                 {error}
                             </div>
                         )}
-                        <form className={styles.form} onSubmit={handleSubmit}>
-                            <div className={styles.inputBox}>
+                        <form className="form" onSubmit={handleSubmit}>
+                            <div className="inputBox">
                                 <input
                                     type="email"
                                     placeholder="Email"
@@ -56,9 +54,10 @@ export default function Connection() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <input
                                     type="password"
                                     placeholder="Mot de passe"
@@ -66,9 +65,10 @@ export default function Connection() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                             </div>
-                            <div className={styles.rememberMe}>
+                            <div className="rememberMe">
                                 <label>
                                     <input
                                         type="checkbox"
@@ -81,13 +81,13 @@ export default function Connection() {
                             </div>
                             <button
                                 type="submit"
-                                className={styles.submitButton}
+                                className="submitButton"
                                 disabled={isLoading}
                             >
                                 {isLoading ? 'Connexion en cours...' : 'Se connecter'}
                             </button>
-                            <div className={styles.loginLink}>
-                                <p>Pas encore de compte ?</p>
+                            <div className="loginLink">
+                                <span>Pas encore de compte ?</span>
                                 <a href="/inscription">S&apos;inscrire</a>
                             </div>
                         </form>

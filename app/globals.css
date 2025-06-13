@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
   --bleu-roche: #003f9b;
@@ -7,6 +8,11 @@
   --rose-small: #ffa1c7;
   --kaki: #c6a258;
   --gray: #777777;
+  --gris-light: #f0f0f0;
+  --white: #ffffff;
+  --gris-dark: #333333;
+  --error: #c62828;
+  --success: #4caf50;
 }
 
 @theme inline {
@@ -23,8 +29,617 @@
   }
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--gris-light);
+  color: var(--gris-dark);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}
+
+/* Styles communs pour les formulaires */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--gris-light);
+}
+
+.form {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.title {
+  color: var(--bleu-roche);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--gris-dark);
+  font-weight: 500;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--bleu-roche);
+}
+
+.button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--bleu-roche);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: #002d6e;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.success {
+  color: var(--success);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Styles spécifiques à l'inscription */
+.inscriptionWrapper {
+  margin-top: 2rem;
+  padding: 7rem 2rem 7rem 2rem;
+  width: 100%;
+  min-height: 75vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background: url("/img/inscription-bg-2025.png") top/cover no-repeat;
+  overflow: hidden;
+}
+
+.wrapper {
+  background: white;
+  padding: 3rem;
+  border-radius: 1.5rem;
+}
+
+.inputBox input {
+  width: 100%;
+  height: 3rem;
+  border-bottom: solid 1px #d1d1d1;
+  margin-bottom: 1.5rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.inputBox input::placeholder {
+  color: #cacaca;
+}
+
+.submitButton {
+  cursor: pointer;
+  width: 100%;
+  background-color: var(--rose-strong);
+  color: white;
+  height: 2.5rem;
+  border-radius: 3rem;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.submitButton:hover {
+  background-color: #e6004c;
+}
+
+.loginLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.loginLink a {
+  color: var(--rose-strong);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.loginLink a:hover {
+  text-decoration: underline;
+}
+
+.errorText {
+  color: #c62828;
+  font-size: 0.8rem;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.inputBox {
+  position: relative;
+}
+
+/* Styles spécifiques à la connexion */
+.registerLink {
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--bleu-roche);
+  text-decoration: underline;
+}
+
+.registerLink:hover {
+  color: #002d6e;
+}
+
+/* Styles pour l'agenda */
+.agendaWrapper {
+  margin-top: 5rem;
+  padding: 7rem 2rem 7rem 2rem;
+  width: 100%;
+  min-height: 75vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background: url("/img/inscription-bg-2025.png") top/cover no-repeat;
+  overflow: hidden;
+}
+
+.eventGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.eventCard {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.eventCard:hover {
+  transform: translateY(-5px);
+}
+
+.eventImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.eventContent {
+  padding: 1.5rem;
+}
+
+.eventDate {
+  color: var(--rose-strong);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.eventTitle {
+  font-size: 1.5rem;
+  color: var(--bleu-roche);
+  margin-bottom: 1rem;
+}
+
+.eventTime {
+  color: var(--kaki);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.eventLocation {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.eventDescription {
+  color: var(--gray);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.eventSpeaker {
+  color: var(--bleu-roche);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.registerButton {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: var(--rose-strong);
+  color: white;
+  border-radius: 2rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.registerButton:hover {
+  background-color: #e6004c;
+}
+
+/* Styles pour les orateurs */
+.orateurWrapper {
+  margin-top: 5rem;
+  padding: 7rem 2rem 7rem 2rem;
+  width: 100%;
+  min-height: 75vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background: url("/img/inscription-bg-2025.png") top/cover no-repeat;
+  overflow: hidden;
+}
+
+.speakerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.speakerCard {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.speakerCard:hover {
+  transform: translateY(-5px);
+}
+
+.speakerImage {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.speakerContent {
+  padding: 1.5rem;
+}
+
+.speakerName {
+  font-size: 1.5rem;
+  color: var(--bleu-roche);
+  margin-bottom: 0.5rem;
+}
+
+.speakerTitle {
+  color: var(--kaki);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.speakerSpecialty {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.speakerDescription {
+  color: var(--gray);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.speakerContact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--rose-strong);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.speakerContact:hover {
+  text-decoration: underline;
+}
+
+/* Styles pour l'itinéraire */
+.itineraireWrapper {
+  margin-top: 5rem;
+  padding: 7rem 2rem 7rem 2rem;
+  width: 100%;
+  min-height: 75vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background: url("/img/inscription-bg-2025.png") top/cover no-repeat;
+  overflow: hidden;
+}
+
+.mapContainer {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.infoSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+}
+
+.infoTitle {
+  font-size: 1.5rem;
+  color: var(--bleu-roche);
+  margin-bottom: 1rem;
+}
+
+.infoText {
+  color: var(--gray);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.directionsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.directionsItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  color: var(--gray);
+}
+
+.directionsItem:before {
+  content: "•";
+  color: var(--rose-strong);
+  font-size: 1.5rem;
+}
+
+.practicalInfo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.infoCard {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.infoCardTitle {
+  color: var(--bleu-roche);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.infoCardText {
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+/* Styles pour les études */
+.etudeWrapper {
+  margin-top: 5rem;
+  padding: 7rem 2rem 7rem 2rem;
+  width: 100%;
+  min-height: 75vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background: url("/img/inscription-bg-2025.png") top/cover no-repeat;
+  overflow: hidden;
+}
+
+.studiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.studyCard {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.studyCard:hover {
+  transform: translateY(-5px);
+}
+
+.studyImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.studyContent {
+  padding: 1.5rem;
+}
+
+.studyTitle {
+  font-size: 1.5rem;
+  color: var(--bleu-roche);
+  margin-bottom: 1rem;
+}
+
+.studyAuthor {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.studyDate {
+  color: var(--kaki);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.studyDescription {
+  color: var(--gray);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.studyCategory {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--rose-small);
+  color: white;
+  border-radius: 2rem;
+  font-size: 0.9rem;
+}
+
+/* Media Queries */
+@media (max-width: 910px) {
+  .inscriptionWrapper,
+  .agendaWrapper,
+  .orateurWrapper,
+  .itineraireWrapper,
+  .etudeWrapper {
+    padding: 4rem 1rem;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .mapContainer {
+    height: 300px;
+  }
+}
+
+@media (max-width: 545px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .wrapper {
+    padding: 2rem;
+  }
+
+  .eventGrid,
+  .speakerGrid,
+  .studiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .infoSection {
+    padding: 1.5rem;
+  }
+
+  .practicalInfo {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 415px) {
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .wrapper {
+    padding: 1.5rem;
+  }
+
+  .eventContent,
+  .speakerContent,
+  .studyContent {
+    padding: 1rem;
+  }
+
+  .eventImage {
+    height: 180px;
+  }
+
+  .speakerImage {
+    height: 250px;
+  }
+
+  .mapContainer {
+    height: 250px;
+  }
+
+  .infoSection {
+    padding: 1rem;
+  }
 }

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './inscription.module.css';
 import { useAuth } from '../contexts/AuthContext';
 import { RegisterData } from '../services/auth.service';
 import Toast from '../components/Toast';
@@ -123,24 +122,24 @@ export default function Inscription() {
                     <p className='text-2xl '>Inscrivez vous en toute sécurité pour accéder au Forum de Cancerologie de Roche.</p>
                 </div>
             </div>
-            <div className={styles.inscriptionWrapper}>
-                <div className={styles.container}>
-                    <div className={styles.wrapper}>
-                        <h1 className={styles.title}>Inscription</h1>
+            <div className="inscriptionWrapper">
+                <div className="container">
+                    <div className="wrapper">
+                        <h1 className="title">Inscription</h1>
                         {error && (
-                            <div className={styles.error}>
+                            <div className="error">
                                 {error}
                             </div>
                         )}
-                        <form className={styles.form} onSubmit={handleSubmit}>
-                            <div className={styles.inputBox}>
+                        <form className="form" onSubmit={handleSubmit}>
+                            <div className="inputBox">
                                 <select
                                     name="title"
                                     value={formData.title}
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
-                                    className={styles.select}
+                                    className="input"
                                     aria-label="Titre"
                                 >
                                     <option value="Dr">Dr</option>
@@ -149,7 +148,7 @@ export default function Inscription() {
                                     <option value="Mme">Mme</option>
                                 </select>
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <input
                                     type="text"
                                     name="firstName"
@@ -158,12 +157,13 @@ export default function Inscription() {
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                                 {validationErrors.firstName && (
-                                    <span className={styles.errorText}>{validationErrors.firstName}</span>
+                                    <span className="errorText">{validationErrors.firstName}</span>
                                 )}
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <input
                                     type="text"
                                     name="lastName"
@@ -172,12 +172,13 @@ export default function Inscription() {
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                                 {validationErrors.lastName && (
-                                    <span className={styles.errorText}>{validationErrors.lastName}</span>
+                                    <span className="errorText">{validationErrors.lastName}</span>
                                 )}
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <input
                                     type="email"
                                     name="email"
@@ -186,12 +187,13 @@ export default function Inscription() {
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                                 {validationErrors.email && (
-                                    <span className={styles.errorText}>{validationErrors.email}</span>
+                                    <span className="errorText">{validationErrors.email}</span>
                                 )}
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <input
                                     type="tel"
                                     name="phoneNumber"
@@ -200,12 +202,13 @@ export default function Inscription() {
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                                 {validationErrors.phoneNumber && (
-                                    <span className={styles.errorText}>{validationErrors.phoneNumber}</span>
+                                    <span className="errorText">{validationErrors.phoneNumber}</span>
                                 )}
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <input
                                     type="password"
                                     name="password"
@@ -214,12 +217,13 @@ export default function Inscription() {
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                                 {validationErrors.password && (
-                                    <span className={styles.errorText}>{validationErrors.password}</span>
+                                    <span className="errorText">{validationErrors.password}</span>
                                 )}
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <input
                                     type="password"
                                     name="confirmPassword"
@@ -228,12 +232,13 @@ export default function Inscription() {
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                                 {validationErrors.confirmPassword && (
-                                    <span className={styles.errorText}>{validationErrors.confirmPassword}</span>
+                                    <span className="errorText">{validationErrors.confirmPassword}</span>
                                 )}
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <input
                                     type="text"
                                     name="specialty"
@@ -242,12 +247,13 @@ export default function Inscription() {
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                                 {validationErrors.specialty && (
-                                    <span className={styles.errorText}>{validationErrors.specialty}</span>
+                                    <span className="errorText">{validationErrors.specialty}</span>
                                 )}
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <input
                                     type="text"
                                     name="workplace"
@@ -256,12 +262,13 @@ export default function Inscription() {
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                                 {validationErrors.workplace && (
-                                    <span className={styles.errorText}>{validationErrors.workplace}</span>
+                                    <span className="errorText">{validationErrors.workplace}</span>
                                 )}
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <input
                                     type="text"
                                     name="country"
@@ -270,19 +277,20 @@ export default function Inscription() {
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
+                                    className="input"
                                 />
                                 {validationErrors.country && (
-                                    <span className={styles.errorText}>{validationErrors.country}</span>
+                                    <span className="errorText">{validationErrors.country}</span>
                                 )}
                             </div>
-                            <div className={styles.inputBox}>
+                            <div className="inputBox">
                                 <select
                                     name="participationMode"
                                     value={formData.participationMode}
                                     onChange={handleChange}
                                     required
                                     disabled={isLoading}
-                                    className={styles.select}
+                                    className="input"
                                     aria-label="Mode de participation"
                                 >
                                     <option value="in_person">En présentiel</option>
@@ -291,16 +299,16 @@ export default function Inscription() {
                             </div>
                             <button
                                 type="submit"
-                                className={styles.submitButton}
                                 disabled={isLoading}
+                                className="submitButton"
                             >
                                 {isLoading ? 'Inscription en cours...' : 'S\'inscrire'}
                             </button>
-                            <div className={styles.loginLink}>
-                                <p>Déjà inscrit ?</p>
-                                <a href="/connection">Se connecter</a>
-                            </div>
                         </form>
+                        <div className="loginLink">
+                            <span>Déjà inscrit ?</span>
+                            <a href="/connexion">Se connecter</a>
+                        </div>
                     </div>
                 </div>
             </div>
