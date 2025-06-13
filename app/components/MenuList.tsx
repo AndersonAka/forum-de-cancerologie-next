@@ -4,44 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function MenuList() {
-    const menuItems = [
-        {
-            title: 'Direct 2025',
-            icon: '/img/play-icon.png',
-            description: 'Lancez une session en live depuis votre position et participer virtuellement au forum.',
-            href: '/direct'
-        },
-        {
-            title: 'Rediffusion 2024',
-            icon: '/img/replay-icon-color.png',
-            description: 'Revisionnez les dernières interventions de nos experts durant le forum de cancerologie 2024',
-            href: '/rediffusion'
-        },
-        {
-            title: 'Orateurs',
-            icon: '/img/speakers.png',
-            description: 'Accedez à plus de 30 experts régionaux et internationaux intervenant sur le forum',
-            href: '/orateur'
-        },
-        {
-            title: 'Agenda 2025',
-            icon: '/img/diary.png',
-            description: 'Consultez l\'agenda du forum de cancérologie de roche',
-            href: '/agenda'
-        },
-        {
-            title: 'Nos Etudes',
-            icon: '/img/themes.png',
-            description: 'Consultez l\'agenda du forum de cancérologie de roche',
-            href: '/agenda'
-        },
-        {
-            title: 'Itinéraire',
-            icon: '/img/localisation-icon.png',
-            description: 'Accedez à un itinéraire google map pour participer en présentiel au forum',
-            href: '/itineraire'
-        }
-    ];
 
     return (
         <div className="menu-list">
