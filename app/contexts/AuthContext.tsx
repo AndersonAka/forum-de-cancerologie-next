@@ -1,88 +1,103 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { authService, LoginCredentials, RegisterData, AuthResponse } from '../services/auth.service';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { authService } from '../services/auth.service';
+
+interface User {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    title: string;
+    specialty: string;
+    country: string;
+    workplace: string;
+    phoneNumber: string;
+    participationMode: string;
+    gdprConsent: boolean;
+    rememberMeToken: string | null;
+    createdAt: string;
+    updatedAt: string;
+}
 
 interface AuthContextType {
     isAuthenticated: boolean;
-    user: AuthResponse['user'] | null;
-    login: (credentials: LoginCredentials) => Promise<void>;
-    register: (data: RegisterData) => Promise<AuthResponse>;
-    logout: () => void;
-    error: string | null;
+    user: User | null;
+    login: (credentials: { email: string; password: string }) => Promise<void>;
+    logout: () => Promise<void>;
+    loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [user, setUser] = useState<AuthResponse['user'] | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
-        const initializeAuth = async () => {
-            const storedUser = authService.getUser();
-            if (storedUser) {
-                setUser(storedUser);
-                setIsAuthenticated(true);
-            } else {
-                const token = authService.getToken();
-                if (token) {
-                    try {
-                        const user = await authService.getCurrentUser();
-                        setUser(user);
+        let isMounted = true;
+
+        const checkAuth = async () => {
+            if (!isMounted) return;
+
+            try {
+                if (authService.isAuthenticated()) {
+                    const userData = await authService.getCurrentUser();
+                    if (isMounted) {
+                        setUser(userData);
                         setIsAuthenticated(true);
-                    } catch (error) {
-                        console.error("Erreur lors de la récupération des informations utilisateur:", error);
-                        authService.logout();
                     }
+                }
+            } catch (error) {
+                console.error('Erreur lors de la vérification de l\'authentification:', error);
+                if (isMounted) {
+                    authService.logout();
+                    setIsAuthenticated(false);
+                    setUser(null);
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
                 }
             }
         };
 
-        initializeAuth();
+        checkAuth();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
-    const login = async (credentials: LoginCredentials) => {
+    const login = async (credentials: { email: string; password: string }) => {
         try {
-            setError(null);
             const response = await authService.login(credentials);
             setUser(response.user);
             setIsAuthenticated(true);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Une erreur est survenue');
-            throw err;
+            router.push('/');
+        } catch (error) {
+            console.error('Erreur de connexion:', error);
+            throw error;
         }
     };
 
-    const register = async (data: RegisterData) => {
+    const logout = async () => {
         try {
-            setError(null);
-            const response = await authService.register(data);
-            return response;
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Une erreur est survenue');
-            throw err;
+            authService.logout();
+            setUser(null);
+            setIsAuthenticated(false);
+            router.push('/connection');
+        } catch (error) {
+            console.error('Erreur lors de la déconnexion:', error);
+            throw error;
         }
-    };
-
-    const logout = () => {
-        authService.logout();
-        setUser(null);
-        setIsAuthenticated(false);
     };
 
     return (
-        <AuthContext.Provider
-            value={{
-                isAuthenticated,
-                user,
-                login,
-                register,
-                logout,
-                error,
-            }}
-        >
+        <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

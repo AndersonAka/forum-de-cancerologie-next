@@ -16,30 +16,31 @@ export interface RegisterData {
   [key: string]: string;
 }
 
-export interface AuthResponse {
-  token?: string;
-  user: {
-    id: number;
-    email: string;
-    firstName: string;
-    lastName: string;
-    title: string;
-    specialty: string;
-    country: string;
-    workplace: string;
-    phoneNumber: string;
-    participationMode: string;
-    gdprConsent: boolean;
-    rememberMeToken: string | null;
-    createdAt: string;
-    updatedAt: string;
-  };
-  message?: string;
+interface User {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  title: string;
+  specialty: string;
+  country: string;
+  workplace: string;
+  phoneNumber: string;
+  participationMode: string;
+  gdprConsent: boolean;
+  rememberMeToken: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface AuthResponse {
+  auth_token: string;
+  user: User;
 }
 
 class AuthService {
   private readonly TOKEN_KEY = "auth_token";
-  private readonly USER_KEY = "auth_user";
+  private readonly USER_KEY = "user";
 
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
@@ -47,9 +48,7 @@ class AuthService {
         "/auth/login",
         credentials
       );
-      if (response.token) {
-        this.setToken(response.token);
-      }
+      this.setToken(response.auth_token);
       this.setUser(response.user);
       return response;
     } catch (error) {
@@ -78,15 +77,16 @@ class AuthService {
     }
   }
 
-  async getCurrentUser(): Promise<AuthResponse["user"]> {
+  async getCurrentUser(): Promise<User> {
     try {
-      const response = await apiService.get<AuthResponse>("/auth/me");
-      return response.user;
+      // Récupérer l'utilisateur depuis le localStorage
+      const userStr = localStorage.getItem(this.USER_KEY);
+      if (!userStr) {
+        throw new Error("Utilisateur non trouvé");
+      }
+      return JSON.parse(userStr);
     } catch (error) {
-      console.error(
-        "Erreur lors de la récupération des informations utilisateur:",
-        error
-      );
+      console.error("Erreur lors de la récupération de l'utilisateur:", error);
       throw error;
     }
   }
@@ -94,32 +94,26 @@ class AuthService {
   logout() {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
+    document.cookie =
+      "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   }
 
   getToken(): string | null {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem(this.TOKEN_KEY);
-    }
-    return null;
-  }
-
-  getUser(): AuthResponse["user"] | null {
-    if (typeof window !== "undefined") {
-      const userStr = localStorage.getItem(this.USER_KEY);
-      return userStr ? JSON.parse(userStr) : null;
-    }
-    return null;
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken() || !!this.getUser();
+    return !!this.getToken();
   }
 
   private setToken(token: string) {
     localStorage.setItem(this.TOKEN_KEY, token);
+    const expires = new Date();
+    expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 jours
+    document.cookie = `auth_token=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Strict`;
   }
 
-  private setUser(user: AuthResponse["user"]) {
+  private setUser(user: User) {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
   }
 }

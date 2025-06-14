@@ -1,4 +1,9 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+} from "axios";
 import { authService } from "./auth.service";
 
 // Utiliser l'API route Next.js comme proxy
@@ -33,11 +38,13 @@ class ApiService {
     // Intercepteur pour gérer les erreurs
     this.api.interceptors.response.use(
       (response) => response,
-      async (error) => {
+      async (error: AxiosError) => {
         if (error.response?.status === 401) {
           // Token expiré ou invalide
           authService.logout();
-          window.location.href = "/connection";
+          if (typeof window !== "undefined") {
+            window.location.href = "/connection";
+          }
         }
 
         // Gestion spécifique des erreurs CORS
@@ -101,15 +108,21 @@ class ApiService {
 
   private handleError(error: unknown): void {
     if (axios.isAxiosError(error)) {
-      if (error.response) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response) {
         // Le serveur a répondu avec un code d'état d'erreur
-        console.error("Erreur API:", error.response.data);
-      } else if (error.request) {
+        const errorData = axiosError.response.data;
+        const errorMessage =
+          typeof errorData === "object" && errorData !== null
+            ? JSON.stringify(errorData)
+            : String(errorData);
+        console.error("Erreur API:", errorMessage);
+      } else if (axiosError.request) {
         // La requête a été faite mais aucune réponse n'a été reçue
-        console.error("Pas de réponse du serveur:", error.request);
+        console.error("Pas de réponse du serveur:", axiosError.request);
       } else {
         // Une erreur s'est produite lors de la configuration de la requête
-        console.error("Erreur de configuration:", error.message);
+        console.error("Erreur de configuration:", axiosError.message);
       }
     } else {
       console.error("Erreur inattendue:", error);

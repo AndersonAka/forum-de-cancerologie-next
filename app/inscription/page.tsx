@@ -1,312 +1,307 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../contexts/AuthContext';
-import { RegisterData } from '../services/auth.service';
-import Toast from '../components/Toast';
+import { apiService } from '../services/api.service';
+
+interface InscriptionData {
+    titre: string;
+    nom: string;
+    specialite: string;
+    pays: string;
+    lieuExercice: string;
+    email: string;
+    telephone: string;
+    participation: string;
+}
+
 export default function Inscription() {
     const router = useRouter();
-    const { register, error } = useAuth();
-    const [isLoading, setIsLoading] = useState(false);
-    const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-    const [formData, setFormData] = useState<RegisterData>({
-        firstName: '',
-        lastName: '',
+    const [formData, setFormData] = useState<InscriptionData>({
+        titre: '',
+        nom: '',
+        specialite: '',
+        pays: '',
+        lieuExercice: '',
         email: '',
-        password: '',
-        confirmPassword: '',
-        title: 'Dr',
-        specialty: '',
-        country: '',
-        workplace: '',
-        phoneNumber: '',
-        participationMode: 'in_person'
+        telephone: '',
+        participation: '',
     });
+    const [rememberMe, setRememberMe] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const [validationErrors, setValidationErrors] = useState<Partial<RegisterData>>({});
-
-    const validateForm = (): boolean => {
-        const errors: Partial<RegisterData> = {};
-
-        if (!formData.firstName.trim()) {
-            errors.firstName = 'Le prénom est requis';
+    useEffect(() => {
+        const savedEmail = localStorage.getItem('email');
+        if (savedEmail) {
+            setFormData(prev => ({ ...prev, email: savedEmail }));
+            setRememberMe(true);
         }
-        if (!formData.lastName.trim()) {
-            errors.lastName = 'Le nom est requis';
-        }
-        if (!formData.email.trim()) {
-            errors.email = 'L\'email est requis';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            errors.email = 'Format d\'email invalide';
-        }
-        if (!formData.password) {
-            errors.password = 'Le mot de passe est requis';
-        } else if (formData.password.length < 6) {
-            errors.password = 'Le mot de passe doit contenir au moins 6 caractères';
-        }
-        if (formData.password !== formData.confirmPassword) {
-            errors.confirmPassword = 'Les mots de passe ne correspondent pas';
-        }
-        if (!formData.specialty.trim()) {
-            errors.specialty = 'La spécialité est requise';
-        }
-        if (!formData.workplace.trim()) {
-            errors.workplace = 'L\'établissement est requis';
-        }
-        if (!formData.country.trim()) {
-            errors.country = 'Le pays est requis';
-        }
-        if (!formData.phoneNumber.trim()) {
-            errors.phoneNumber = 'Le numéro de téléphone est requis';
-        }
-
-        setValidationErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        // Effacer l'erreur de validation pour ce champ
-        if (validationErrors[name as keyof RegisterData]) {
-            setValidationErrors(prev => ({
-                ...prev,
-                [name]: undefined
-            }));
-        }
-    };
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
-
         setIsLoading(true);
-        try {
-            const response = await register(formData);
-            setToastMessage(response.message || "Inscription réussie ! Vous allez être redirigé vers la page de connexion.");
-            setShowToast(true);
+        setError(null);
 
-            // Attendre 3 secondes avant la redirection
-            setTimeout(() => {
-                router.push('/connection');
-            }, 3000);
+        try {
+            // Appel API pour l'inscription
+            await apiService.post<{ message: string }>('/auth/register', {
+                ...formData,
+                gdprConsent: true, // Ajout du consentement GDPR
+            });
+
+            // Gestion du "Se souvenir de moi"
+            if (rememberMe) {
+                localStorage.setItem('email', formData.email);
+            } else {
+                localStorage.removeItem('email');
+            }
+
+            // Redirection vers la page de connexion avec un message de succès
+            router.push('/connection?success=true');
         } catch (err) {
             console.error('Erreur d\'inscription:', err);
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError('Une erreur est survenue lors de l\'inscription');
+            }
         } finally {
             setIsLoading(false);
         }
     };
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
     return (
-        <>
-            {showToast && (
-                <Toast
-                    message={toastMessage}
-                    type="success"
-                    onClose={() => setShowToast(false)}
-                />
-            )}
-            <div className="flex flex-col items-center justify-center ">
-                <div className="flex flex-col items-center justify-center gap-2 space-y-2 mt-10">
-                    <h1 className='text-6xl font-bold text-bleu-roche uppercase'>Ensemble contre le Cancer</h1>
-                    <p className='text-4xl text-bleu-roche'>DE ROCHE 2025</p>
-                    <p className='text-2xl text-bleu-roche'>Inscrivez vous en toute sécurité pour accéder au Forum de Cancerologie de Roche.</p>
+        <main>
+            <header>
+                <div className="container">
+                    <div className="hotel">
+                        <Image src="/img/noomhotel.png" alt="Noom Hotel" width={1000} height={500} />
+                    </div>
+                    <div className="title">
+                        <h1>FORUM DE CANCEROLOGIE<br /><small>DE ROCHE 2025</small></h1>
+                    </div>
+                    <p>Inscrivez vous en toute sécurité pour accéder<br />au Forum de Cancerologie de Roche.</p>
                 </div>
-            </div>
-            <div className="connection-wrapper">
-                <div className="wrapper">
-                    <h1 className="title">Inscription</h1>
-                    {error && (
-                        <div className="error">
-                            {error}
-                        </div>
-                    )}
-                    <form className="connection" onSubmit={handleSubmit}>
-                        <select
-                            name="title"
-                            value={formData.title}
-                            onChange={handleChange}
-                            required
-                            disabled={isLoading}
-                            className="input mb-1"
-                            aria-label="Titre"
-                        >
-                            <option value="Dr">Dr</option>
-                            <option value="Pr">Pr</option>
-                            <option value="M.">M.</option>
-                            <option value="Mme">Mme</option>
-                        </select>
-                        <div className="inputBox">
-                            <input
-                                type="text"
-                                name="firstName"
-                                placeholder="Prénom"
-                                value={formData.firstName}
-                                onChange={handleChange}
-                                required
-                                disabled={isLoading}
-                                className="input"
-                            />
-                            {validationErrors.firstName && (
-                                <span className="errorText">{validationErrors.firstName}</span>
+            </header>
+
+            <section className="inscription-wrapper">
+                <div className="container">
+                    <div className="wrapper">
+                        <form onSubmit={handleSubmit} className="inscription">
+                            <h1>Inscription</h1>
+
+                            {error && (
+                                <div className="error-message" style={{ color: 'red', marginBottom: '1rem' }}>
+                                    {error}
+                                </div>
                             )}
+
+                            <div className="input-box">
+                                <select
+                                    name="titre"
+                                    value={formData.titre}
+                                    onChange={handleChange}
+                                    required
+                                    aria-label="Titre"
+                                >
+                                    <option value="">Titre</option>
+                                    <option value="Dr">Dr</option>
+                                    <option value="Pr">Pr</option>
+                                    <option value="M.">M.</option>
+                                    <option value="Mme">Mme</option>
+                                </select>
+                            </div>
+
+                            <div className="input-box">
+                                <input
+                                    type="text"
+                                    name="nom"
+                                    value={formData.nom}
+                                    onChange={handleChange}
+                                    placeholder="Nom / Prénom"
+                                    required
+                                    disabled={isLoading}
+                                />
+                            </div>
+
+                            <div className="input-box">
+                                <input
+                                    type="text"
+                                    name="specialite"
+                                    value={formData.specialite}
+                                    onChange={handleChange}
+                                    placeholder="Spécialité"
+                                    required
+                                    disabled={isLoading}
+                                />
+                            </div>
+
+                            <div className="input-box">
+                                <input
+                                    type="text"
+                                    name="pays"
+                                    value={formData.pays}
+                                    onChange={handleChange}
+                                    placeholder="Pays"
+                                    required
+                                    disabled={isLoading}
+                                />
+                            </div>
+
+                            <div className="input-box">
+                                <input
+                                    type="text"
+                                    name="lieuExercice"
+                                    value={formData.lieuExercice}
+                                    onChange={handleChange}
+                                    placeholder="Lieu d&apos;exercice"
+                                    required
+                                    disabled={isLoading}
+                                />
+                            </div>
+
+                            <div className="input-box">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    placeholder="Adresse email"
+                                    required
+                                    disabled={isLoading}
+                                />
+                            </div>
+
+                            <div className="input-box">
+                                <input
+                                    type="tel"
+                                    name="telephone"
+                                    value={formData.telephone}
+                                    onChange={handleChange}
+                                    placeholder="Numéro de téléphone"
+                                    required
+                                    disabled={isLoading}
+                                />
+                            </div>
+
+                            <div className="input-box2">
+                                <label><strong>Quel sera votre mode de participation ?</strong></label>
+                                <div className="participation-mode">
+                                    <div className="en-presentiel">
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="participation"
+                                                value="présentiel"
+                                                checked={formData.participation === 'présentiel'}
+                                                onChange={handleChange}
+                                                required
+                                                disabled={isLoading}
+                                            />
+                                            En présentiel
+                                        </label>
+                                    </div>
+                                    <div className="en-ligne">
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="participation"
+                                                value="en ligne"
+                                                checked={formData.participation === 'en ligne'}
+                                                onChange={handleChange}
+                                                disabled={isLoading}
+                                            />
+                                            En ligne
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="se-souvenir">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={rememberMe}
+                                        onChange={(e) => setRememberMe(e.target.checked)}
+                                        disabled={isLoading}
+                                    />
+                                    Se souvenir de moi
+                                </label>
+                            </div>
+
+                            <div className="se-souvenir">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        required
+                                        disabled={isLoading}
+                                    />
+                                    J&apos;accepte les termes du <Link href="#">formulaire de consentement</Link>
+                                </label>
+                            </div>
+
+                            <p className="text-gray-600 mb-4">
+                                En vous inscrivant, vous acceptez de recevoir des informations sur le Forum de Cancérologie et vous confirmez avoir lu et accepté notre politique de confidentialité.
+                            </p>
+                            <p className="text-gray-600 mb-4">
+                                Vous pouvez vous désinscrire à tout moment en utilisant le lien de désinscription dans nos e-mails ou en nous contactant directement.
+                            </p>
+                            <p className="text-gray-600 mb-4">
+                                Nous nous engageons à protéger vos données personnelles et à ne jamais les partager avec des tiers sans votre consentement explicite.
+                            </p>
+                            <p className="text-gray-600 mb-4">
+                                Pour plus d&apos;informations sur la façon dont nous traitons vos données, veuillez consulter notre politique de confidentialité.
+                            </p>
+                            <p className="text-gray-600 mb-4">
+                                L&apos;inscription est gratuite et vous donne accès à toutes les fonctionnalités du forum.
+                            </p>
+                            <p className="text-gray-600 mb-4">
+                                Vous recevrez un e-mail de confirmation après votre inscription.
+                            </p>
+                            <p className="text-gray-600 mb-4">
+                                Si vous avez des questions, n&apos;hésitez pas à nous contacter.
+                            </p>
+
+                            <button type="submit" className="btn" disabled={isLoading}>
+                                {isLoading ? 'Inscription en cours...' : 'Soumettre'}
+                            </button>
+
+                            <div className="lien-de-connection">
+                                <p>Déjà inscrit ?</p>
+                                <Link href="/connection">Se connecter</Link>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div className="inscription-des">
+                        <div className="des-title">
+                            <h1>Accès au Forum</h1>
+                            <p>Vos données de connexion sont chiffrées et protégées par<br />
+                                des mesures de sécurité avancées. Nous nous engageons<br />
+                                à garantir la confidentialité et la sécurité de vos informations<br />
+                                personnelles.</p>
                         </div>
-                        <div className="inputBox">
-                            <input
-                                type="text"
-                                name="lastName"
-                                placeholder="Nom"
-                                value={formData.lastName}
-                                onChange={handleChange}
-                                required
-                                disabled={isLoading}
-                                className="input"
-                            />
-                            {validationErrors.lastName && (
-                                <span className="errorText">{validationErrors.lastName}</span>
-                            )}
+                        <div className="des-date">
+                            <div className="date">
+                                <Image src="/img/date-2025-05.png" alt="Date" width={300} height={150} />
+                            </div>
+                            <div className="location">
+                                <Image src="/img/localisation.png" alt="Localisation" width={15} height={15} />
+                                <p>Noom Hôtel<br /> Plateau Abidjan<br /> Côte d&apos;ivoire</p>
+                            </div>
                         </div>
-                        <div className="inputBox">
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                                disabled={isLoading}
-                                className="input"
-                            />
-                            {validationErrors.email && (
-                                <span className="errorText">{validationErrors.email}</span>
-                            )}
-                        </div>
-                        <div className="inputBox">
-                            <input
-                                type="tel"
-                                name="phoneNumber"
-                                placeholder="Numéro de téléphone"
-                                value={formData.phoneNumber}
-                                onChange={handleChange}
-                                required
-                                disabled={isLoading}
-                                className="input"
-                            />
-                            {validationErrors.phoneNumber && (
-                                <span className="errorText">{validationErrors.phoneNumber}</span>
-                            )}
-                        </div>
-                        <div className="inputBox">
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="Mot de passe"
-                                value={formData.password}
-                                onChange={handleChange}
-                                required
-                                disabled={isLoading}
-                                className="input"
-                            />
-                            {validationErrors.password && (
-                                <span className="errorText">{validationErrors.password}</span>
-                            )}
-                        </div>
-                        <div className="inputBox">
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                placeholder="Confirmer le mot de passe"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                required
-                                disabled={isLoading}
-                                className="input"
-                            />
-                            {validationErrors.confirmPassword && (
-                                <span className="errorText">{validationErrors.confirmPassword}</span>
-                            )}
-                        </div>
-                        <div className="inputBox">
-                            <input
-                                type="text"
-                                name="specialty"
-                                placeholder="Spécialité"
-                                value={formData.specialty}
-                                onChange={handleChange}
-                                required
-                                disabled={isLoading}
-                                className="input"
-                            />
-                            {validationErrors.specialty && (
-                                <span className="errorText">{validationErrors.specialty}</span>
-                            )}
-                        </div>
-                        <div className="inputBox">
-                            <input
-                                type="text"
-                                name="workplace"
-                                placeholder="Établissement"
-                                value={formData.workplace}
-                                onChange={handleChange}
-                                required
-                                disabled={isLoading}
-                                className="input"
-                            />
-                            {validationErrors.workplace && (
-                                <span className="errorText">{validationErrors.workplace}</span>
-                            )}
-                        </div>
-                        <div className="inputBox">
-                            <input
-                                type="text"
-                                name="country"
-                                placeholder="Pays"
-                                value={formData.country}
-                                onChange={handleChange}
-                                required
-                                disabled={isLoading}
-                                className="input"
-                            />
-                            {validationErrors.country && (
-                                <span className="errorText">{validationErrors.country}</span>
-                            )}
-                        </div>
-                        <div className="inputBox">
-                            <select
-                                name="participationMode"
-                                value={formData.participationMode}
-                                onChange={handleChange}
-                                required
-                                disabled={isLoading}
-                                className="input mb-4"
-                                aria-label="Mode de participation"
-                            >
-                                <option value="in_person">En présentiel</option>
-                                <option value="online">En ligne</option>
-                            </select>
-                        </div>
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="submitButton"
-                        >
-                            {isLoading ? 'Inscription en cours...' : 'S\'inscrire'}
-                        </button>
-                    </form>
-                    <div className="loginLink">
-                        <span>Déjà inscrit ?</span>
-                        <a href="/connexion">Se connecter</a>
                     </div>
                 </div>
-            </div>
-        </>
+            </section>
+        </main>
     );
 } 

@@ -1,48 +1,47 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Routes qui nécessitent une authentification
-const protectedRoutes = [
-  "/agenda",
-  "/orateur",
-  "/etude",
-  "/itineraire",
-  "/programme",
-  "/contact",
+// Routes publiques (accessibles sans authentification)
+const publicRoutes = [
+  "/connection",
+  "/inscription",
+  "/api/auth/login",
+  "/api/auth/register",
 ];
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("auth_token")?.value;
   const { pathname } = request.nextUrl;
 
-  // Vérifier si la route est protégée
-  const isProtectedRoute = protectedRoutes.some((route) =>
+  // Vérifier si c'est une route publique
+  const isPublicRoute = publicRoutes.some((route) =>
     pathname.startsWith(route)
   );
-  const isAuthPage = pathname === "/connection" || pathname === "/inscription";
 
-  // Si l'utilisateur est connecté
-  if (token) {
-    // Rediriger vers l'accueil si sur une page d'authentification
-    if (isAuthPage) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
-    // Autoriser l'accès à toutes les routes si connecté
-    return NextResponse.next();
+  // Si l'utilisateur est connecté et essaie d'accéder aux pages d'auth
+  if (token && (pathname === "/connection" || pathname === "/inscription")) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // Si l'utilisateur n'est pas connecté
-  // Rediriger vers la connexion si c'est une route protégée
-  if (isProtectedRoute) {
+  // Si l'utilisateur n'est pas connecté et essaie d'accéder à une route protégée
+  if (!token && !isPublicRoute) {
     const url = new URL("/connection", request.url);
     url.searchParams.set("from", pathname);
     return NextResponse.redirect(url);
   }
 
-  // Autoriser l'accès aux pages publiques
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
+     */
+    "/((?!_next/static|_next/image|favicon.ico|public).*)",
+  ],
 };
