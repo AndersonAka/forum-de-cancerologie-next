@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import styles from './Navbar.module.css';
+import Image from './Image';
 
 interface NavLink {
     href: string;
@@ -142,6 +142,7 @@ export default function Navbar() {
                             width={150}
                             height={50}
                             priority
+                            unoptimized
                         />
                     </Link>
                 </div>
@@ -169,6 +170,7 @@ export default function Navbar() {
                         width={100}
                         height={40}
                         priority
+                        unoptimized
                     />
                 </div>
 
@@ -202,4 +204,4 @@ export default function Navbar() {
             </div>
         </>
     );
-} 
+}
