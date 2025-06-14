@@ -9,44 +9,56 @@ import { ProgrammeElement } from './ProgrammeElement';
 
 export const HomePage = () => {
     const [hasExecuted, setHasExecuted] = useState(false);
+    const [isClient, setIsClient] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);
     const bodyHeadRef = useRef<HTMLDivElement>(null);
     const { isAuthenticated, loading } = useAuth();
     const router = useRouter();
 
+    // Gestion du rendu côté client
     useEffect(() => {
-        // Vérifier si hasExecuted est déjà dans le localStorage
-        const storedHasExecuted = localStorage.getItem('hasExecuted') === 'true';
-        setHasExecuted(storedHasExecuted);
-
-        // Afficher la popup après 1 seconde si pas encore exécuté
-        if (!storedHasExecuted) {
-            const timer = setTimeout(() => {
-                if (popupRef.current) popupRef.current.style.display = "block";
-                if (bodyHeadRef.current) bodyHeadRef.current.style.display = "none";
-            }, 1000);
-
-            return () => clearTimeout(timer);
-        }
+        setIsClient(true);
     }, []);
 
     useEffect(() => {
-        if (!loading && !isAuthenticated) {
+        if (isClient) {
+            const storedHasExecuted = localStorage.getItem('hasExecuted') === 'true';
+            setHasExecuted(storedHasExecuted);
+
+            if (!storedHasExecuted) {
+                const timer = setTimeout(() => {
+                    if (popupRef.current) popupRef.current.style.display = "block";
+                    if (bodyHeadRef.current) bodyHeadRef.current.style.display = "none";
+                }, 1000);
+
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [isClient]);
+
+    useEffect(() => {
+        if (isClient && !loading && !isAuthenticated) {
             router.push('/connection');
         }
-    }, [isAuthenticated, loading, router]);
+    }, [isAuthenticated, loading, router, isClient]);
 
-    if (loading) {
-        return <div>Chargement...</div>;
+    // État de chargement initial
+    if (!isClient || loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+        );
     }
 
+    // Si non authentifié, ne rien afficher
     if (!isAuthenticated) {
         return null;
     }
 
     return (
-        <>
-            <header ref={bodyHeadRef} className='body-head '>
+        <div className="min-h-screen">
+            <header ref={bodyHeadRef} className='body-head'>
                 <div
                     ref={popupRef}
                     className="popup-selector"
@@ -55,11 +67,8 @@ export const HomePage = () => {
                     {/* Contenu de la popup */}
                 </div>
                 <ThemeTitle />
-
                 <ProgrammeElement />
             </header>
-
-
-        </>
+        </div>
     );
 }
