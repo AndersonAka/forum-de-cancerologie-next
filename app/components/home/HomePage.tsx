@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { ThemeTitle } from '../ThemeTitle';
 import { useRouter } from 'next/navigation';
+import { ProgrammeElement } from './ProgrammeElement';
 
 export const HomePage = () => {
     const [isClient, setIsClient] = useState(false);
@@ -36,7 +37,7 @@ export const HomePage = () => {
     return (
         <header className='body-head'>
             <ThemeTitle />
-            {/* <ProgrammeElement /> */}
+            <ProgrammeElement />
         </header>
     );
 }
