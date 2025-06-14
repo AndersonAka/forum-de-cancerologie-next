@@ -8,11 +8,17 @@ import { useAuth } from '../contexts/AuthContext';
 
 export default function Connection() {
     const router = useRouter();
-    const { login } = useAuth();
+    const { login, isAuthenticated, loading } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (!loading && isAuthenticated) {
+            router.replace('/');
+        }
+    }, [isAuthenticated, loading, router]);
 
     useEffect(() => {
         const savedEmail = localStorage.getItem('email');
@@ -35,13 +41,21 @@ export default function Connection() {
                 localStorage.removeItem('email');
             }
 
-            router.push('/');
+            router.replace('/');
         } catch (error) {
             alert('Erreur de connexion : ' + (error as Error).message);
         } finally {
             setIsLoading(false);
         }
     };
+
+    if (loading || isAuthenticated) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+        );
+    }
 
     return (
         <main>

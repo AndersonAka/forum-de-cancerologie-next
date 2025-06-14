@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { apiService } from '../services/api.service';
+import { ThemeTitle } from '../components/ThemeTitle';
 
 interface InscriptionData {
     titre: string;
@@ -80,18 +81,8 @@ export default function Inscription() {
     };
 
     return (
-        <main>
-            <header>
-                <div className="container">
-                    <div className="hotel">
-                        <Image src="/img/noomhotel.png" alt="Noom Hotel" width={1000} height={500} />
-                    </div>
-                    <div className="title">
-                        <h1>FORUM DE CANCEROLOGIE<br /><small>DE ROCHE 2025</small></h1>
-                    </div>
-                    <p>Inscrivez vous en toute sécurité pour accéder<br />au Forum de Cancerologie de Roche.</p>
-                </div>
-            </header>
+        <>
+            <ThemeTitle />
 
             <section className="inscription-wrapper">
                 <div className="container">
@@ -302,6 +293,6 @@ export default function Inscription() {
                     </div>
                 </div>
             </section>
-        </main>
+        </>
     );
 } 

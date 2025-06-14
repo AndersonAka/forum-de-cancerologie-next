@@ -147,7 +147,7 @@ header .title small {
   font-weight: 500;
   line-height: 0rem;
 }
-  
+
 .title-menu {
   margin-top: 5rem;
   display: flex;
@@ -1632,6 +1632,14 @@ footer .contact img {
   gap: 3rem;
 }
 
+.inscription-wrapper .inscription-des .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .inscription-wrapper .inscription-des .des-title {
   display: flex;
   flex-direction: column;
@@ -1652,12 +1660,28 @@ footer .contact img {
   line-height: 1.6;
 }
 
+.inscription-wrapper .inscription-des .des-title .forum {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .inscription-wrapper .inscription-des .des-date {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   gap: 2rem;
+}
+
+.inscription-wrapper .inscription-des .des-date .date img {
+  width: 300px;
+}
+
+.inscription-wrapper .inscription-des .des-title .vos-infos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .inscription-wrapper .inscription-des .location {
@@ -1669,6 +1693,10 @@ footer .contact img {
   font-size: 1rem;
   font-weight: 600;
   color: #5e5e5e;
+}
+
+.inscription-wrapper .inscription-des .location img {
+  width: 15px;
 }
 
 .input-box2 {
@@ -1703,6 +1731,15 @@ footer .contact img {
 /* Media Queries */
 @media (width < 910px) {
   .inscription-wrapper .inscription-des {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .connection-wrapper .inscription-des {
     text-align: center;
     display: flex;
     flex-direction: column;

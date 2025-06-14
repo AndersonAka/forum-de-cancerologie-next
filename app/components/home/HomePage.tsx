@@ -18,7 +18,7 @@ export const HomePage = () => {
 
     useEffect(() => {
         if (isClient && !loading && !isAuthenticated) {
-            router.push('/connection');
+            router.replace('/connection');
         }
     }, [isAuthenticated, loading, router, isClient]);
 
