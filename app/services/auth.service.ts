@@ -36,6 +36,7 @@ interface User {
 interface AuthResponse {
   auth_token: string;
   user: User;
+  message?: string;
 }
 
 class AuthService {
@@ -57,29 +58,27 @@ class AuthService {
     }
   }
 
-  async register(data: RegisterData): Promise<AuthResponse> {
+  async register(
+    userData: Omit<User, "id" | "createdAt" | "updatedAt">
+  ): Promise<AuthResponse> {
     try {
-      const response = await apiService.post<AuthResponse["user"]>(
-        "/register",
-        data
+      const response = await apiService.post<AuthResponse>(
+        "/auth/register",
+        userData
       );
-      console.log("Réponse du backend lors de l'inscription:", response);
-
-      // Retourner la réponse avec un message de succès sans stocker l'utilisateur
       return {
-        user: response,
+        ...response,
         message:
           "Inscription réussie ! Vous allez être redirigé vers la page de connexion.",
       };
     } catch (error) {
-      console.error("Erreur d'inscription:", error);
+      console.error("Erreur lors de l'inscription:", error);
       throw error;
     }
   }
 
   async getCurrentUser(): Promise<User> {
     try {
-      // Récupérer l'utilisateur depuis le localStorage
       const userStr = localStorage.getItem(this.USER_KEY);
       if (!userStr) {
         throw new Error("Utilisateur non trouvé");

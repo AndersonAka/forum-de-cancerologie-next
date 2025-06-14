@@ -3,15 +3,38 @@ import { NextRequest, NextResponse } from "next/server";
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "https://cancerologie-api.onrender.com";
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { path: string[] } }
-) {
-  try {
-    const path = params.path.join("/");
-    const body = await request.json();
+export async function GET(request: NextRequest) {
+  const path = request.nextUrl.pathname.replace("/api/auth/", "");
+  const apiUrl = `${API_URL}/auth/${path}`;
 
-    const response = await fetch(`${API_URL}/auth/${path}`, {
+  try {
+    const response = await fetch(apiUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    return NextResponse.json(data, {
+      status: response.status,
+    });
+  } catch (error) {
+    console.error("Erreur API:", error);
+    return NextResponse.json(
+      { error: "Erreur lors de la communication avec l'API" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  const path = request.nextUrl.pathname.replace("/api/auth/", "");
+  const apiUrl = `${API_URL}/auth/${path}`;
+  const body = await request.json();
+
+  try {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,50 +44,13 @@ export async function POST(
 
     const data = await response.json();
 
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: data.message || "Une erreur est survenue" },
-        { status: response.status }
-      );
-    }
-
-    return NextResponse.json(data);
-  } catch (error) {
-    console.error("Erreur API:", error);
-    return NextResponse.json(
-      { error: "Erreur interne du serveur" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { path: string[] } }
-) {
-  try {
-    const path = params.path.join("/");
-    const response = await fetch(`${API_URL}/auth/${path}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    return NextResponse.json(data, {
+      status: response.status,
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: data.message || "Une erreur est survenue" },
-        { status: response.status }
-      );
-    }
-
-    return NextResponse.json(data);
   } catch (error) {
     console.error("Erreur API:", error);
     return NextResponse.json(
-      { error: "Erreur interne du serveur" },
+      { error: "Erreur lors de la communication avec l'API" },
       { status: 500 }
     );
   }
