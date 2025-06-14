@@ -26,7 +26,7 @@
 
 body {
   min-height: 100vh;
-  background: url("/img/MAIN-BG-01.png") top/cover no-repeat;
+  background: url("/public/img/MAIN-BG-01.png") top/cover no-repeat;
 }
 
 /* Navigation */
@@ -257,7 +257,7 @@ footer .contacts-container {
   align-items: center;
   justify-content: center;
   border-radius: 0.5rem;
-  background: url("/img/blue-roche-bg.png") center/cover no-repeat;
+  background: url("/public/img/blue-roche-bg.png") center/cover no-repeat;
   padding: 4rem 2rem;
 }
 
@@ -328,7 +328,7 @@ footer .contact img {
 .program .program-des {
   width: 100%;
   padding: 7rem 1rem;
-  background: url("/img/blue-roche-bg.png") center/cover no-repeat;
+  background: url("/public/img/blue-roche-bg.png") center/cover no-repeat;
   margin-top: 3rem;
   display: flex;
   flex-wrap: wrap;
@@ -1339,7 +1339,7 @@ footer .contact img {
   justify-content: center;
   flex-direction: column;
   border-radius: 0 0 0.7rem 0.7rem;
-  background: url("/img/pink-bg.png") center/cover no-repeat;
+  background: url("/public/img/pink-bg.png") center/cover no-repeat;
   padding: 1rem 1rem;
   line-height: 1.5rem;
   animation: animate 2s ease-in-out 1 forwards;
@@ -1524,7 +1524,7 @@ footer .contact img {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  background: url("/img/inscription-bg.png") top/cover no-repeat;
+  background: url("/public/img/inscription-bg.png") top/cover no-repeat;
   overflow: hidden;
 }
 
