@@ -1620,8 +1620,8 @@ footer .contact img {
 .inscription-wrapper .container .wrapper form h1 {
   font-size: 3rem;
   text-align: center;
-  color: var(--bleu-roche);
-  margin-bottom: 2rem;
+  /* color: var(--bleu-roche);
+  margin-bottom: 2rem; */
 }
 
 .inscription-wrapper .inscription-des {
@@ -1797,6 +1797,7 @@ footer .contact img {
   header .title small {
     font-size: 2rem;
     font-weight: 500;
+    
   }
 }
 
