@@ -3,6 +3,7 @@
 //Page d'accueil
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { ThemeTitle } from '../ThemeTitle';
 import { useRouter } from 'next/navigation';
 
 export const HomePage = () => {
@@ -34,7 +35,8 @@ export const HomePage = () => {
 
     return (
         <header className='body-head'>
-            <p>test</p>
+            <ThemeTitle />
+            {/* <ProgrammeElement /> */}
         </header>
     );
 }
