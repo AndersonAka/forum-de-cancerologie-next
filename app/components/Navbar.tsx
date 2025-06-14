@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import styles from './Navbar.module.css';
-import Image from './Image';
+import Image from 'next/image';
 
 interface NavLink {
     href: string;

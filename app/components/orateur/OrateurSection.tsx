@@ -35,7 +35,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Chef du département
                                         d&apos;oncologie de l&apos;université Félix
                                         Houphouët Boigny (Abidjan)
@@ -45,7 +45,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Chef du service de
                                         cancérologie du CHU de
                                         Treichville (Abidjan)
@@ -55,7 +55,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl3">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Directeur du programme
                                         national de lutte contre le cancer (PNLCA)
                                     </div>
@@ -91,7 +91,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Ex chef de service de Gynécologie-Obstétrique de l&apos;hôpital militaire de Rabat
                                     </div>
 
@@ -99,7 +99,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Installé en pratique Privée depuis 2021 en qualité de Chirurgien Spécialisé en Chirurgie mammaire
                                     </div>
 
@@ -180,7 +180,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Responsable de l&apos;unité d&apos;imagerie de la femme au CHU de rabat
                                     </div>
 
@@ -188,7 +188,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Enseignante à la faculté de médecine et de pharmacie de l&apos;université Mohamed 5 de Rabat
                                     </div>
 
@@ -220,7 +220,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Chef de service d&apos;anatomopathologie des cliniques universitaires de Kinshasa
                                     </div>
 
@@ -228,7 +228,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Directeur du centre nationale de lutte contre le cancer
                                     </div>
 
@@ -260,7 +260,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Professeur titulaire d&apos;anatomopathologie à l&apos;UFR des sciences médicales de l&apos;université Félix Houphouët Boigny (Abidjan)
                                     </div>
 
@@ -268,7 +268,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Chef du service d&apos;anatomopathologie du CHU de Cocody (Côte d&apos;Ivoire)
                                     </div>
 
@@ -300,7 +300,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Maître assistant à l&apos;université Cheikh Anta Diop de Dakar
                                     </div>
 
@@ -308,7 +308,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Médecin à l&apos;unité d&apos;oncologie médicale et hôpital du jour à l&apos;hôpital militaire de Ouakam (Dakar)
                                     </div>
 
@@ -340,7 +340,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Chef du service d&apos;anatomopathologie de l&apos;institut d&apos;oncologie de Rabat
                                     </div>
 
@@ -348,7 +348,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Enseignante à la faculté de médecine et de pharmacie
                                         de l&apos;université Mohamed 5 de Rabat
                                     </div>
@@ -381,7 +381,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Maître de conférence agrégé en oncologie médicale
                                     </div>
 
@@ -389,7 +389,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Coordinateur général des soins en oncologie du CHU de Treichville (Abidjan)
                                     </div>
 
@@ -421,7 +421,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Institut européen de cancérologie de Bingerville
                                     </div>
 
@@ -453,7 +453,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Chef du service de Cancérologie du Centre Hospitalier National Dalal Jamm
                                     </div>
 
@@ -461,7 +461,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Chargé d&apos;enseignement de Cancérologie à l&apos;Université Cheikh
                                         Anta Diop de Dakar
                                     </div>
@@ -470,7 +470,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl3">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Coordonnateur du DES de Cancérologie Chirurgicale à l&apos;  Université
                                         Cheikh Anta Diop de Dakar
                                     </div>
@@ -511,7 +511,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Clinique Chellah Oncology, Rabat (MAROC)
                                     </div>
 
@@ -519,7 +519,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Secrétaire générale de l&apos;Association Marocaine de Formation et de Recherche en Oncologie Médicale (AMFROM)
                                     </div>
 
@@ -556,7 +556,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Cheffe du Service de soins de suite et de réadaptation cardiovasculaire à l&apos;Institut de Cardiologie d&apos;Abidjan (ICA)
                                     </div>
 
@@ -564,7 +564,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Cofondatrice de l&apos;unité de cardio-oncologie du Centre national d&apos;oncologie médicale et de radiothérapie Alassane Ouattara (CNRAO.)
                                     </div>
 
@@ -597,7 +597,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Professeur titulaire de cardiologie à l&apos;Université Félix-Houphouët-Boigny
                                     </div>
 
@@ -605,7 +605,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Directeur médical et scientifique de l&apos;Institut de Cardiologie d&apos;Abidjan
                                     </div>
 
@@ -637,7 +637,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Professeur titulaire de gynécologie-obstétrique
                                     </div>
 
@@ -645,21 +645,21 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Ancien chef du Service de Gynécologie-Obstétrique du CHU de Treichville
                                     </div>
 
                                 </div>
                                 <div className="titre ttl3">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Ex-Directeur général de la Santé de Côte d&apos;Ivoire
                                     </div>
 
                                 </div>
                                 <div className="titre ttl4">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Ex-Président de la Société de gynécologie obstétrique de Côte d&apos;Ivoire (SOGOCI)
                                     </div>
 
@@ -691,7 +691,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Anatomopathologiste au CHU de Cocody
                                     </div>
 
@@ -699,7 +699,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Maître-Assistant en Anatomie et Cytologie Pathologiques à l&apos;UFR Sciences Médicales d&apos;Abidjan
                                     </div>
 
@@ -731,7 +731,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Première femme Professeur titulaire de Psychologie clinique / psychopathologie, enseignante-chercheure à l&apos;Université Félix-Houphouët-Boigny (Abidjan)
                                     </div>
 
@@ -739,7 +739,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Responsable de l&apos;unité de soins d&apos;accompagnement du Centre national de radiothérapie et d&apos;oncologie médicale Alassane Ouattara (CNRAO)
                                     </div>
 
@@ -771,7 +771,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Directeur de la prévention et de la prise en charge du cancer au Centre national de radiothérapie et d&apos;oncologie médicale Alassane Ouattara (CNRAO)
                                     </div>
 
@@ -779,7 +779,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Assistant-chef de clinique à l&apos;UFR Sciences médicales d&apos;Abidjan
                                     </div>
 
@@ -811,7 +811,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Professeur titulaire de Gynécologie-Obstétrique à l&apos;Université Félix Houphouët-Boigny d&apos;Abidjan (Côte d&apos;Ivoire)
                                     </div>
 
@@ -891,7 +891,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Praticien hospitalier au service d&apos;anatomie pathologique du CHU Treichville
                                     </div>
 
@@ -899,7 +899,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Président de la société ivoirienne d&apos;anatomopathologie (SIPATH)
                                     </div>
 
@@ -933,7 +933,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Médecin Nucléaire à Akdital Salé (Maroc)
                                     </div>
 
@@ -941,7 +941,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Enseignant de biophysique médicale à la faculté de médecine et pharmacie de Rabat
                                     </div>
 
@@ -973,7 +973,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Chef de service des Urgences à l&apos;Hôpital des Spécialités de Rabat
                                     </div>
 
@@ -981,7 +981,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Professeur d&apos;enseignement supérieur à l&apos;Université Mohamed V de Rabat
                                     </div>
 
@@ -1015,7 +1015,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Chef du Département de cancérologie à la Faculté de médecine de l&apos;Université des sciences de la santé de Libreville
                                     </div>
 
@@ -1023,7 +1023,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Ex-directeur de l&apos;Institut de cancérologie d&apos;Akanda
                                     </div>
 
@@ -1057,7 +1057,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Généticien et maitre-assistant à la faculté de médecine et de pharmacie de Dakar
                                     </div>
 
@@ -1098,7 +1098,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl1">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Médecin oncologue-radiothérapeute au Centre Hospitalier National Dalal Jamm à Dakar
                                     </div>
 
@@ -1106,7 +1106,7 @@ export const OrateurSection = () => {
 
                                 <div className="titre ttl2">
 
-                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={200} height={200} /></div>
+                                    <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Lauréat 2022 du Prix Jeune Chercheur en curiethérapie (SFRO)
                                     </div>
 
