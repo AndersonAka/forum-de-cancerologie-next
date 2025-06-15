@@ -1,3 +1,4 @@
+"use client"
 import { ConnexionPage } from "@/app/components/auth/connexion/ConnexionPage";
 import { HeaderSection } from "@/app/components/auth/HaederSection";
 import { useSearchParams } from 'next/navigation';
