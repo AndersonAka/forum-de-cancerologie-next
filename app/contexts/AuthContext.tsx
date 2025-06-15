@@ -86,7 +86,7 @@ function AuthProviderContent({ children }: { children: React.ReactNode }) {
 
             const from = searchParams.get('from') || '/';
             console.log(from);
-            router.push(from);
+            router.push("/");
         } catch (error) {
             console.error("Erreur lors de la connexion:", error);
             throw error;
