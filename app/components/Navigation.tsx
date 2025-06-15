@@ -50,7 +50,7 @@ export default function Navigation() {
             {isAuthenticated ? (
                 <div className={`user-section ${isMobile ? 'mobile' : ''}`}>
                     <div className="user-info">
-                        <span>{user?.firstName} {user?.lastName}</span>
+                        <span>{user?.nom}</span>
                     </div>
                     <button
                         onClick={handleLogout}
