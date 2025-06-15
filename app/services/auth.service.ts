@@ -1,129 +1,70 @@
-import { apiService } from "./api.service";
+import axios from "axios";
+import { AuthResponse, LoginCredentials } from "../types/auth";
 
-export interface LoginCredentials {
-  email: string;
-  [key: string]: string;
-}
-
-export interface RegisterData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  title: string;
-  participationMode: string;
-  [key: string]: string;
-}
-
-export interface User {
-  id: string;
-  email: string;
+interface RegisterData {
+  titre: string;
   nom: string;
   specialite: string;
   pays: string;
   lieuExercice: string;
+  email: string;
+  telephone: string;
   participation: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface AuthResponse {
-  user: User;
-  token: string;
-  message?: string;
+  gdprConsent: boolean;
 }
 
 class AuthService {
-  private token: string | null = null;
-  private readonly USER_KEY = "user";
-
-  constructor() {
-    if (typeof window !== "undefined") {
-      this.token = localStorage.getItem("token");
-    }
-  }
-
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
-      const response = await apiService.post<AuthResponse>(
-        "/auth/login",
+      console.log("Tentative de connexion avec:", credentials);
+      const response = await axios.post<AuthResponse>(
+        "/api/auth/login",
         credentials
       );
-      this.setToken(response.token);
-      return response;
+      console.log("Réponse de connexion:", response.data);
+
+      if (!response.data.user || !response.data.access_token) {
+        throw new Error("Réponse invalide du serveur");
+      }
+
+      return response.data;
     } catch (error) {
-      console.error("Erreur de connexion:", error);
+      console.error("Erreur lors de la connexion:", error);
+      if (axios.isAxiosError(error)) {
+        throw new Error(
+          error.response?.data?.message || "Erreur lors de la connexion"
+        );
+      }
       throw error;
     }
   }
 
-  async checkAuth(): Promise<AuthResponse> {
+  async register(data: RegisterData): Promise<{ message: string }> {
     try {
-      const response = await apiService.get<AuthResponse>("/auth/check");
-      this.setToken(response.token);
-      return response;
-    } catch (error) {
-      console.error("Erreur de vérification d'authentification:", error);
-      throw error;
-    }
-  }
-
-  async register(
-    userData: Omit<User, "id" | "createdAt" | "updatedAt">
-  ): Promise<AuthResponse> {
-    try {
-      const response = await apiService.post<AuthResponse>(
-        "/auth/register",
-        userData
+      console.log("Tentative d'inscription avec:", data);
+      const response = await axios.post<{ message: string }>(
+        "/api/auth/register",
+        data
       );
-      return {
-        ...response,
-        message:
-          "Inscription réussie ! Vous allez être redirigé vers la page de connexion.",
-      };
+      console.log("Réponse d'inscription:", response.data);
+      return response.data;
     } catch (error) {
       console.error("Erreur lors de l'inscription:", error);
-      throw error;
-    }
-  }
-
-  async getCurrentUser(): Promise<User> {
-    try {
-      const userStr = localStorage.getItem(this.USER_KEY);
-      if (!userStr) {
-        throw new Error("Utilisateur non trouvé");
+      if (axios.isAxiosError(error)) {
+        throw new Error(
+          error.response?.data?.message || "Erreur lors de l'inscription"
+        );
       }
-      return JSON.parse(userStr);
-    } catch (error) {
-      console.error("Erreur lors de la récupération de l'utilisateur:", error);
       throw error;
     }
   }
 
-  logout(): void {
-    this.token = null;
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token");
+  async logout(): Promise<void> {
+    try {
+      await axios.post("/api/auth/logout");
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion:", error);
     }
-  }
-
-  getToken(): string | null {
-    return this.token;
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.token;
-  }
-
-  private setToken(token: string): void {
-    this.token = token;
-    if (typeof window !== "undefined") {
-      localStorage.setItem("token", token);
-    }
-  }
-
-  private setUser(user: User) {
-    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
   }
 }
 

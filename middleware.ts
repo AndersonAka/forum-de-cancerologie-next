@@ -1,38 +1,43 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Routes publiques (accessibles sans authentification)
-const publicRoutes = [
-  "/connexion",
-  "/inscription",
-  "/api/auth/login",
-  "/api/auth/register",
-];
+// Liste des routes publiques
+const publicRoutes = ["/connexion", "/inscription"];
+
+// Liste des routes API
+const apiRoutes = ["/api/auth/login", "/api/auth/logout"];
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("auth_token")?.value;
   const { pathname } = request.nextUrl;
 
-  // Vérifier si c'est une route publique
-  const isPublicRoute = publicRoutes.some((route) =>
-    pathname.startsWith(route)
-  );
-
-  // Si l'utilisateur est connecté et essaie d'accéder aux pages d'auth
-  if (token && (pathname === "/connexion" || pathname === "/inscription")) {
-    return NextResponse.redirect(new URL("/", request.url));
+  // Ne pas rediriger les routes API
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.next();
   }
 
-  // Si l'utilisateur n'est pas connecté et essaie d'accéder à une route protégée
-  if (!token && !isPublicRoute) {
+  // Vérifier si c'est une route publique
+  if (publicRoutes.includes(pathname)) {
+    return NextResponse.next();
+  }
+
+  // Vérifier si l'utilisateur est authentifié
+  const token = request.cookies.get("access_token");
+  const user = request.cookies.get("user");
+
+  // Si pas de token ou d'utilisateur, rediriger vers la page de connexion
+  if (!token || !user) {
     const url = new URL("/connexion", request.url);
-    url.searchParams.set("from", pathname);
+    // Ne pas inclure les routes API dans la redirection
+    if (!pathname.startsWith("/api/")) {
+      url.searchParams.set("from", pathname);
+    }
     return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
 }
 
+// Configuration des routes à protéger
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useAuth } from '@/app/contexts/AuthContext';
 
 interface NavLink {
     href: string;
@@ -19,7 +19,7 @@ const navLinks: NavLink[] = [
     { href: '/agenda', label: 'Agenda', requiresAuth: true },
     { href: '/direct', label: 'Direct', requiresAuth: true },
     { href: '/rediffusion-2024', label: 'Rediffusion 2024', requiresAuth: true },
-    { href: '/etud', label: 'Etudes', requiresAuth: true },
+    { href: '/etude', label: 'Etudes', requiresAuth: true },
 ];
 
 const NavbarSkeleton = () => (
@@ -52,6 +52,15 @@ export default function Navbar() {
     const router = useRouter();
     const pathname = usePathname();
     const { isAuthenticated, logout, loading } = useAuth();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return null;
+    }
 
     if (loading) {
         return <NavbarSkeleton />;
@@ -93,8 +102,6 @@ export default function Navbar() {
                                 {link.label}
                             </Link>
                         ))}
-                    </div>
-                    <div className={`flex items-center space-x-4 ${isMobile ? 'block py-2' : ''}`}>
                         <button
                             onClick={handleLogout}
                             className="logout"
@@ -104,9 +111,8 @@ export default function Navbar() {
                             <Image
                                 src="/img/LOGOUT.png"
                                 alt="Déconnexion"
-                                width={20}
-                                height={20}
-                                className="mr-2"
+                                width={5}
+                                height={5}
                             />
                             <span>{isLoggingOut ? 'Déconnexion...' : 'Déconnexion'}</span>
                         </button>
@@ -187,4 +193,4 @@ export default function Navbar() {
             )}
         </nav>
     );
-}
+}   
