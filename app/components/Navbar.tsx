@@ -77,21 +77,23 @@ export default function Navbar() {
     const renderNavLinks = (isMobile: boolean = false) => (
         <>
             {isAuthenticated ? (
-                <div className="nav-list space-x-2">
-                    {filteredNavLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className={`${pathname === link.href
-                                ? 'active'
-                                : 'text-gray-600'
-                                } ${isMobile ? 'block py-2' : ''}`}
-                            onClick={() => isMobile && setIsMenuOpen(false)}
-                            aria-current={pathname === link.href ? 'page' : undefined}
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
+                <>
+                    <div className="nav-list space-x-2">
+                        {filteredNavLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={`${pathname === link.href || (link.href === '/' && pathname === '')
+                                    ? 'active'
+                                    : 'text-gray-600'
+                                    } ${isMobile ? 'block py-2' : ''}`}
+                                onClick={() => isMobile && setIsMenuOpen(false)}
+                                aria-current={pathname === link.href || (link.href === '/' && pathname === '') ? 'page' : undefined}
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                    </div>
                     <div className={`flex items-center space-x-4 ${isMobile ? 'block py-2' : ''}`}>
                         <button
                             onClick={handleLogout}
@@ -109,7 +111,7 @@ export default function Navbar() {
                             <span>{isLoggingOut ? 'Déconnexion...' : 'Déconnexion'}</span>
                         </button>
                     </div>
-                </div>
+                </>
             ) : (
                 <div className="nav-list space-x-2">
                     <Link

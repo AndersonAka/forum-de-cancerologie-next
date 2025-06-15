@@ -1938,3 +1938,26 @@ footer .contact img {
     transform: rotate(360deg);
   }
 }
+
+/* Styles pour les messages de succès */
+.success-message {
+  background-color: #dcfce7;
+  border: 1px solid #22c55e;
+  color: #166534;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+.success-message strong {
+  font-weight: 600;
+}
+
+.success-message span {
+  flex: 1;
+}

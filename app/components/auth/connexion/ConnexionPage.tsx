@@ -46,7 +46,8 @@ export const ConnexionPage = () => {
 
             const success = await login({ email });
             if (success) {
-                router.replace('/');
+                // Forcer une redirection complète vers la page d'accueil
+                window.location.href = '/';
             }
         } catch (error) {
             console.error('Erreur de connexion:', error);
