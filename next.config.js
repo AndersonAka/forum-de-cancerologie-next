@@ -15,6 +15,12 @@ const nextConfig = {
             allowedOrigins: ['localhost:3000', 'forum-cancerologie.vercel.app'],
         },
     },
+    // Optimisations pour le build
+    swcMinify: true,
+    compiler: {
+        removeConsole: process.env.NODE_ENV === 'production',
+    },
+    poweredByHeader: false,
 }
 
 module.exports = nextConfig 
