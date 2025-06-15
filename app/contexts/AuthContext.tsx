@@ -85,6 +85,7 @@ function AuthProviderContent({ children }: { children: React.ReactNode }) {
             setIsAuthenticated(true);
 
             const from = searchParams.get('from') || '/';
+            console.log(from);
             router.push(from);
         } catch (error) {
             console.error("Erreur lors de la connexion:", error);
