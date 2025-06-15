@@ -1,8 +1,11 @@
+'use client';
+
 import { ConnexionPage } from "@/app/components/auth/connexion/ConnexionPage";
 import { HeaderSection } from "@/app/components/auth/HaederSection";
 import SuccessMessage from "./SuccessMessage";
+import { FC } from 'react';
 
-export default function Connexion() {
+const ConnexionWrapper: FC = () => {
     return (
         <main>
             <HeaderSection />
@@ -10,4 +13,6 @@ export default function Connexion() {
             <ConnexionPage />
         </main>
     );
-} 
+}
+
+export default ConnexionWrapper; 
