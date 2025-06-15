@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 
 interface GoogleMap {
     setCenter: (center: { lat: number; lng: number }) => void;
@@ -28,7 +28,7 @@ declare global {
     }
 }
 
-export default function Itineraire() {
+function ItineraireContent() {
     useEffect(() => {
         // Charger l'API Google Maps
         const script = document.createElement('script');
@@ -123,5 +123,13 @@ export default function Itineraire() {
                 </div>
             </div>
         </main>
+    );
+}
+
+export default function Itineraire() {
+    return (
+        <Suspense fallback={<div>Chargement...</div>}>
+            <ItineraireContent />
+        </Suspense>
     );
 } 

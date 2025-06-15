@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import {  useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-export const ConnexionPage = () => {
+function ConnexionContent() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [email, setEmail] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -30,11 +31,11 @@ export const ConnexionPage = () => {
         setError(null);
 
         try {
-            // if (rememberMe) {
-            //     localStorage.setItem('email', email);
-            // } else {
-            //     localStorage.removeItem('email');
-            // }
+            if (rememberMe) {
+                localStorage.setItem('email', email);
+            } else {
+                localStorage.removeItem('email');
+            }
 
             // const success = await login({ email });
             // if (success) {
@@ -136,5 +137,13 @@ export const ConnexionPage = () => {
                 </div>
             </div>
         </section>
+    );
+}
+
+export const ConnexionPage = () => {
+    return (
+        <Suspense fallback={<div>Chargement...</div>}>
+            <ConnexionContent />
+        </Suspense>
     );
 };

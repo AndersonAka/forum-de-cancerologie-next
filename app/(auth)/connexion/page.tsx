@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/contexts/AuthContext";
 import ErrorMessage from "@/app/components/ui/ErrorMessage";
 import Image from "next/image";
 import { HeaderSection } from "@/app/components/auth/HaederSection";
 
-export default function Connexion() {
+function ConnexionForm() {
     const { login } = useAuth();
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
@@ -52,60 +52,68 @@ export default function Connexion() {
     };
 
     return (
+        <form id="loginForm" className="connection" onSubmit={handleSubmit}>
+            <h1>Connexion</h1>
+            <div className="input-box">
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Adresse email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={loading}
+                />
+            </div>
+            {error && (
+                <ErrorMessage
+                    message={error}
+                    onDismiss={() => setError("")}
+                />
+            )}
+            <div className="se-souvenir">
+                <label>
+                    <input
+                        type="checkbox"
+                        id="seSouvenir"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    Se souvenir de moi
+                </label>
+            </div>
+            <button
+                type="submit"
+                className={`btn ${loading ? 'loading' : ''}`}
+                disabled={loading}
+            >
+                {loading ? (
+                    <div className="flex items-center justify-center">
+                        <div className="spinner"></div>
+                        <span>Connexion en cours...</span>
+                    </div>
+                ) : (
+                    'Soumettre'
+                )}
+            </button>
+            <div className="lien-de-connection">
+                <p>Pas encore inscrit ?</p>
+                <Link href="/inscription">Cliquez ici !</Link>
+            </div>
+        </form>
+    );
+}
+
+function ConnexionContent() {
+    return (
         <>
             <HeaderSection />
             <section className="connection-wrapper">
                 <div className="container">
                     <div className="wrapper">
-                        <form id="loginForm" className="connection" onSubmit={handleSubmit}>
-                            <h1>Connexion</h1>
-                            <div className="input-box">
-                                <input
-                                    type="email"
-                                    id="email"
-                                    placeholder="Adresse email"
-                                    required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    disabled={loading}
-                                />
-                            </div>
-                            {error && (
-                                <ErrorMessage
-                                    message={error}
-                                    onDismiss={() => setError("")}
-                                />
-                            )}
-                            <div className="se-souvenir">
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        id="seSouvenir"
-                                        checked={rememberMe}
-                                        onChange={(e) => setRememberMe(e.target.checked)}
-                                    />
-                                    Se souvenir de moi
-                                </label>
-                            </div>
-                            <button
-                                type="submit"
-                                className={`btn ${loading ? 'loading' : ''}`}
-                                disabled={loading}
-                            >
-                                {loading ? (
-                                    <div className="flex items-center justify-center">
-                                        <div className="spinner"></div>
-                                        <span>Connexion en cours...</span>
-                                    </div>
-                                ) : (
-                                    'Soumettre'
-                                )}
-                            </button>
-                            <div className="lien-de-connection">
-                                <p>Pas encore inscrit ?</p>
-                                <Link href="/inscription">Cliquez ici !</Link>
-                            </div>
-                        </form>
+                        <Suspense fallback={<div>Chargement du formulaire...</div>}>
+                            <ConnexionForm />
+                        </Suspense>
                     </div>
                     <div className="connection-des">
                         <div className="container">
@@ -131,5 +139,13 @@ export default function Connexion() {
                 </div>
             </section>
         </>
+    );
+}
+
+export default function Connexion() {
+    return (
+        <Suspense fallback={<div>Chargement...</div>}>
+            <ConnexionContent />
+        </Suspense>
     );
 } 

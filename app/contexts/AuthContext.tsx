@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { User, LoginCredentials } from "../types/auth";
 import { authService } from "../services/auth.service";
@@ -23,7 +23,7 @@ const COOKIE_OPTIONS = {
     path: '/'
 };
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+function AuthProviderContent({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -36,10 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const storedUser = Cookies.get('user');
                 const token = Cookies.get('access_token');
 
-                console.log('Vérification des cookies:', { storedUser, token });
-
                 if (!storedUser || !token) {
-                    console.log('Pas de cookies trouvés');
                     setUser(null);
                     setIsAuthenticated(false);
                     return;
@@ -47,7 +44,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
                 try {
                     const parsedUser = JSON.parse(storedUser);
-                    console.log('Utilisateur parsé:', parsedUser);
 
                     if (!parsedUser || typeof parsedUser !== 'object') {
                         throw new Error('Données utilisateur invalides');
@@ -57,7 +53,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     setIsAuthenticated(true);
                 } catch (error) {
                     console.error('Erreur lors du parsing du cookie user:', error);
-                    // Nettoyer les cookies invalides
                     Cookies.remove('user', { path: '/' });
                     Cookies.remove('access_token', { path: '/' });
                     setUser(null);
@@ -78,26 +73,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const login = async (credentials: LoginCredentials) => {
         try {
             const response = await authService.login(credentials);
-            console.log('Réponse de connexion reçue:', response);
 
             if (!response.user || !response.access_token) {
                 throw new Error('Réponse de connexion invalide');
             }
 
-            // Stocker les informations dans les cookies
             Cookies.set('access_token', response.access_token, COOKIE_OPTIONS);
             Cookies.set('user', JSON.stringify(response.user), COOKIE_OPTIONS);
 
-            console.log('Cookies stockés:', {
-                user: Cookies.get('user'),
-                token: Cookies.get('access_token')
-            });
-
-            // Mettre à jour l'état
             setUser(response.user);
             setIsAuthenticated(true);
 
-            // Rediriger vers la page d'origine ou la page d'accueil
             const from = searchParams.get('from') || '/';
             router.push(from);
         } catch (error) {
@@ -109,16 +95,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const logout = async () => {
         try {
             await authService.logout();
-
-            // Nettoyer les cookies
             Cookies.remove('access_token', { path: '/' });
             Cookies.remove('user', { path: '/' });
-
-            // Mettre à jour l'état
             setUser(null);
             setIsAuthenticated(false);
-
-            // Rediriger vers la page de connexion
             router.push('/connexion');
         } catch (error) {
             console.error("Erreur lors de la déconnexion:", error);
@@ -137,6 +117,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         >
             {children}
         </AuthContext.Provider>
+    );
+}
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+    return (
+        <Suspense fallback={<div>Chargement...</div>}>
+            <AuthProviderContent>
+                {children}
+            </AuthProviderContent>
+        </Suspense>
     );
 }
 

@@ -1,11 +1,14 @@
-import React from 'react';
+"use client";
+
+import React, { Suspense } from 'react';
 import OrateurPage from '../../components/orateur/OrateurPage';
 
 export default function Orateur() {
-
     return (
-        <main>
-            <OrateurPage />
-        </main>
+        <Suspense fallback={<div>Chargement...</div>}>
+            <main>
+                <OrateurPage />
+            </main>
+        </Suspense>
     );
 } 

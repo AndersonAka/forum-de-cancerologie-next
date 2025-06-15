@@ -1,11 +1,12 @@
+"use client";
 
-
-import React from 'react';
+import React, { Suspense } from 'react';
 import { EtudePage } from '../../components/etude/EtudePage';
-
 
 export default function Etude() {
     return (
-        <EtudePage />
+        <Suspense fallback={<div>Chargement...</div>}>
+            <EtudePage />
+        </Suspense>
     );
 } 

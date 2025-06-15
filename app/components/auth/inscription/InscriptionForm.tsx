@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { apiService } from '@/app/services/api.service';
+import { authService } from '@/app/services/auth.service';
 
 interface InscriptionData {
     titre: string;
@@ -46,7 +46,7 @@ export default function InscriptionForm() {
         setError(null);
 
         try {
-            await apiService.post<{ message: string }>('/auth/register', {
+            await authService.register({
                 ...formData,
                 gdprConsent: true,
             });
