@@ -116,12 +116,12 @@ export default function Connexion() {
                                         la sécurité de vos informations personnelles.
                                     </p>
                                 </div>
-                                <div className="des-date">
+                                <div className="des-date ">
                                     <div className="date">
-                                        <Image src="/img/date-2025-05.png" alt="Date du forum" width={250} height={120} />
+                                        <Image src="/img/date-2025-05.png" alt="Date" width={300} height={150} />
                                     </div>
                                     <div className="location">
-                                        <Image src="/img/localisation.png" alt="Lieu du forum" width={50} height={100} />
+                                        <Image src="/img/localisation.png" alt="Localisation" width={15} height={15} />
                                         <p>Noom Hôtel<br /> Plateau Abidjan<br /> Côte d&apos;ivoire</p>
                                     </div>
                                 </div>
