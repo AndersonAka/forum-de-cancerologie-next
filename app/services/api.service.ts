@@ -42,9 +42,7 @@ class ApiService {
         if (error.response?.status === 401) {
           // Token expiré ou invalide
           authService.logout();
-          if (typeof window !== "undefined") {
-            window.location.href = "/connection";
-          }
+          // Suppression de la redirection automatique
         }
 
         // Gestion spécifique des erreurs CORS

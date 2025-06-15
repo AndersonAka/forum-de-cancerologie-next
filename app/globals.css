@@ -1797,7 +1797,6 @@ footer .contact img {
   header .title small {
     font-size: 2rem;
     font-weight: 500;
-    
   }
 }
 
@@ -1870,5 +1869,72 @@ footer .contact img {
 @media (width < 315px) {
   .title-menu .theme-title .theme img {
     width: 250px;
+  }
+}
+
+/* Styles pour les messages d'erreur */
+.error-message {
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #b91c1c;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+.error-message strong {
+  font-weight: 600;
+}
+
+.error-message span {
+  flex: 1;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Style pour les champs en erreur */
+.input-box input.error {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.input-box input.error::placeholder {
+  color: #ef4444;
+}
+
+/* Style pour le bouton en état de chargement */
+.btn.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.btn.loading .spinner {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

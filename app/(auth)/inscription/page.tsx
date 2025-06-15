@@ -1,4 +1,4 @@
-import InscriptionPage from "../components/inscription/InscriptionPage";
+import InscriptionPage from "../../components/inscription/InscriptionPage";
 
 
 export default function Inscription() {

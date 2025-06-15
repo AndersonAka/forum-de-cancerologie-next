@@ -67,7 +67,7 @@ export default function Navigation() {
                 </div>
             ) : (
                 <Link
-                    href="/connection"
+                    href="/connexionn"
                     className={`login-link ${isMobile ? 'mobile' : ''}`}
                     onClick={() => isMobile && setIsMenuOpen(false)}
                 >

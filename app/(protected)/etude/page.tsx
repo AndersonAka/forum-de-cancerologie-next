@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import { EtudePage } from '../components/etude/EtudePage';
+import { EtudePage } from '../../components/etude/EtudePage';
 
 
 export default function Etude() {

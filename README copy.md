@@ -57,7 +57,7 @@ yarn start
 forum-de-cancerologie-next/
 ├── app/
 │   ├── components/     # Composants réutilisables
-│   ├── connection/     # Page de connexion
+│   ├── connexion/     # Page de connexion
 │   ├── inscription/    # Page d'inscription
 │   ├── agenda/        # Page de l'agenda
 │   ├── orateur/       # Page des orateurs

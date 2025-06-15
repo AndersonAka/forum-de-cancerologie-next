@@ -2,7 +2,6 @@ import { apiService } from "./api.service";
 
 export interface LoginCredentials {
   email: string;
-  password: string;
   [key: string]: string;
 }
 
@@ -16,32 +15,33 @@ export interface RegisterData {
   [key: string]: string;
 }
 
-interface User {
-  id: number;
+export interface User {
+  id: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  title: string;
-  specialty: string;
-  country: string;
-  workplace: string;
-  phoneNumber: string;
-  participationMode: string;
-  gdprConsent: boolean;
-  rememberMeToken: string | null;
+  nom: string;
+  specialite: string;
+  pays: string;
+  lieuExercice: string;
+  participation: string;
   createdAt: string;
   updatedAt: string;
 }
 
-interface AuthResponse {
-  auth_token: string;
+export interface AuthResponse {
   user: User;
+  token: string;
   message?: string;
 }
 
 class AuthService {
-  private readonly TOKEN_KEY = "auth_token";
+  private token: string | null = null;
   private readonly USER_KEY = "user";
+
+  constructor() {
+    if (typeof window !== "undefined") {
+      this.token = localStorage.getItem("token");
+    }
+  }
 
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
@@ -49,11 +49,21 @@ class AuthService {
         "/auth/login",
         credentials
       );
-      this.setToken(response.auth_token);
-      this.setUser(response.user);
+      this.setToken(response.token);
       return response;
     } catch (error) {
       console.error("Erreur de connexion:", error);
+      throw error;
+    }
+  }
+
+  async checkAuth(): Promise<AuthResponse> {
+    try {
+      const response = await apiService.get<AuthResponse>("/auth/check");
+      this.setToken(response.token);
+      return response;
+    } catch (error) {
+      console.error("Erreur de vérification d'authentification:", error);
       throw error;
     }
   }
@@ -90,26 +100,26 @@ class AuthService {
     }
   }
 
-  logout() {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.USER_KEY);
-    document.cookie =
-      "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  logout(): void {
+    this.token = null;
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+    }
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    return this.token;
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    return !!this.token;
   }
 
-  private setToken(token: string) {
-    localStorage.setItem(this.TOKEN_KEY, token);
-    const expires = new Date();
-    expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 jours
-    document.cookie = `auth_token=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Strict`;
+  private setToken(token: string): void {
+    this.token = token;
+    if (typeof window !== "undefined") {
+      localStorage.setItem("token", token);
+    }
   }
 
   private setUser(user: User) {

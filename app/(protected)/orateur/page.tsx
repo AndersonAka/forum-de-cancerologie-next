@@ -1,5 +1,5 @@
 import React from 'react';
-import OrateurPage from '../components/orateur/OrateurPage';
+import OrateurPage from '../../components/orateur/OrateurPage';
 
 export default function Orateur() {
 

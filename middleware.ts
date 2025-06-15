@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 // Routes publiques (accessibles sans authentification)
 const publicRoutes = [
-  "/connection",
+  "/connexion",
   "/inscription",
   "/api/auth/login",
   "/api/auth/register",
@@ -19,13 +19,13 @@ export function middleware(request: NextRequest) {
   );
 
   // Si l'utilisateur est connecté et essaie d'accéder aux pages d'auth
-  if (token && (pathname === "/connection" || pathname === "/inscription")) {
+  if (token && (pathname === "/connexion" || pathname === "/inscription")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
   // Si l'utilisateur n'est pas connecté et essaie d'accéder à une route protégée
   if (!token && !isPublicRoute) {
-    const url = new URL("/connection", request.url);
+    const url = new URL("/connexion", request.url);
     url.searchParams.set("from", pathname);
     return NextResponse.redirect(url);
   }

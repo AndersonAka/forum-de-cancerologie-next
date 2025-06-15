@@ -1,85 +1,81 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, } from 'react';
 import { useRouter } from 'next/navigation';
 import { authService } from '../services/auth.service';
 
 interface User {
-    id: number;
+    id: string;
     email: string;
-    firstName: string;
-    lastName: string;
-    title: string;
-    specialty: string;
-    country: string;
-    workplace: string;
-    phoneNumber: string;
-    participationMode: string;
-    gdprConsent: boolean;
-    rememberMeToken: string | null;
+    nom: string;
+    specialite: string;
+    pays: string;
+    lieuExercice: string;
+    participation: string;
     createdAt: string;
     updatedAt: string;
 }
 
-interface AuthContextType {
-    isAuthenticated: boolean;
-    user: User | null;
-    login: (credentials: { email: string; password: string }) => Promise<void>;
-    logout: () => Promise<void>;
-    loading: boolean;
+interface LoginCredentials {
+    email: string;
+    [key: string]: string;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+interface AuthContextType {
+    user: User | null;
+    isAuthenticated: boolean;
+    loading: boolean;
+    login: (credentials: LoginCredentials) => Promise<boolean>;
+    logout: () => Promise<void>;
+}
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+export const AuthContext = createContext<AuthContextType>({
+    user: null,
+    isAuthenticated: false,
+    loading: true,
+    login: async () => false,
+    logout: async () => { },
+});
+
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
-        let isMounted = true;
-
-        const checkAuth = async () => {
-            if (!isMounted) return;
-
-            try {
-                if (authService.isAuthenticated()) {
-                    const userData = await authService.getCurrentUser();
-                    if (isMounted) {
-                        setUser(userData);
-                        setIsAuthenticated(true);
-                    }
-                }
-            } catch (error) {
-                console.error('Erreur lors de la vérification de l\'authentification:', error);
-                if (isMounted) {
-                    authService.logout();
-                    setIsAuthenticated(false);
-                    setUser(null);
-                }
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            }
-        };
-
         checkAuth();
-
-        return () => {
-            isMounted = false;
-        };
     }, []);
 
-    const login = async (credentials: { email: string; password: string }) => {
+    const checkAuth = async () => {
+        try {
+            const response = await authService.checkAuth();
+            if (response && response.user) {
+                setUser(response.user);
+                setIsAuthenticated(true);
+            }
+        } catch (error) {
+            console.error('Erreur de vérification d\'authentification:', error);
+            setUser(null);
+            setIsAuthenticated(false);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const login = async (credentials: LoginCredentials) => {
         try {
             const response = await authService.login(credentials);
-            setUser(response.user);
-            setIsAuthenticated(true);
-            router.push('/');
+            if (response && response.user) {
+                setUser(response.user);
+                setIsAuthenticated(true);
+                return true;
+            }
+            return false;
         } catch (error) {
             console.error('Erreur de connexion:', error);
+            setUser(null);
+            setIsAuthenticated(false);
             throw error;
         }
     };
@@ -89,7 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             authService.logout();
             setUser(null);
             setIsAuthenticated(false);
-            router.push('/connection');
+            router.push('/connexion');
         } catch (error) {
             console.error('Erreur lors de la déconnexion:', error);
             throw error;
@@ -101,7 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             {children}
         </AuthContext.Provider>
     );
-}
+};
 
 export function useAuth() {
     const context = useContext(AuthContext);

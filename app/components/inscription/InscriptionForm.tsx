@@ -57,7 +57,7 @@ export default function InscriptionForm() {
                 localStorage.removeItem('email');
             }
 
-            router.push('/connection?success=true');
+            router.push('/connexion?success=true');
         } catch (err) {
             console.error('Erreur d\'inscription:', err);
             if (err instanceof Error) {
@@ -220,7 +220,7 @@ export default function InscriptionForm() {
 
                         <div className="lien-de-connection">
                             <p>Déjà inscrit ?</p>
-                            <Link href="/connection">Se connecter</Link>
+                            <Link href="/connexion">Se connecter</Link>
                         </div>
                     </form>
                 </div>
