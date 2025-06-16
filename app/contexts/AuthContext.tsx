@@ -45,26 +45,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                         setUser(userData);
                         setIsAuthenticated(true);
                     } catch (error) {
+                        console.error("Erreur lors du parsing du cookie user:", error);
                         Cookies.remove("user", { path: "/" });
                         Cookies.remove("access_token", { path: "/" });
                         setUser(null);
                         setIsAuthenticated(false);
-                        console.log("❌ État d'authentification réinitialisé après erreur");
                     }
                 } else {
-                    console.log("❌ Pas de cookies d'authentification trouvés");
                     setUser(null);
                     setIsAuthenticated(false);
-                    console.log("❌ État d'authentification réinitialisé");
                 }
             } catch (error) {
-                console.error("❌ Erreur lors de la vérification de l'authentification:", error);
+                console.error("Erreur lors de la vérification de l'authentification:", error);
                 setUser(null);
                 setIsAuthenticated(false);
-                console.log("❌ État d'authentification réinitialisé après erreur");
             } finally {
                 setLoading(false);
-                console.log("✅ Chargement terminé");
             }
         };
 
@@ -76,7 +72,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const response = await authService.login({ email });
 
             if (response.user && response.access_token) {
-                console.log("✅ Connexion réussie, mise à jour des cookies");
                 // Mettre à jour les cookies
                 Cookies.set('access_token', response.access_token, COOKIE_OPTIONS);
                 Cookies.set('user', JSON.stringify(response.user), COOKIE_OPTIONS);
@@ -84,7 +79,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 // Mettre à jour l'état
                 setUser(response.user);
                 setIsAuthenticated(true);
-                console.log("✅ État d'authentification mis à jour après connexion");
 
                 // Rediriger vers le chemin sauvegardé ou la page d'accueil
                 const path = redirectPath || "/";
@@ -92,32 +86,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 router.replace(path);
             }
         } catch (error) {
-            console.error("❌ Erreur de connexion:", error);
+            console.error("Erreur de connexion:", error);
             Cookies.remove("user", { path: "/" });
             Cookies.remove("access_token", { path: "/" });
             setUser(null);
             setIsAuthenticated(false);
-            console.log("❌ État d'authentification réinitialisé après erreur de connexion");
             throw error;
         }
     };
 
     const logout = async () => {
         try {
-            console.log("🔑 Tentative de déconnexion");
             await authService.logout();
             Cookies.remove("access_token", { path: "/" });
             Cookies.remove("user", { path: "/" });
             setUser(null);
             setIsAuthenticated(false);
-            console.log("✅ Déconnexion réussie");
         } catch (error) {
-            console.error("❌ Erreur lors de la déconnexion:", error);
+            console.error("Erreur lors de la déconnexion:", error);
             Cookies.remove("access_token", { path: "/" });
             Cookies.remove("user", { path: "/" });
             setUser(null);
             setIsAuthenticated(false);
-            console.log("❌ État d'authentification réinitialisé après erreur de déconnexion");
         }
     };
 

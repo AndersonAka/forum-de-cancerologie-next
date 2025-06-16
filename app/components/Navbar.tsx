@@ -20,6 +20,7 @@ const navLinks: NavLink[] = [
     { href: '/direct', label: 'Direct', requiresAuth: true },
     { href: '/rediffusion-2024', label: 'Rediffusion 2024', requiresAuth: true },
     { href: '/etude', label: 'Etudes', requiresAuth: true },
+    { href: '/itineraire', label: 'Itinéraire', requiresAuth: true },
 ];
 
 export default function Navbar() {
@@ -30,9 +31,7 @@ export default function Navbar() {
 
     const handleLogout = async () => {
         try {
-            console.log('Début de la déconnexion');
             await logout();
-            console.log('Déconnexion réussie');
             router.push('/connexion');
         } catch (error) {
             console.error('Erreur lors de la déconnexion:', error);

@@ -4,9 +4,10 @@ import { Suspense } from 'react';
 
 function DirectContent() {
     return (
-        <div>
-            <h1>Direct</h1>
+        <div className="flex flex-col items-center justify-center h-screen">
+            <h1 className="text-4xl font-bold">Direct - En construction</h1>
         </div>
+
     );
 }
 
