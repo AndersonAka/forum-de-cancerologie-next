@@ -2124,6 +2124,7 @@ footer .contact img {
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
+  text-align: center;
   gap: 0.5rem;
   animation: slideIn 0.3s ease-out;
 }

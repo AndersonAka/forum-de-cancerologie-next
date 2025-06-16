@@ -50,7 +50,6 @@ export default function InscriptionPage() {
         }
 
         try {
-            console.log(formData);
             await authService.register({
                 ...formData,
                 gdprConsent: true,
@@ -63,15 +62,28 @@ export default function InscriptionPage() {
             }
 
             router.push('/connexion');
-        } catch (err) {
-            console.error('Erreur d\'inscription:', err);
-            if (err instanceof Error) {
+        } catch (err: any) {
+            // Gestion de l'erreur backend
+            let backendMessage = '';
+            if (err?.response && typeof err.response.json === 'function') {
+                try {
+                    const data = await err.response.json();
+                    if (data && data.message) {
+                        backendMessage = data.message;
+                    }
+                } catch { }
+            }
+            if (backendMessage) {
+                setError(backendMessage);
+            } else if (err instanceof Error) {
                 if (err.message.includes('409') || err.message.includes('already exists')) {
                     setError('Cette adresse email est déjà utilisée');
+                } else if (err.message.includes('401')) {
+                    setError(err.message);
                 } else if (err.message.includes('400')) {
                     setError('Veuillez vérifier les informations saisies');
                 } else {
-                    setError('Une erreur est survenue lors de l\'inscription');
+                    setError(err.message);
                 }
             } else {
                 setError('Une erreur est survenue lors de l\'inscription');
@@ -127,7 +139,6 @@ export default function InscriptionPage() {
 
                             {error && (
                                 <div className="error-message" role="alert">
-                                    <strong>Erreur !</strong>
                                     <span>{error}</span>
                                 </div>
                             )}
@@ -173,8 +184,8 @@ export default function InscriptionPage() {
                                 />
                             </div>
 
-                            <div className="flex flex-row">
-                                <div className="w-1/4">
+                            <div className="input-box">
+                                <div className="">
                                     <CountrySelect
                                         value={{ pays: formData.pays }}
                                         onChange={(data) => {
@@ -186,7 +197,7 @@ export default function InscriptionPage() {
                                         error={!!error}
                                     />
                                 </div>
-                                <div className="input-box w-3/4">
+                                <div className="input-box ">
                                     <input
                                         type='text'
                                         name="pays"
@@ -291,7 +302,6 @@ export default function InscriptionPage() {
                             </div>
                             {consentError && (
                                 <div className="error-message" role="alert">
-                                    <strong>Erreur !</strong>
                                     <span>{consentError}</span>
                                 </div>
                             )}
