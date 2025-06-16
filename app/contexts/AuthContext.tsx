@@ -84,7 +84,7 @@ function AuthProviderContent({ children }: { children: React.ReactNode }) {
             setIsAuthenticated(true);
 
             // Attendre que l'état soit mis à jour
-            await new Promise(resolve => setTimeout(resolve, 100));
+            await new Promise(resolve => setTimeout(resolve, 500));
 
             // Récupérer le paramètre 'from' ou rediriger vers la page d'accueil
             const from = searchParams.get('from');
