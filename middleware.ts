@@ -29,7 +29,7 @@ export function middleware(request: NextRequest) {
   if (!token || !user) {
     const url = new URL("/connexion", request.url);
     // Ne pas inclure les routes API dans la redirection
-    if (!pathname.startsWith("/api/")) {
+    if (!pathname.startsWith("/api/") && pathname !== "/") {
       url.searchParams.set("from", pathname);
     }
     return NextResponse.redirect(url);
