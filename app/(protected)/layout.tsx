@@ -2,6 +2,7 @@
 
 import { AuthProvider } from "../contexts/AuthContext";
 import Navbar from "../components/Navbar";
+// import ProtectedGuard from "../components/ProtectedGuard";
 
 export default function ProtectedLayout({
     children,
@@ -10,8 +11,10 @@ export default function ProtectedLayout({
 }) {
     return (
         <AuthProvider>
+            {/* <ProtectedGuard> */}
             <Navbar />
             {children}
+            {/* </ProtectedGuard> */}
         </AuthProvider>
     );
 }

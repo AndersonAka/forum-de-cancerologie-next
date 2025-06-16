@@ -8,3 +8,4 @@ export interface InscriptionData {
   email: string;
   participation: string;
 }
+ 

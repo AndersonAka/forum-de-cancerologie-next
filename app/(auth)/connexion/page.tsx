@@ -3,10 +3,19 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/contexts/AuthContext";
-import ErrorMessage from "@/app/components/ui/ErrorMessage";
 import Image from "next/image";
 import { HeaderSection } from "@/app/components/auth/HaederSection";
 import Cookies from "js-cookie";
+
+function getFriendlyMessage(message: string): string {
+    if (!message) return "Une erreur est survenue. Veuillez réessayer.";
+    if (message.includes("401")) return "Identifiants incorrects. Veuillez vérifier votre email.";
+    if (message.includes("409") || message.toLowerCase().includes("already exists")) return "Cette adresse email est déjà utilisée.";
+    if (message.includes("400")) return "Veuillez vérifier les informations saisies.";
+    if (message.toLowerCase().includes("network")) return "Problème de connexion réseau. Veuillez réessayer.";
+    if (message.toLowerCase().includes("request failed")) return "Impossible de se connecter au serveur. Veuillez réessayer.";
+    return message;
+}
 
 function ConnexionForm() {
     const { login, setRedirectPath } = useAuth();
@@ -70,6 +79,11 @@ function ConnexionForm() {
     return (
         <form id="loginForm" className="connection" onSubmit={handleSubmit}>
             <h1>Connexion</h1>
+            {error && (
+                <div className="error-message" role="alert">
+                    <span>{getFriendlyMessage(error)}</span>
+                </div>
+            )}
             {successMessage && (
                 <div className="success-message" role="status">
                     <span>{successMessage}</span>
@@ -86,12 +100,7 @@ function ConnexionForm() {
                     disabled={loading}
                 />
             </div>
-            {error && (
-                <ErrorMessage
-                    message={error}
-                    onDismiss={() => setError("")}
-                />
-            )}
+
             <div className="se-souvenir">
                 <label>
                     <input

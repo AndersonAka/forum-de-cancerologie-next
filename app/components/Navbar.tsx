@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import Image from 'next/image';
 import { useAuth } from '@/app/contexts/AuthContext';
@@ -26,13 +26,12 @@ const navLinks: NavLink[] = [
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { logout, loading } = useAuth();
-    const router = useRouter();
+    // const router = useRouter();
     const pathname = usePathname();
 
     const handleLogout = async () => {
         try {
             await logout();
-            router.push('/connexion');
         } catch (error) {
             console.error('Erreur lors de la déconnexion:', error);
         }

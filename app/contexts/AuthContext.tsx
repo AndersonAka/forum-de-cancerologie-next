@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { authService } from "@/app/services/auth.service";
 import { User } from "@/app/types/auth";
+import { deleteAuthCookie } from "@/actions/auth.action";
 
 interface AuthContextType {
     user: User | null;
@@ -14,6 +15,7 @@ interface AuthContextType {
     logout: () => Promise<void>;
     redirectPath: string | null;
     setRedirectPath: (path: string | null) => void;
+    refreshAuth: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,39 +34,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [redirectPath, setRedirectPath] = useState<string | null>(null);
     const router = useRouter();
 
-    // Vérifier l'authentification au chargement
-    useEffect(() => {
-        const checkAuth = () => {
-            try {
-                const userCookie = Cookies.get("user");
-                const token = Cookies.get("access_token");
-
-                if (userCookie && token) {
-                    try {
-                        const userData = JSON.parse(userCookie);
-                        setUser(userData);
-                        setIsAuthenticated(true);
-                    } catch (error) {
-                        console.error("Erreur lors du parsing du cookie user:", error);
-                        Cookies.remove("user", { path: "/" });
-                        Cookies.remove("access_token", { path: "/" });
-                        setUser(null);
-                        setIsAuthenticated(false);
-                    }
-                } else {
+    // Fonction pour relire les cookies et mettre à jour l'état d'auth
+    const refreshAuth = () => {
+        try {
+            const userCookie = Cookies.get("user");
+            const token = Cookies.get("access_token");
+            if (userCookie && token) {
+                try {
+                    const userData = JSON.parse(userCookie);
+                    setUser(userData);
+                    setIsAuthenticated(true);
+                } catch (error) {
+                    console.error("❌ Erreur lors de la récupération des cookies:", error);
+                    Cookies.remove("user", { path: "/" });
+                    Cookies.remove("access_token", { path: "/" });
                     setUser(null);
                     setIsAuthenticated(false);
                 }
-            } catch (error) {
-                console.error("Erreur lors de la vérification de l'authentification:", error);
+            } else {
                 setUser(null);
                 setIsAuthenticated(false);
-            } finally {
-                setLoading(false);
             }
-        };
+        } catch (error) {
+            console.error("❌ Erreur lors de la récupération des cookies:", error);
+            setUser(null);
+            setIsAuthenticated(false);
+        }
+    };
 
-        checkAuth();
+    // Vérifier l'authentification au chargement
+    useEffect(() => {
+        setLoading(true);
+        refreshAuth();
+        setLoading(false);
     }, []);
 
     const login = async (email: string) => {
@@ -76,17 +78,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 Cookies.set('access_token', response.access_token, COOKIE_OPTIONS);
                 Cookies.set('user', JSON.stringify(response.user), COOKIE_OPTIONS);
 
-                // Mettre à jour l'état
-                setUser(response.user);
-                setIsAuthenticated(true);
+                // Rafraîchir l'état d'authentification
+                refreshAuth();
 
                 // Rediriger vers le chemin sauvegardé ou la page d'accueil
                 const path = redirectPath || "/";
                 setRedirectPath(null);
-                router.replace(path);
+                window.location.replace(path);
             }
         } catch (error) {
-            console.error("Erreur de connexion:", error);
             Cookies.remove("user", { path: "/" });
             Cookies.remove("access_token", { path: "/" });
             setUser(null);
@@ -97,13 +97,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const logout = async () => {
         try {
-            await authService.logout();
+            console.log("🔒 Début de la déconnexion côté client");
+
+            // Essayer de déconnecter le backend si on a un token
+            const token = Cookies.get('access_token');
+            console.log("🔑 Token côté client:", token ? "présent" : "absent");
+
+            if (token) {
+                console.log("📡 Appel au service de déconnexion");
+                await authService.logout();
+            }
+
+            // Dans tous les cas, nettoyer le frontend
+            console.log("🧹 Nettoyage des cookies côté client");
             Cookies.remove("access_token", { path: "/" });
             Cookies.remove("user", { path: "/" });
+
+            await deleteAuthCookie();
             setUser(null);
             setIsAuthenticated(false);
+
+            // Attendre un peu pour s'assurer que les cookies sont supprimés
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            console.log("🔄 Redirection vers la page de connexion");
+            // Utiliser router.push au lieu de window.location
+            router.push('/connexion');
         } catch (error) {
-            console.error("Erreur lors de la déconnexion:", error);
+            console.error("❌ Erreur lors de la déconnexion:", error);
+            // En cas d'erreur, nettoyer quand même le frontend
             Cookies.remove("access_token", { path: "/" });
             Cookies.remove("user", { path: "/" });
             setUser(null);
@@ -119,7 +141,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             login,
             logout,
             redirectPath,
-            setRedirectPath
+            setRedirectPath,
+            refreshAuth
         }}>
             {children}
         </AuthContext.Provider>

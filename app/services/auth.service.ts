@@ -1,7 +1,6 @@
 import axios from "axios";
-import { AuthResponse, LoginCredentials } from "../types/auth";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+import { AuthResponse } from "../types/auth";
+import Cookies from "js-cookie";
 
 interface RegisterData {
   titre: string;
@@ -53,7 +52,16 @@ export const authService = {
 
   async logout() {
     try {
-      await axios.post("/api/auth/logout");
+      const token = Cookies.get("access_token");
+      await axios.post(
+        "/api/auth/logout",
+        {},
+        {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : undefined,
+          },
+        }
+      );
     } catch (error) {
       console.error("Erreur lors de la déconnexion:", error);
       throw error;

@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 const publicRoutes = ["/connexion", "/inscription"];
 
 // Liste des routes API
-const apiRoutes = ["/api/auth/login", "/api/auth/logout"];
+// const apiRoutes = ["/api/auth/login", "/api/auth/logout"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -25,21 +25,39 @@ export function middleware(request: NextRequest) {
   }
 
   // Vérifier si l'utilisateur est authentifié
-  const token = request.cookies.get("access_token");
+  const token = request.cookies.get("access_token")?.value;
   const user = request.cookies.get("user");
 
-  console.log("Middleware - État de l'authentification:", {
+  console.log("🔒 Middleware - État de l'authentification:", {
     hasToken: !!token,
     hasUser: !!user,
     pathname,
-    tokenValue: token?.value ? "présent" : "absent",
+    tokenValue: token ? "présent" : "absent",
     userValue: user?.value ? "présent" : "absent",
+    cookies: request.cookies.getAll().map((c) => c.name),
   });
 
-  // Si pas de token ou d'utilisateur, rediriger vers la page de connexion
-  if (!token || !user) {
+  // Liste des routes protégées (à adapter si besoin)
+  const protectedPaths = [
+    "/",
+    "/edition-2024",
+    "/orateur",
+    "/agenda",
+    "/direct",
+    "/rediffusion-2024",
+    "/etude",
+    "/itineraire",
+  ];
+
+  const isProtected = protectedPaths.some(
+    (path) => pathname === path || pathname.startsWith(path + "/")
+  );
+
+  if (isProtected && !token) {
     console.log("Middleware - Non authentifié, redirection vers connexion");
-    const response = NextResponse.redirect(new URL("/connexion", request.url));
+    const url = request.nextUrl.clone();
+    url.pathname = "/connexion";
+    const response = NextResponse.redirect(url);
 
     // Stocker le chemin actuel dans un cookie si ce n'est pas la page d'accueil
     if (pathname !== "/") {
@@ -82,5 +100,8 @@ export function middleware(request: NextRequest) {
 
 // Configuration des routes à protéger
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: [
+    // Protéger toutes les routes sauf /connexion, /inscription, /api, etc.
+    "/((?!api|_next/static|_next/image|favicon.ico|connexion|inscription).*)",
+  ],
 };

@@ -105,7 +105,7 @@ export default function InscriptionPage() {
                 telephone: value
             }));
         } else {
-            setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData(prev => ({ ...prev, [name]: value }));
         }
     };
 
@@ -303,11 +303,11 @@ export default function InscriptionPage() {
                                     J&apos;accepte les termes du <Link href="#">formulaire de consentement</Link>
                                 </span>
                             </div>
-                            {consentError && (
-                                <div className="error-message" role="alert">
-                                    <span>{consentError}</span>
-                                </div>
-                            )}
+                                {consentError && (
+                                    <div className="error-message" role="alert">
+                                        <span>{consentError}</span>
+                                    </div>
+                                )}
 
                             <button
                                 type="submit"
