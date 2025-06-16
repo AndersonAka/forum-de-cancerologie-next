@@ -81,17 +81,17 @@
     @apply w-full mt-8 overflow-hidden text-center;
   }
 
-  header .title {
+  /* header .title {
     @apply flex justify-center items-center mt-12 text-4xl leading-[5rem] text-[#003f9b];
-  }
+  } */
 
   header .title small {
     @apply text-4xl font-medium;
   }
 
-  header p {
+  /* header p {
     @apply mt-8 text-2xl text-[#5e5e5e];
-  }
+  } */
 }
 
 @layer utilities {
@@ -276,11 +276,11 @@ header .title small {
   font-weight: 500;
 }
 
-header p {
+/* header p {
   margin-top: 2rem;
   font-size: 1.5rem;
   color: #5e5e5e;
-}
+} */
 
 header .hotel {
   display: flex;

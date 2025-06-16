@@ -8,8 +8,48 @@ import Footer from "./components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Forum de Cancérologie",
-  description: "Forum de Cancérologie",
+  title: {
+    default: "Forum de Cancérologie",
+    template: "%s | Forum de Cancérologie"
+  },
+  description: "Forum de discussion et d'échange sur la cancérologie. Rejoignez notre communauté de professionnels de santé pour partager vos expériences et connaissances.",
+  keywords: ["cancérologie", "forum", "santé", "médecine", "oncologie", "professionnels de santé"],
+  authors: [{ name: "Forum de Cancérologie" }],
+  creator: "Forum de Cancérologie",
+  publisher: "Forum de Cancérologie",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "/",
+    title: "Forum de Cancérologie",
+    description: "Forum de discussion et d'échange sur la cancérologie",
+    siteName: "Forum de Cancérologie",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Forum de Cancérologie",
+    description: "Forum de discussion et d'échange sur la cancérologie",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
