@@ -6,17 +6,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { authService } from '@/app/services/auth.service';
 import { HeaderSection } from '../HaederSection';
-
-interface InscriptionData {
-    titre: string;
-    nom: string;
-    specialite: string;
-    pays: string;
-    lieuExercice: string;
-    email: string;
-    telephone: string;
-    participation: string;
-}
+import { CountrySelect } from '@/app/components/CountrySelect';
+import { ConsentModal } from './ConsentModal';
+import { InscriptionData } from './types';
 
 export default function InscriptionPage() {
     const router = useRouter();
@@ -25,9 +17,10 @@ export default function InscriptionPage() {
         nom: '',
         specialite: '',
         pays: '',
+        telephone: '',
+        indicatif: '',
         lieuExercice: '',
         email: '',
-        telephone: '',
         participation: '',
     });
     const [rememberMe, setRememberMe] = useState(false);
@@ -35,6 +28,7 @@ export default function InscriptionPage() {
     const [error, setError] = useState<string | null>(null);
     const [consentError, setConsentError] = useState<string | null>(null);
     const [hasConsented, setHasConsented] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const savedEmail = localStorage.getItem('email');
@@ -57,6 +51,7 @@ export default function InscriptionPage() {
         }
 
         try {
+            console.log(formData);
             await authService.register({
                 ...formData,
                 gdprConsent: true,
@@ -68,7 +63,7 @@ export default function InscriptionPage() {
                 localStorage.removeItem('email');
             }
 
-            router.push('/connexion?success=true');
+            router.push('/connexion');
         } catch (err) {
             console.error('Erreur d\'inscription:', err);
             if (err instanceof Error) {
@@ -89,7 +84,37 @@ export default function InscriptionPage() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        if (name === 'telephone') {
+            // Pour le téléphone, on stocke juste le numéro sans l'indicatif
+            setFormData(prev => ({
+                ...prev,
+                telephone: value
+            }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleConsentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const isChecked = e.target.checked;
+        setHasConsented(isChecked);
+        setConsentError(null);
+
+        if (isChecked) {
+            const emptyFields = Object.entries(formData).filter(([key, value]) => {
+                if (key === 'telephone') {
+                    return !value || value.length < 8;
+                }
+                return !value;
+            });
+
+            if (emptyFields.length > 0) {
+                setConsentError('Veuillez renseigner tous les champs');
+                setHasConsented(false);
+            } else {
+                setShowModal(true);
+            }
+        }
     };
 
     return (
@@ -149,13 +174,40 @@ export default function InscriptionPage() {
                                 />
                             </div>
 
+                            <div className="flex flex-row">
+                                <div className="w-1/4">
+                                    <CountrySelect
+                                        value={{ pays: formData.pays, indicatif: formData.indicatif }}
+                                        onChange={(data) => {
+                                            setFormData(prev => ({
+                                                ...prev,
+                                                pays: data.pays,
+                                                indicatif: data.indicatif
+                                            }));
+                                        }}
+                                        error={!!error}
+                                    />
+                                </div>
+                                <div className="input-box w-3/4">
+                                    <input
+                                        type='text'
+                                        name="pays"
+                                        value={formData.pays}
+                                        onChange={handleChange}
+                                        placeholder="Sélectionner le pays"
+                                        required
+                                        readOnly
+                                        className={`w-full p-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                    />
+                                </div>
+                            </div>
                             <div className="input-box">
                                 <input
                                     type="text"
-                                    name="pays"
-                                    value={formData.pays}
+                                    name="telephone"
+                                    value={formData.telephone}
                                     onChange={handleChange}
-                                    placeholder="Pays"
+                                    placeholder="Numéro de téléphone"
                                     required
                                     className={error ? 'error' : ''}
                                 />
@@ -180,18 +232,6 @@ export default function InscriptionPage() {
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="Adresse email"
-                                    required
-                                    className={error ? 'error' : ''}
-                                />
-                            </div>
-
-                            <div className="input-box">
-                                <input
-                                    type="tel"
-                                    name="telephone"
-                                    value={formData.telephone}
-                                    onChange={handleChange}
-                                    placeholder="Numéro de téléphone"
                                     required
                                     className={error ? 'error' : ''}
                                 />
@@ -240,24 +280,23 @@ export default function InscriptionPage() {
                             </div>
 
                             <div className="se-souvenir">
-                                <label>
+                                <span>
                                     <input
+                                        title="J'accepte les termes du formulaire de consentement"
+                                        placeholder="J'accepte les termes du formulaire de consentement"
                                         type="checkbox"
                                         checked={hasConsented}
-                                        onChange={(e) => {
-                                            setHasConsented(e.target.checked);
-                                            setConsentError(null);
-                                        }}
+                                        onChange={handleConsentChange}
                                     />
                                     J&apos;accepte les termes du <Link href="#">formulaire de consentement</Link>
-                                </label>
-                                {consentError && (
-                                    <div className="error-message" role="alert">
-                                        <strong>Erreur !</strong>
-                                        <span>{consentError}</span>
-                                    </div>
-                                )}
+                                </span>
                             </div>
+                            {consentError && (
+                                <div className="error-message" role="alert">
+                                    <strong>Erreur !</strong>
+                                    <span>{consentError}</span>
+                                </div>
+                            )}
 
                             <button
                                 type="submit"
@@ -303,6 +342,20 @@ export default function InscriptionPage() {
                     </div>
                 </div>
             </section>
+
+            <ConsentModal
+                isOpen={showModal}
+                onClose={() => {
+                    setShowModal(false);
+                    setHasConsented(false);
+                }}
+                onSubmit={() => {
+                    setShowModal(false);
+                    handleSubmit(new Event('submit') as any);
+                }}
+                formData={formData}
+                isLoading={isLoading}
+            />
         </main>
     );
 }
