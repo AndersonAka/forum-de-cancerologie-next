@@ -158,7 +158,7 @@ export default function Navbar() {
             </div>
             <button
                 type="button"
-                className="md:hidden nav-toggler"
+                className="block md:hidden nav-toggler"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
                 aria-controls="mobile-menu"

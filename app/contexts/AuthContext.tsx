@@ -77,7 +77,6 @@ function AuthProviderContent({ children }: { children: React.ReactNode }) {
             if (!response.user || !response.access_token) {
                 throw new Error('Réponse de connexion invalide');
             }
-
             Cookies.set('access_token', response.access_token, COOKIE_OPTIONS);
             Cookies.set('user', JSON.stringify(response.user), COOKIE_OPTIONS);
 

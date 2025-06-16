@@ -36,13 +36,6 @@ function ConnexionContent() {
             } else {
                 localStorage.removeItem('email');
             }
-
-            // const success = await login({ email });
-            // if (success) {
-            //     console.log('✅ Connexion réussie, redirection...');
-            //     const from = searchParams.get('from') || '/';
-            //     router.replace(from);
-            // }
             router.replace('/');
         } catch (error) {
             console.error('❌ Erreur de connexion:', error);
