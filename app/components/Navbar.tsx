@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { useAuth } from '@/app/contexts/AuthContext';
 
@@ -22,122 +22,39 @@ const navLinks: NavLink[] = [
     { href: '/etude', label: 'Etudes', requiresAuth: true },
 ];
 
-const NavbarSkeleton = () => (
-    <nav className="flex items-center justify-between px-4 py-2 bg-white shadow-sm animate-pulse">
-        <div className="logo-forum">
-            <div className="w-[150px] h-[50px] bg-gray-200 rounded"></div>
-        </div>
-
-        <div className="hidden md:flex space-x-6">
-            <div className="flex space-x-4">
-                {[...Array(5)].map((_, index) => (
-                    <div key={index} className="w-20 h-6 bg-gray-200 rounded"></div>
-                ))}
-            </div>
-        </div>
-
-        <div className="md:hidden">
-            <div className="w-6 h-5 bg-gray-200 rounded"></div>
-        </div>
-
-        <div className="logo-roche hidden md:block">
-            <div className="w-[100px] h-[40px] bg-gray-200 rounded"></div>
-        </div>
-    </nav>
-);
-
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const { logout, loading } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
-    const { isAuthenticated, logout, loading } = useAuth();
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) {
-        return null;
-    }
-
-    if (loading) {
-        return <NavbarSkeleton />;
-    }
 
     const handleLogout = async () => {
         try {
-            setIsLoggingOut(true);
+            console.log('Début de la déconnexion');
             await logout();
-            setIsMenuOpen(false);
+            console.log('Déconnexion réussie');
             router.push('/connexion');
         } catch (error) {
             console.error('Erreur lors de la déconnexion:', error);
-        } finally {
-            setIsLoggingOut(false);
         }
     };
 
-    const filteredNavLinks = navLinks.filter(link =>
-        !link.requiresAuth || (link.requiresAuth && isAuthenticated)
-    );
-
-    const renderNavLinks = (isMobile: boolean = false) => (
-        <>
-            {isAuthenticated ? (
-                <>
-                    <div className="nav-list space-x-2">
-                        {filteredNavLinks.map((link) => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className={`${pathname === link.href || (link.href === '/' && pathname === '')
-                                    ? 'active'
-                                    : 'text-gray-600'
-                                    } ${isMobile ? 'block py-2' : ''}`}
-                                onClick={() => isMobile && setIsMenuOpen(false)}
-                                aria-current={pathname === link.href || (link.href === '/' && pathname === '') ? 'page' : undefined}
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
-                        <button
-                            onClick={handleLogout}
-                            className="logout"
-                            disabled={isLoggingOut}
-                            aria-label="Se déconnecter"
-                        >
-                            <Image
-                                src="/img/LOGOUT.png"
-                                alt="Déconnexion"
-                                width={5}
-                                height={5}
-                            />
-                            <span>{isLoggingOut ? 'Déconnexion...' : 'Déconnexion'}</span>
-                        </button>
-                    </div>
-                </>
-            ) : (
-                <div className="nav-list space-x-2">
-                    <Link
-                        href="/inscription"
-                        className={`${pathname === '/inscription' ? 'active' : 'text-gray-600'}`}
-                        aria-current={pathname === '/inscription' ? 'page' : undefined}
-                    >
-                        Inscription
-                    </Link>
-                    <Link
-                        href="/connexion"
-                        className={`${pathname === '/connexion' ? 'active' : 'text-gray-600'}`}
-                        aria-current={pathname === '/connexion' ? 'page' : undefined}
-                    >
-                        Connexion
-                    </Link>
+    // Afficher un état de chargement
+    if (loading) {
+        return (
+            <nav className="navbar">
+                <div className="logo-forum hidden md:block">
+                    <div className="w-[150px] h-[50px] bg-gray-200 animate-pulse"></div>
                 </div>
-            )}
-        </>
-    );
+                <div className="hidden md:flex">
+                    <div className="nav-list space-x-2">
+                        <div className="w-20 h-6 bg-gray-200 animate-pulse"></div>
+                        <div className="w-20 h-6 bg-gray-200 animate-pulse"></div>
+                    </div>
+                </div>
+            </nav>
+        );
+    }
 
     return (
         <nav className="navbar">
@@ -153,9 +70,37 @@ export default function Navbar() {
                     />
                 </Link>
             </div>
+
             <div className="hidden md:flex">
-                {renderNavLinks()}
+                <div className="nav-list space-x-2">
+                    {navLinks.map((link) => (
+                        <Link
+                            key={link.href}
+                            href={link.href}
+                            className={`${pathname === link.href || (link.href === '/' && pathname === '')
+                                ? 'active'
+                                : 'text-gray-600'}`}
+                            aria-current={pathname === link.href || (link.href === '/' && pathname === '') ? 'page' : undefined}
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
+                    <button
+                        onClick={handleLogout}
+                        className="logout"
+                        aria-label="Se déconnecter"
+                    >
+                        <Image
+                            src="/img/LOGOUT.png"
+                            alt="Déconnexion"
+                            width={5}
+                            height={5}
+                        />
+                        <span>Déconnexion</span>
+                    </button>
+                </div>
             </div>
+
             <button
                 type="button"
                 className="block md:hidden nav-toggler"
@@ -169,6 +114,7 @@ export default function Navbar() {
                     <span className="w-full h-0.5 bg-gray-600"></span>
                 </div>
             </button>
+
             <div className="logo-roche hidden md:block">
                 <Image
                     src="/img/logo-roche.png"
@@ -179,6 +125,7 @@ export default function Navbar() {
                     unoptimized
                 />
             </div>
+
             {isMenuOpen && (
                 <div
                     id="mobile-menu"
@@ -187,7 +134,31 @@ export default function Navbar() {
                     aria-label="Menu mobile"
                 >
                     <div className="flex flex-col p-4 space-y-4">
-                        {renderNavLinks(true)}
+                        <div className="nav-list space-y-2">
+                            {navLinks.map((link) => (
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    className={`${pathname === link.href ? 'active' : 'text-gray-600'} block py-2`}
+                                    aria-current={pathname === link.href ? 'page' : undefined}
+                                >
+                                    {link.label}
+                                </Link>
+                            ))}
+                            <button
+                                onClick={handleLogout}
+                                className="logout block py-2"
+                                aria-label="Se déconnecter"
+                            >
+                                <Image
+                                    src="/img/LOGOUT.png"
+                                    alt="Déconnexion"
+                                    width={5}
+                                    height={5}
+                                />
+                                <span>Déconnexion</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

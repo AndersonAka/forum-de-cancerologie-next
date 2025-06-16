@@ -39,18 +39,22 @@ export function middleware(request: NextRequest) {
   // Si pas de token ou d'utilisateur, rediriger vers la page de connexion
   if (!token || !user) {
     console.log("Middleware - Non authentifié, redirection vers connexion");
-    const url = new URL("/connexion", request.url);
+    const response = NextResponse.redirect(new URL("/connexion", request.url));
 
-    // Ne pas inclure les routes API dans la redirection
-    // Ne pas ajouter le paramètre 'from' pour la page d'accueil
-    if (!pathname.startsWith("/api/") && pathname !== "/") {
-      url.searchParams.set("from", pathname);
-      console.log("Middleware - Paramètre 'from' ajouté:", pathname);
+    // Stocker le chemin actuel dans un cookie si ce n'est pas la page d'accueil
+    if (pathname !== "/") {
+      response.cookies.set({
+        name: "redirect_path",
+        value: pathname,
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 300, // 5 minutes
+      });
+      console.log("Middleware - Chemin de redirection sauvegardé:", pathname);
     }
 
-    const response = NextResponse.redirect(url);
-
-    // S'assurer que les cookies sont correctement configurés
+    // Nettoyer les cookies d'authentification
     response.cookies.set({
       name: "access_token",
       value: "",

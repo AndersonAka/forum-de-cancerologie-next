@@ -6,9 +6,10 @@ import { useAuth } from "@/app/contexts/AuthContext";
 import ErrorMessage from "@/app/components/ui/ErrorMessage";
 import Image from "next/image";
 import { HeaderSection } from "@/app/components/auth/HaederSection";
+import Cookies from "js-cookie";
 
 function ConnexionForm() {
-    const { login } = useAuth();
+    const { login, setRedirectPath } = useAuth();
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -21,7 +22,15 @@ function ConnexionForm() {
             setEmail(savedEmail);
             setRememberMe(true);
         }
-    }, []);
+
+        // Récupérer le chemin de redirection depuis le cookie
+        const redirectPath = Cookies.get('redirect_path');
+        if (redirectPath) {
+            setRedirectPath(redirectPath);
+            // Supprimer le cookie après l'avoir lu
+            Cookies.remove('redirect_path', { path: '/' });
+        }
+    }, [setRedirectPath]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
