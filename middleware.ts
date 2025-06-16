@@ -32,6 +32,8 @@ export function middleware(request: NextRequest) {
     hasToken: !!token,
     hasUser: !!user,
     pathname,
+    tokenValue: token?.value ? "présent" : "absent",
+    userValue: user?.value ? "présent" : "absent",
   });
 
   // Si pas de token ou d'utilisateur, rediriger vers la page de connexion
@@ -43,6 +45,7 @@ export function middleware(request: NextRequest) {
     // Ne pas ajouter le paramètre 'from' pour la page d'accueil
     if (!pathname.startsWith("/api/") && pathname !== "/") {
       url.searchParams.set("from", pathname);
+      console.log("Middleware - Paramètre 'from' ajouté:", pathname);
     }
 
     const response = NextResponse.redirect(url);
