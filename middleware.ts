@@ -23,7 +23,8 @@ export function middleware(request: NextRequest) {
   // Vérifier si l'utilisateur est authentifié
   const token = request.cookies.get("access_token");
   const user = request.cookies.get("user");
-
+  console.log("token", token);
+  console.log("user", user);
   // Si pas de token ou d'utilisateur, rediriger vers la page de connexion
   if (!token || !user) {
     const url = new URL("/connexion", request.url);

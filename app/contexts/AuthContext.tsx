@@ -84,9 +84,11 @@ function AuthProviderContent({ children }: { children: React.ReactNode }) {
             setUser(response.user);
             setIsAuthenticated(true);
 
+            // Attendre que l'état soit mis à jour
+            await new Promise(resolve => setTimeout(resolve, 0));
+
             const from = searchParams.get('from') || '/';
-            console.log(from);
-            router.push("/");
+            router.replace(from);
         } catch (error) {
             console.error("Erreur lors de la connexion:", error);
             throw error;
