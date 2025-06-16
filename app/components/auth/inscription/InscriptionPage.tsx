@@ -61,6 +61,9 @@ export default function InscriptionPage() {
                 localStorage.removeItem('email');
             }
 
+            // Indicateur de succès pour la page de connexion
+            localStorage.setItem('inscriptionSuccess', '1');
+
             router.push('/connexion');
         } catch (err: any) {
             // Gestion de l'erreur backend

@@ -14,6 +14,7 @@ function ConnexionForm() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
 
     useEffect(() => {
         // Vérifier si un email est stocké
@@ -21,6 +22,12 @@ function ConnexionForm() {
         if (savedEmail) {
             setEmail(savedEmail);
             setRememberMe(true);
+        }
+
+        // Vérifier si inscriptionSuccess est présent
+        if (localStorage.getItem('inscriptionSuccess')) {
+            setSuccessMessage('Votre inscription a été réalisée avec succès ! Vous pouvez maintenant vous connecter.');
+            localStorage.removeItem('inscriptionSuccess');
         }
 
         // Récupérer le chemin de redirection depuis le cookie
@@ -63,6 +70,11 @@ function ConnexionForm() {
     return (
         <form id="loginForm" className="connection" onSubmit={handleSubmit}>
             <h1>Connexion</h1>
+            {successMessage && (
+                <div className="success-message" role="status">
+                    <span>{successMessage}</span>
+                </div>
+            )}
             <div className="input-box">
                 <input
                     type="email"
