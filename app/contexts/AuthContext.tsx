@@ -20,7 +20,7 @@ const COOKIE_OPTIONS = {
     expires: 7, // 7 jours
     path: "/",
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict" as const,
+    sameSite: "lax" as const,
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -39,12 +39,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const token = Cookies.get("access_token");
 
             if (userCookie && token) {
-                const userData = JSON.parse(userCookie);
-                setUser(userData);
-                setIsAuthenticated(true);
+                try {
+                    const userData = JSON.parse(userCookie);
+                    setUser(userData);
+                    setIsAuthenticated(true);
+                } catch (error) {
+                    console.error("Erreur lors du parsing du cookie user:", error);
+                    // Nettoyer les cookies invalides
+                    Cookies.remove("user", { path: "/" });
+                    Cookies.remove("access_token", { path: "/" });
+                    setUser(null);
+                    setIsAuthenticated(false);
+                }
+            } else {
+                setUser(null);
+                setIsAuthenticated(false);
             }
         } catch (error) {
             console.error("Erreur lors de la vérification de l'authentification:", error);
+            setUser(null);
+            setIsAuthenticated(false);
         } finally {
             setLoading(false);
         }
@@ -69,6 +83,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 setUser(response.user);
                 setIsAuthenticated(true);
 
+                // Attendre que l'état soit mis à jour
+                await new Promise(resolve => setTimeout(resolve, 100));
+
                 // Rediriger immédiatement
                 const from = new URLSearchParams(window.location.search).get("from");
 
@@ -82,6 +99,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
         } catch (error) {
             console.error("Erreur de connexion:", error);
+            // Nettoyer les cookies en cas d'erreur
+            Cookies.remove("user", { path: "/" });
+            Cookies.remove("access_token", { path: "/" });
+            setUser(null);
+            setIsAuthenticated(false);
             throw error;
         }
     };
@@ -89,13 +111,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const logout = async () => {
         try {
             await authService.logout();
-            Cookies.remove("access_token");
-            Cookies.remove("user");
+            // Nettoyer les cookies
+            Cookies.remove("access_token", { path: "/" });
+            Cookies.remove("user", { path: "/" });
             setUser(null);
             setIsAuthenticated(false);
             router.replace("/connexion");
         } catch (error) {
             console.error("Erreur lors de la déconnexion:", error);
+            // Nettoyer les cookies même en cas d'erreur
+            Cookies.remove("access_token", { path: "/" });
+            Cookies.remove("user", { path: "/" });
+            setUser(null);
+            setIsAuthenticated(false);
             throw error;
         }
     };
