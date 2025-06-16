@@ -17,10 +17,9 @@ class AuthService {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
       console.log("Tentative de connexion avec:", credentials);
-      const response = await axios.post<AuthResponse>(
-        "/api/auth/login",
-        { email: credentials.email }
-      );
+      const response = await axios.post<AuthResponse>("/api/auth/login", {
+        email: credentials.email,
+      });
       console.log("Réponse de connexion:", response.data);
 
       if (!response.data.user || !response.data.access_token) {
