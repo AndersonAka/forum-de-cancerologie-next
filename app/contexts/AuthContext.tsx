@@ -1,100 +1,87 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { User, LoginCredentials } from "../types/auth";
-import { authService } from "../services/auth.service";
-import Cookies from 'js-cookie';
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { authService } from "@/app/services/auth.service";
+import { User } from "@/app/types/auth";
 
 interface AuthContextType {
     user: User | null;
     isAuthenticated: boolean;
     loading: boolean;
-    login: (credentials: LoginCredentials) => Promise<void>;
+    login: (email: string) => Promise<void>;
     logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const COOKIE_OPTIONS = {
-    expires: 7,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict' as const,
-    path: '/'
+    expires: 7, // 7 jours
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict" as const,
 };
 
-function AuthProviderContent({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
-    const searchParams = useSearchParams();
 
     useEffect(() => {
-        const checkAuth = () => {
-            try {
-                const storedUser = Cookies.get('user');
-                const token = Cookies.get('access_token');
-
-                if (!storedUser || !token) {
-                    setUser(null);
-                    setIsAuthenticated(false);
-                    return;
-                }
-
-                try {
-                    const parsedUser = JSON.parse(storedUser);
-
-                    if (!parsedUser || typeof parsedUser !== 'object') {
-                        throw new Error('Données utilisateur invalides');
-                    }
-
-                    setUser(parsedUser);
-                    setIsAuthenticated(true);
-                } catch (error) {
-                    console.error('Erreur lors du parsing du cookie user:', error);
-                    Cookies.remove('user', { path: '/' });
-                    Cookies.remove('access_token', { path: '/' });
-                    setUser(null);
-                    setIsAuthenticated(false);
-                }
-            } catch (error) {
-                console.error('Erreur lors de la vérification de l\'authentification:', error);
-                setUser(null);
-                setIsAuthenticated(false);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         checkAuth();
     }, []);
 
-    const login = async (credentials: LoginCredentials) => {
+    const checkAuth = async () => {
         try {
-            const response = await authService.login(credentials);
+            const userCookie = Cookies.get("user");
+            const token = Cookies.get("access_token");
 
-            if (!response.user || !response.access_token) {
-                throw new Error('Réponse de connexion invalide');
-            }
-            Cookies.set('access_token', response.access_token, COOKIE_OPTIONS);
-            Cookies.set('user', JSON.stringify(response.user), COOKIE_OPTIONS);
-
-            setUser(response.user);
-            setIsAuthenticated(true);
-
-            // Attendre que l'état soit mis à jour
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            // Récupérer le paramètre 'from' ou rediriger vers la page d'accueil
-            const from = searchParams.get('from');
-            if (from && from !== '/') {
-                router.replace(from);
-            } else {
-                router.replace('/');
+            if (userCookie && token) {
+                const userData = JSON.parse(userCookie);
+                setUser(userData);
+                setIsAuthenticated(true);
             }
         } catch (error) {
-            console.error("Erreur lors de la connexion:", error);
+            console.error("Erreur lors de la vérification de l'authentification:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const login = async (email: string) => {
+        try {
+            // Validation de l'email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                throw new Error("Format d'email invalide");
+            }
+
+            const response = await authService.login({ email });
+
+            if (response.user && response.access_token) {
+                // Mettre à jour les cookies
+                Cookies.set('access_token', response.access_token, COOKIE_OPTIONS);
+                Cookies.set('user', JSON.stringify(response.user), COOKIE_OPTIONS);
+
+                // Mettre à jour l'état
+                setUser(response.user);
+                setIsAuthenticated(true);
+
+                // Rediriger immédiatement
+                const from = new URLSearchParams(window.location.search).get("from");
+
+                if (from && from !== "/") {
+                    router.replace(from);
+                } else {
+                    router.replace("/");
+                }
+            } else {
+                throw new Error("Réponse de connexion invalide");
+            }
+        } catch (error) {
+            console.error("Erreur de connexion:", error);
             throw error;
         }
     };
@@ -102,13 +89,14 @@ function AuthProviderContent({ children }: { children: React.ReactNode }) {
     const logout = async () => {
         try {
             await authService.logout();
-            Cookies.remove('access_token', { path: '/' });
-            Cookies.remove('user', { path: '/' });
+            Cookies.remove("access_token");
+            Cookies.remove("user");
             setUser(null);
             setIsAuthenticated(false);
-            router.push('/connexion');
+            router.replace("/connexion");
         } catch (error) {
             console.error("Erreur lors de la déconnexion:", error);
+            throw error;
         }
     };
 
@@ -124,16 +112,6 @@ function AuthProviderContent({ children }: { children: React.ReactNode }) {
         >
             {children}
         </AuthContext.Provider>
-    );
-}
-
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-    return (
-        <Suspense fallback={<div>Chargement...</div>}>
-            <AuthProviderContent>
-                {children}
-            </AuthProviderContent>
-        </Suspense>
     );
 }
 

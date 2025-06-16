@@ -36,7 +36,7 @@ function ConnexionForm() {
                 return;
             }
 
-            await login({ email });
+            await login(email);
 
             // Gérer le "Se souvenir de moi"
             if (rememberMe) {

@@ -19,7 +19,7 @@ class AuthService {
       console.log("Tentative de connexion avec:", credentials);
       const response = await axios.post<AuthResponse>(
         "/api/auth/login",
-        credentials
+        { email: credentials.email }
       );
       console.log("Réponse de connexion:", response.data);
 

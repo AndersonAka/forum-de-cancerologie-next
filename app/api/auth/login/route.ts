@@ -11,8 +11,33 @@ export async function POST(request: Request) {
     // Appel au backend Nest.js
     const response = await axios.post(`${API_URL}/auth/login`, { email });
 
-    // Retourner la réponse du backend
-    return NextResponse.json(response.data);
+    // Créer la réponse
+    const res = NextResponse.json(response.data);
+
+    // Définir les cookies avec les options appropriées
+    if (response.data.access_token) {
+      res.cookies.set({
+        name: "access_token",
+        value: response.data.access_token,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60, // 7 jours
+      });
+
+      res.cookies.set({
+        name: "user",
+        value: JSON.stringify(response.data.user),
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60, // 7 jours
+      });
+    }
+
+    return res;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return NextResponse.json(
