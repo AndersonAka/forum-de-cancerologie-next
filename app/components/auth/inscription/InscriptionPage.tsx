@@ -18,7 +18,6 @@ export default function InscriptionPage() {
         specialite: '',
         pays: '',
         telephone: '',
-        indicatif: '',
         lieuExercice: '',
         email: '',
         participation: '',
@@ -177,12 +176,11 @@ export default function InscriptionPage() {
                             <div className="flex flex-row">
                                 <div className="w-1/4">
                                     <CountrySelect
-                                        value={{ pays: formData.pays, indicatif: formData.indicatif }}
+                                        value={{ pays: formData.pays }}
                                         onChange={(data) => {
                                             setFormData(prev => ({
                                                 ...prev,
-                                                pays: data.pays,
-                                                indicatif: data.indicatif
+                                                pays: data.pays
                                             }));
                                         }}
                                         error={!!error}

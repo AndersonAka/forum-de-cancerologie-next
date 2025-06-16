@@ -4,7 +4,6 @@ export interface InscriptionData {
   specialite: string;
   pays: string;
   telephone: string;
-  indicatif: string;
   lieuExercice: string;
   email: string;
   participation: string;
