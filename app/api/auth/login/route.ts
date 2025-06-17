@@ -1,58 +1,42 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { createAuthCookie } from "@/actions/auth.action";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-
     const response = await axios.post(`${API_URL}/auth/login`, body);
+    const data = response.data;
 
-    if (!response.data.access_token) {
+    if (!data.access_token) {
       return NextResponse.json(
         { error: "Token d'accès manquant" },
-        { status: 401 }
+        { status: 500 }
       );
     }
 
-    // Créer la réponse avec les cookies
-    const res = NextResponse.json(
-      {
-        message: "Connexion réussie",
-        user: response.data.user,
-        access_token: response.data.access_token,
-      },
-      { status: 200 }
+    // Créer la réponse
+    const res = NextResponse.json({
+      user: data.user,
+      access_token: data.access_token,
+    });
+
+    // Utiliser createAuthCookie pour définir les cookies
+    await createAuthCookie(
+      data.access_token,
+      data.user.role || "user",
+      data.user.status || "active",
+      data.user.name
     );
 
-    // Définir les cookies avec les options appropriées
-    res.cookies.set("access_token", response.data.access_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60, // 7 jours
-    });
-
-    res.cookies.set("user", JSON.stringify(response.data.user), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60, // 7 jours
-    });
-
-    console.log("✅ Cookies définis avec succès");
     return res;
-  } catch (error: any) {
-    console.error("❌ Erreur lors de la connexion:", {
-      message: error.message,
-      response: error.response?.data,
-    });
+  } catch (error) {
+    console.error("Erreur lors de la connexion:", error);
     return NextResponse.json(
       { error: "Erreur lors de la connexion" },
-      { status: error.response?.status || 500 }
+      { status: 500 }
     );
   }
 }

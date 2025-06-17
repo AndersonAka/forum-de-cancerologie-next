@@ -16,6 +16,7 @@ interface AuthContextType {
     redirectPath: string | null;
     setRedirectPath: (path: string | null) => void;
     refreshAuth: () => void;
+    updateParticipationMode: (mode: 'en ligne' | 'présentiel') => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,21 +38,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Fonction pour relire les cookies et mettre à jour l'état d'auth
     const refreshAuth = () => {
         try {
+            console.log("=== Début refreshAuth ===");
             const userCookie = Cookies.get("user");
             const token = Cookies.get("access_token");
+
+            console.log("Cookies disponibles:", {
+                user: userCookie,
+                token: token,
+                allCookies: document.cookie
+            });
+
             if (userCookie && token) {
                 try {
                     const userData = JSON.parse(userCookie);
+                    console.log("Refresh Auth - User data:", userData);
                     setUser(userData);
                     setIsAuthenticated(true);
+                    console.log("=== État d'authentification mis à jour ===");
                 } catch (error) {
-                    console.error("❌ Erreur lors de la récupération des cookies:", error);
+                    console.error("❌ Erreur lors du parsing des cookies:", error);
                     Cookies.remove("user", { path: "/" });
                     Cookies.remove("access_token", { path: "/" });
                     setUser(null);
                     setIsAuthenticated(false);
                 }
             } else {
+                console.log("Refresh Auth - Pas de cookies trouvés");
+                console.log("Raison:", {
+                    userCookiePresent: !!userCookie,
+                    tokenPresent: !!token
+                });
                 setUser(null);
                 setIsAuthenticated(false);
             }
@@ -71,22 +87,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const login = async (email: string) => {
         try {
+            console.log("=== Début login ===");
             const response = await authService.login({ email });
+            console.log("Réponse de connexion:", response);
 
             if (response.user && response.access_token) {
-                // Mettre à jour les cookies
+                console.log("Token reçu:", response.access_token);
+
+                // Mettre à jour les cookies côté client
+                console.log("Définition des cookies côté client...");
                 Cookies.set('access_token', response.access_token, COOKIE_OPTIONS);
                 Cookies.set('user', JSON.stringify(response.user), COOKIE_OPTIONS);
 
+                // Vérifier que les cookies sont bien définis
+                const savedToken = Cookies.get('access_token');
+                const savedUser = Cookies.get('user');
+                console.log("État des cookies après définition:", {
+                    token: savedToken,
+                    user: savedUser,
+                    allCookies: document.cookie
+                });
+
                 // Rafraîchir l'état d'authentification
+                console.log("Appel de refreshAuth...");
                 refreshAuth();
 
                 // Rediriger vers le chemin sauvegardé ou la page d'accueil
                 const path = redirectPath || "/";
                 setRedirectPath(null);
+                console.log("Redirection vers:", path);
                 window.location.replace(path);
+            } else {
+                console.error("Réponse de connexion invalide:", response);
+                throw new Error("Réponse de connexion invalide");
             }
         } catch (error) {
+            console.error("Erreur lors de la connexion:", error);
             Cookies.remove("user", { path: "/" });
             Cookies.remove("access_token", { path: "/" });
             setUser(null);
@@ -97,39 +133,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const logout = async () => {
         try {
-            console.log("🔒 Début de la déconnexion côté client");
-
-            // Essayer de déconnecter le backend si on a un token
-            const token = Cookies.get('access_token');
-            console.log("🔑 Token côté client:", token ? "présent" : "absent");
-
-            if (token) {
-                console.log("📡 Appel au service de déconnexion");
-                await authService.logout();
+            const token = Cookies.get("access_token");
+            console.log("token", token);
+            if (!token) {
+                await deleteAuthCookie();
+                router.push("/connexion");
+                // throw new Error("Non autorisé");
             }
 
-            // Dans tous les cas, nettoyer le frontend
-            console.log("🧹 Nettoyage des cookies côté client");
-            Cookies.remove("access_token", { path: "/" });
-            Cookies.remove("user", { path: "/" });
-
+            await authService.logout();
+            Cookies.remove("access_token");
+            Cookies.remove("user");
             await deleteAuthCookie();
             setUser(null);
             setIsAuthenticated(false);
-
-            // Attendre un peu pour s'assurer que les cookies sont supprimés
-            await new Promise(resolve => setTimeout(resolve, 100));
-
-            console.log("🔄 Redirection vers la page de connexion");
-            // Utiliser router.push au lieu de window.location
-            router.push('/connexion');
+            router.push("/connexion");
         } catch (error) {
-            console.error("❌ Erreur lors de la déconnexion:", error);
-            // En cas d'erreur, nettoyer quand même le frontend
-            Cookies.remove("access_token", { path: "/" });
-            Cookies.remove("user", { path: "/" });
-            setUser(null);
-            setIsAuthenticated(false);
+            console.error("Erreur lors de la déconnexion:", error);
+            throw error;
+        }
+    };
+
+    const updateParticipationMode = async (mode: 'en ligne' | 'présentiel') => {
+        try {
+            const token = Cookies.get("access_token");
+            if (!token) {
+                throw new Error("Non autorisé");
+            }
+
+            await authService.updateParticipationMode(mode);
+
+            // Mettre à jour l'utilisateur dans le contexte
+            setUser(prevUser => prevUser ? { ...prevUser, participationMode: mode } : null);
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour du mode de participation:", error);
+            throw error;
         }
     };
 
@@ -142,7 +180,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             logout,
             redirectPath,
             setRedirectPath,
-            refreshAuth
+            refreshAuth,
+            updateParticipationMode
         }}>
             {children}
         </AuthContext.Provider>

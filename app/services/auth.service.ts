@@ -17,35 +17,29 @@ interface RegisterData {
 export const authService = {
   async login(credentials: { email: string }) {
     try {
-      console.log("Tentative de connexion avec:", credentials);
       const response = await axios.post<AuthResponse>(
         "/api/auth/login",
         credentials
       );
-      console.log("Réponse de connexion:", response.data);
+
+      if (!response.data.access_token) {
+        throw new Error("Token manquant dans la réponse");
+      }
+
       return response.data;
     } catch (error) {
-      console.error("Erreur lors de la connexion:", error);
       throw error;
     }
   },
 
   async register(data: RegisterData): Promise<{ message: string }> {
     try {
-      console.log("Tentative d'inscription avec:", data);
       const response = await axios.post<{ message: string }>(
         "/api/auth/register",
         data
       );
-      console.log("Réponse d'inscription:", response.data);
       return response.data;
     } catch (error) {
-      console.error("Erreur lors de l'inscription:", error);
-      if (axios.isAxiosError(error)) {
-        throw new Error(
-          error.response?.data?.message || "Erreur lors de l'inscription"
-        );
-      }
       throw error;
     }
   },
@@ -63,7 +57,6 @@ export const authService = {
         }
       );
     } catch (error) {
-      console.error("Erreur lors de la déconnexion:", error);
       throw error;
     }
   },
@@ -73,10 +66,31 @@ export const authService = {
       const response = await axios.get("/api/auth/me");
       return response.data;
     } catch (error) {
-      console.error(
-        "Erreur lors de la récupération des données utilisateur:",
-        error
+      throw error;
+    }
+  },
+
+  async updateParticipationMode(
+    mode: "en ligne" | "présentiel"
+  ): Promise<void> {
+    try {
+      const token = Cookies.get("access_token");
+      await axios.patch(
+        "/api/auth/participation-mode",
+        { participationMode: mode },
+        {
+          headers: {
+            Authorization: token ? `Bearer ${token}` : undefined,
+          },
+        }
       );
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(
+          error.response?.data?.message ||
+            "Erreur lors de la mise à jour du mode de participation"
+        );
+      }
       throw error;
     }
   },

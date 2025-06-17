@@ -25,8 +25,7 @@ const navLinks: NavLink[] = [
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { logout, loading } = useAuth();
-    // const router = useRouter();
+    const { logout, loading, user, updateParticipationMode } = useAuth();
     const pathname = usePathname();
 
     const handleLogout = async () => {
@@ -34,6 +33,14 @@ export default function Navbar() {
             await logout();
         } catch (error) {
             console.error('Erreur lors de la déconnexion:', error);
+        }
+    };
+
+    const handleModeChange = async (mode: 'en ligne' | 'présentiel') => {
+        try {
+            await updateParticipationMode(mode);
+        } catch (error) {
+            console.error('Erreur lors du changement de mode:', error);
         }
     };
 
@@ -83,6 +90,20 @@ export default function Navbar() {
                             {link.label}
                         </Link>
                     ))}
+
+                    {/* Sélecteur de mode de participation */}
+                    <div className="participation-mode">
+                        <select
+                            value={user?.participationMode || 'en ligne'}
+                            onChange={(e) => handleModeChange(e.target.value as 'en ligne' | 'présentiel')}
+                            className="mode-select"
+                            aria-label="Mode de participation"
+                        >
+                            <option value="en ligne">En ligne</option>
+                            <option value="présentiel">Sur place</option>
+                        </select>
+                    </div>
+
                     <button
                         onClick={handleLogout}
                         className="logout"
@@ -143,6 +164,20 @@ export default function Navbar() {
                                     {link.label}
                                 </Link>
                             ))}
+
+                            {/* Sélecteur de mode de participation mobile */}
+                            <div className="participation-mode py-2">
+                                <select
+                                    value={user?.participationMode || 'en ligne'}
+                                    onChange={(e) => handleModeChange(e.target.value as 'en ligne' | 'présentiel')}
+                                    className="mode-select w-full"
+                                    aria-label="Mode de participation"
+                                >
+                                    <option value="en ligne">En ligne</option>
+                                    <option value="présentiel">Sur place</option>
+                                </select>
+                            </div>
+
                             <button
                                 onClick={handleLogout}
                                 className="logout block py-2"

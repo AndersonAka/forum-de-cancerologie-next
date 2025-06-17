@@ -18,7 +18,7 @@ const nextConfig = {
         source: '/api/:path*',
         destination: process.env.NEXT_PUBLIC_API_URL 
           ? `${process.env.NEXT_PUBLIC_API_URL}/:path*`
-          : 'https://cancerologie-api.onrender.com/:path*',
+          : 'http://localhost:3001/:path*',
       },
     ];
   },
