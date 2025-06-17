@@ -16,8 +16,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-1">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR INNOCENT</small> ADOUBI</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR INNOCENT
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    ADOUBI
+                                </p>
                             </div>
 
                             <div className="profil-des">
@@ -75,8 +80,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-3">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR DRISS</small> MOUSSAOUI</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR DRISS
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    MOUSSAOUI
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-06.png" alt="#" width={200} height={200} /></div>
@@ -116,8 +126,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-5">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR JUDITH DIDI KOUKO</small> COULIBALY</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR JUDITH DIDI KOUKO
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    COULIBALY
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-10.png" alt="#" width={200} height={200} /></div>
@@ -164,8 +179,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-6">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR NAZIK</small> ALLALI</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR NAZIK
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    ALLALI
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-12.png" alt="#" width={200} height={200} /></div>
@@ -204,8 +224,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-7">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR BIENVENU</small> LEBWAZE</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR BIENVENU
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    LEBWAZE
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-14.png" alt="#" width={200} height={200} /></div>
@@ -244,8 +269,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-9">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR BRAHIMA</small> DOUKOURÉ</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR BRAHIMA
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    DOUKOURÉ
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-17.png" alt="#" width={200} height={200} /></div>
@@ -284,8 +314,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-10">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>DR DOUDOU</small> DIOUF</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    DR DOUDOU
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    DIOUF
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-20.png" alt="#" width={200} height={200} /></div>
@@ -324,8 +359,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-11">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR BASMA</small> EL KHANNOUSSI</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR BASMA
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    EL KHANNOUSSI
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-23.png" alt="#" width={200} height={200} /></div>
@@ -365,8 +405,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-12">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR YVON</small> KOUASSI</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR YVON
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    KOUASSI
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-22.png" alt="#" width={200} height={200} /></div>
@@ -405,8 +450,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-13">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>DR AMARALDO</small> AYÉMOU</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    DR AMARALDO
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    AYÉMOU
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-19.png" alt="#" width={200} height={200} /></div>
@@ -437,8 +487,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-14">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR SIDY</small> KA</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR SIDY
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    KA
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-21.png" alt="#" width={200} height={200} /></div>
@@ -495,8 +550,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-15">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>DR NARJISS</small> BERRADA</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    DR NARJISS
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    BERRADA
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-18.png" alt="#" width={200} height={200} /></div>
@@ -533,15 +593,16 @@ export const OrateurSection = () => {
                         </div>
                     </div>
 
-
-
-
-
                     <div className="details-container ctn-16">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR BENEDICTE</small> BOKA</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR BENEDICTE
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    BOKA
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-01.png" alt="#" width={200} height={200} /></div>
@@ -581,8 +642,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-17">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR JEAN BAPTISTE ANZOUAN</small> KACOU</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR JEAN BAPTISTE ANZOUAN
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    KACOU
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-02.png" alt="#" width={200} height={200} /></div>
@@ -621,8 +687,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-18">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR SIMPLICE</small> ANONGBA</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR SIMPLICE
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    ANONGBA
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-03.png" alt="#" width={200} height={200} /></div>
@@ -675,8 +746,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-19">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>DR DIDIER</small> ABOUNA</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    DR DIDIER
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    ABOUNA
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-09.png" alt="#" width={200} height={200} /></div>
@@ -715,8 +791,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-20">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR AKA</small> DAGO</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR AKA
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    DAGO
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-05.png" alt="#" width={200} height={200} /></div>
@@ -755,8 +836,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-21">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>DR EVRAD</small> SEKA</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    DR EVRAD
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    SEKA
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-06.png" alt="#" width={200} height={200} /></div>
@@ -795,8 +881,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-22">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR APOLLINAIRE</small> HORO</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR APOLLINAIRE
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    HORO
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-07.png" alt="#" width={200} height={200} /></div>
@@ -835,8 +926,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-23">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>DR ODO BIITI</small> ADDE</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    DR ODO BIITI
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    ADDE
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-13.png" alt="#" width={200} height={200} /></div>
@@ -875,8 +971,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-24">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR MOHAMED</small> KOUYATE</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR MOHAMED
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    KOUYATE
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-04.png" alt="#" width={200} height={200} /></div>
@@ -913,12 +1014,16 @@ export const OrateurSection = () => {
                         </div>
                     </div>
 
-
                     <div className="details-container ctn-25">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR</small> YACIR</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR YACIR
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    YACIR
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-10.png" alt="#" width={200} height={200} /></div>
@@ -932,22 +1037,17 @@ export const OrateurSection = () => {
                             <div className="titres">
 
                                 <div className="titre ttl1">
-
                                     <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Médecin Nucléaire à Akdital Salé (Maroc)
                                     </div>
 
                                 </div>
 
-                                <div className="titre ttl2">
-
+                                <div className="titre ttl1">
                                     <div className="check"><Image src="/img/orateur-icon-04.png" alt="#" width={40} height={40} /></div>
                                     <div className="titre-des">Enseignant de biophysique médicale à la faculté de médecine et pharmacie de Rabat
                                     </div>
-
                                 </div>
-
-
                             </div>
                             <div className="revoir-les-presentations">
                                 <Image src="/img/orateur-link-07.png" alt="#" width={200} height={200} />
@@ -957,8 +1057,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-26">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR ADYL </small> MELHAOUI</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR ADYL
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    MELHAOUI
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-11.png" alt="#" width={200} height={200} /></div>
@@ -995,12 +1100,16 @@ export const OrateurSection = () => {
                         </div>
                     </div>
 
-
                     <div className="details-container ctn-27">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>PR ERNEST</small> BELEMBAOGO</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    PR ERNEST
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    BELEMBAOGO
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-12.png" alt="#" width={200} height={200} /></div>
@@ -1037,12 +1146,16 @@ export const OrateurSection = () => {
                         </div>
                     </div>
 
-
                     <div className="details-container ctn-28">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>DR JEAN PASCAL </small>DEMBA</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    DR JEAN PASCAL
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    DEMBA
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-08.png" alt="#" width={200} height={200} /></div>
@@ -1082,8 +1195,13 @@ export const OrateurSection = () => {
                     <div className="details-container ctn-29">
                         <div className="orateur-profil">
 
-                            <div className="profil-name">
-                                <h1><small>DR MOUHAMADOU BACHIR</small> BA</h1>
+                            <div className="flex flex-col items-center justify-center">
+                                <p className="text-2xl text-[var(--bleu-roche)]">
+                                    DR MOUHAMADOU BACHIR
+                                </p>
+                                <p className="text-2xl font-bold text-[var(--bleu-roche)]">
+                                    BA
+                                </p>
                             </div>
                             <div className="profil-des">
                                 <div className="profil-photo"><Image src="/img/orateur-name-2025-14.png" alt="#" width={200} height={200} /></div>
@@ -1119,11 +1237,8 @@ export const OrateurSection = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
         </section>
     );
 };

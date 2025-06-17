@@ -33,8 +33,8 @@ export function ConsentModal({ isOpen, onClose, onSubmit, formData, isLoading }:
     return (
         <div className={`fixed inset-0 bg-black transition-opacity duration-300 ease-in-out flex items-center justify-center z-50 p-4 ${isVisible ? 'bg-opacity-50' : 'bg-opacity-0'}`}>
             <div className={`bg-white p-4 sm:p-6 md:p-8 rounded-lg max-w-2xl w-full mx-auto transform transition-all duration-300 ease-in-out max-h-[90vh] overflow-y-auto ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-                <div className="text-center mb-4 sm:mb-6">
-                    <Image src="/img/logo-roche.png" alt="Logo Roche" width={200} height={100} className="mx-auto w-auto h-auto" />
+                <div className="text-center mb-4 sm:mb-6 p-4">
+                    <Image src="/img/logo-roche.png" alt="Logo Roche" width={200} height={100} className="mx-auto w-32 h-auto sm:w-40 md:w-52" />
                 </div>
 
                 <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">Formulaire de consentement</h2>

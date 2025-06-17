@@ -66,7 +66,7 @@ export const ProgrammeElement = () => {
                         intervenant sur le forum</p>
                 </Link>
 
-                <Link href="/orateur" className="menu orateur">
+                <Link href="/agenda" className="menu orateur">
                     <span className="icon">
                         <Image src="/img/diary.png" alt="#" width={70} height={60} />
                     </span>

@@ -594,7 +594,6 @@ export const AgendaSection = () => {
                 </div>
             </div>
             <div className="agenda-list jour-2">
-
                 <div className="agenda-date">
                     <div className="date-title">
                         <div className="jour">JOUR</div>
@@ -1106,7 +1105,7 @@ export const AgendaSection = () => {
 
                 <div className="agenda-container CEREMONIE DE FIN">
 
-                    <div className="agenda-title title-1"> <h1>CEREMONIE DE CLOtURE ET COCKTAIL DINATOIRE</h1></div>
+                    <div className="agenda-title title-1"> <h1>CEREMONIE DE CLÔTURE ET COCKTAIL DINATOIRE</h1></div>
 
                     <div className="agenda-group">
 

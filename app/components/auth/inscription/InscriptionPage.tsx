@@ -124,6 +124,7 @@ export default function InscriptionPage() {
 
             if (emptyFields.length > 0) {
                 setConsentError('Veuillez renseigner tous les champs');
+                console.log(emptyFields);
                 setHasConsented(false);
             } else {
                 setShowModal(true);
@@ -293,7 +294,7 @@ export default function InscriptionPage() {
                             </div>
 
                             <div className="se-souvenir">
-                                <span className="flex items-center gap-2 cursor-pointer" onClick={() => handleConsentChange(new Event('submit') as any)}>
+                                <span className="flex items-center gap-2 cursor-pointer" >
                                     <input
                                         title="J'accepte les termes du formulaire de consentement"
                                         placeholder="J'accepte les termes du formulaire de consentement"

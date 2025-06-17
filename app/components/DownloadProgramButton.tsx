@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 interface DownloadProgramButtonProps {
-    day: 1 | 2;
+    day?: 1 | 2;
     className?: string;
     size?: "small" | "medium" | "large";
     variant?: "primary" | "secondary" | "outline";
@@ -26,14 +26,14 @@ export const DownloadProgramButton = ({
             setIsDownloading(true);
 
             // Télécharger directement depuis le dossier public
-            const response = await fetch(`/programmes/programme-jour-${day}-forum-cancerologie-2025.pdf`);
+            const response = await fetch(`/programmes/programme-forum-cancerologie-2025.pdf`);
 
             if (response.ok) {
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `programme-jour-${day}-forum-cancerologie-2025.pdf`;
+                a.download = `programme-forum-cancerologie-2025.pdf`;
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
@@ -73,7 +73,7 @@ export const DownloadProgramButton = ({
                 disabled:opacity-50 disabled:cursor-not-allowed
                 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-offset-2
             `}
-            aria-label={`Télécharger le programme du jour ${day}`}
+            aria-label={`Télécharger le programme`}
         >
             {isDownloading ? (
                 <div className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full"></div>
@@ -98,7 +98,7 @@ export const DownloadProgramButton = ({
                 <span>
                     {isDownloading
                         ? "Téléchargement..."
-                        : `Télécharger le programme du jour ${day}`
+                        : `Télécharger le programme`
                     }
                 </span>
             )}
