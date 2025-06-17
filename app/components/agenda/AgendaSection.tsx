@@ -604,7 +604,6 @@ export const AgendaSection = () => {
                 {/* Bouton de téléchargement du programme */}
                 <div className="flex justify-center mb-6">
                     <DownloadProgramButton
-                        day={2}
                         size="large"
                         variant="outline"
                         className="shadow-lg hover:shadow-xl"

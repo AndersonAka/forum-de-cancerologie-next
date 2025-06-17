@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 interface DownloadProgramButtonProps {
-    day?: 1 | 2;
     className?: string;
     size?: "small" | "medium" | "large";
     variant?: "primary" | "secondary" | "outline";
@@ -12,7 +11,6 @@ interface DownloadProgramButtonProps {
 }
 
 export const DownloadProgramButton = ({
-    day,
     className = "",
     size = "medium",
     variant = "primary",
