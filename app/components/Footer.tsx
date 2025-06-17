@@ -11,7 +11,7 @@ export default function Footer() {
                             Cocody les ambassades Angle de la rue Hassan 2
                             et de la rue Booker Washington, Bâtiment D 1er étage
                             18 BP 2377 Abidjan 18, Côte &apos; d&apos;Ivoire Tél : +225 27 22 48 23 55
-                            <br /><br />M-CI-00000287
+                            <br /><br />M-CI-00000406
                         </p>
                         <Image src="/img/logo-roche-white.png" alt="#" width={100} height={40} />
                     </div>
