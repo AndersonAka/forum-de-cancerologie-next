@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image";
+// import Image from "next/image";
 import { DownloadProgramButton } from "../DownloadProgramButton";
 
 export const AgendaSection = () => {
@@ -270,10 +270,10 @@ export const AgendaSection = () => {
 
 
 
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={100} height={100} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
