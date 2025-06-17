@@ -102,15 +102,17 @@ function ConnexionForm() {
             </div>
 
             <div className="se-souvenir">
-                <label>
+                <span className="flex items-center gap-2 cursor-pointer" onClick={() => setRememberMe(!rememberMe)}>
                     <input
+                        title="Se souvenir de moi"
                         type="checkbox"
                         id="seSouvenir"
                         checked={rememberMe}
                         onChange={(e) => setRememberMe(e.target.checked)}
+                        className="cursor-pointer"
                     />
                     Se souvenir de moi
-                </label>
+                </span>
             </div>
             <button
                 type="submit"
@@ -126,9 +128,11 @@ function ConnexionForm() {
                     'Soumettre'
                 )}
             </button>
-            <div className="lien-de-connection">
+            <div className="flex flex-col justify-center items-center md:lien-de-connection">
                 <p>Pas encore inscrit ?</p>
-                <Link href="/inscription">Cliquez ici !</Link>
+                <span className="text-rose-strong">
+                    <Link href="/inscription">Cliquez ici !</Link>
+                </span>
             </div>
         </form>
     );

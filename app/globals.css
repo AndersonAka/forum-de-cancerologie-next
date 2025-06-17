@@ -1677,7 +1677,7 @@ footer .contact img {
   font-weight: 700;
 }
 
-.connection-wrapper .se-souvenir label input {
+.connection-wrapper .se-souvenir label input span {
   accent-color: var(--rose-strong);
 }
 
@@ -1832,7 +1832,7 @@ footer .contact img {
   color: var(--rose-medium);
 }
 
-.inscription-wrapper .container .wrapper form .se-souvenir label input {
+.inscription-wrapper .container .wrapper form .se-souvenir label input span {
   accent-color: var(--rose-strong);
 }
 

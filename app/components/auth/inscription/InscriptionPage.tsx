@@ -105,7 +105,7 @@ export default function InscriptionPage() {
                 telephone: value
             }));
         } else {
-        setFormData(prev => ({ ...prev, [name]: value }));
+            setFormData(prev => ({ ...prev, [name]: value }));
         }
     };
 
@@ -281,33 +281,35 @@ export default function InscriptionPage() {
                             </div>
 
                             <div className="se-souvenir">
-                                <label>
+                                <span className="flex items-center gap-2 cursor-pointer" onClick={() => setRememberMe(!rememberMe)}>
                                     <input
+                                        title="Se souvenir de moi"
                                         type="checkbox"
                                         checked={rememberMe}
                                         onChange={(e) => setRememberMe(e.target.checked)}
                                     />
                                     Se souvenir de moi
-                                </label>
+                                </span>
                             </div>
 
                             <div className="se-souvenir">
-                                <span>
+                                <span className="flex items-center gap-2 cursor-pointer" onClick={() => handleConsentChange(new Event('submit') as any)}>
                                     <input
                                         title="J'accepte les termes du formulaire de consentement"
                                         placeholder="J'accepte les termes du formulaire de consentement"
+                                        className="cursor-pointer"
                                         type="checkbox"
                                         checked={hasConsented}
                                         onChange={handleConsentChange}
                                     />
-                                    J&apos;accepte les termes du <Link href="#">formulaire de consentement</Link>
+                                    J&apos;accepte les termes du <Link className="text-bleu-roche" href="https://powerforms.docusign.net/ff4ae8b3-a6ca-4a0b-915c-83924df760b4?env=eu&acct=115f5ef8-be3d-44eb-9c36-54e87c05f11d&accountId=115f5ef8-be3d-44eb-9c36-54e87c05f11d" target="_blank" rel="noopener noreferrer">formulaire de consentement</Link>
                                 </span>
                             </div>
-                                {consentError && (
-                                    <div className="error-message" role="alert">
-                                        <span>{consentError}</span>
-                                    </div>
-                                )}
+                            {consentError && (
+                                <div className="error-message" role="alert">
+                                    <span>{consentError}</span>
+                                </div>
+                            )}
 
                             <button
                                 type="submit"
