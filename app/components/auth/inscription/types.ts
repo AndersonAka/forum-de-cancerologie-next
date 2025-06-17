@@ -7,5 +7,5 @@ export interface InscriptionData {
   lieuExercice: string;
   email: string;
   participation: string;
+  signature?: string;
 }
- 

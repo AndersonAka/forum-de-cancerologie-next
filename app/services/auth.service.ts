@@ -12,6 +12,7 @@ interface RegisterData {
   telephone: string;
   participation: string;
   gdprConsent: boolean;
+  signature?: string;
 }
 
 export const authService = {

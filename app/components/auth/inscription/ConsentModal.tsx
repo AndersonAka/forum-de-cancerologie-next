@@ -2,12 +2,13 @@
 
 import Image from 'next/image';
 import { InscriptionData } from './types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import SignatureCanvas from 'react-signature-canvas';
 
 interface ConsentModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSubmit: () => void;
+    onSubmit: (signature: string) => void;
     formData: InscriptionData;
     isLoading: boolean;
 }
@@ -15,18 +16,39 @@ interface ConsentModalProps {
 export function ConsentModal({ isOpen, onClose, onSubmit, formData, isLoading }: ConsentModalProps) {
     const [isVisible, setIsVisible] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [hasSignature, setHasSignature] = useState(false);
+    const signatureRef = useRef<SignatureCanvas>(null);
 
     useEffect(() => {
         if (isOpen) {
             setIsMounted(true);
-            // Petit délai pour permettre l'animation
             setTimeout(() => setIsVisible(true), 10);
         } else {
             setIsVisible(false);
-            // Attendre la fin de l'animation avant de démonter
             setTimeout(() => setIsMounted(false), 300);
         }
     }, [isOpen]);
+
+    const handleSignatureChange = () => {
+        if (signatureRef.current) {
+            const isEmpty = signatureRef.current.isEmpty();
+            setHasSignature(!isEmpty);
+        }
+    };
+
+    const handleClearSignature = () => {
+        if (signatureRef.current) {
+            signatureRef.current.clear();
+            setHasSignature(false);
+        }
+    };
+
+    const handleSubmit = () => {
+        if (signatureRef.current && !signatureRef.current.isEmpty()) {
+            const signatureData = signatureRef.current.toDataURL();
+            onSubmit(signatureData);
+        }
+    };
 
     if (!isMounted) return null;
 
@@ -65,6 +87,29 @@ export function ConsentModal({ isOpen, onClose, onSubmit, formData, isLoading }:
                     </ol>
                 </div>
 
+                {/* Zone de signature */}
+                <div className="mb-6">
+                    <h3 className="font-semibold mb-2">Signature :</h3>
+                    <div className="p-2" style={{ border: '2px solid #64748b', borderRadius: '0.5rem' }}>
+                        <SignatureCanvas
+                            ref={signatureRef}
+                            canvasProps={{
+                                className: 'signature-canvas w-full h-32 bg-white',
+                            }}
+                            onEnd={handleSignatureChange}
+                        />
+                    </div>
+                    <div className="flex justify-end mt-2">
+                        <button
+                            type="button"
+                            onClick={handleClearSignature}
+                            className="text-sm text-gray-600 hover:text-gray-800"
+                        >
+                            Effacer la signature
+                        </button>
+                    </div>
+                </div>
+
                 <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                     <button
                         disabled={isLoading}
@@ -76,9 +121,9 @@ export function ConsentModal({ isOpen, onClose, onSubmit, formData, isLoading }:
                     </button>
                     <button
                         type="button"
-                        disabled={isLoading}
-                        title="Soumettre le formulaire de consentement"
-                        onClick={onSubmit}
+                        disabled={isLoading || !hasSignature}
+                        title={!hasSignature ? "Veuillez signer le formulaire" : "Soumettre le formulaire de consentement"}
+                        onClick={handleSubmit}
                         className="w-full sm:w-auto px-4 py-2 bg-rose-strong text-white rounded-md hover:bg-rose-strong disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                     >
                         {isLoading ? (
