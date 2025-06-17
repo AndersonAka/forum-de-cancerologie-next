@@ -25,6 +25,7 @@ const navLinks: NavLink[] = [
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isUpdatingMode, setIsUpdatingMode] = useState(false);
     const { logout, loading, user, updateParticipationMode } = useAuth();
     const pathname = usePathname();
 
@@ -38,9 +39,16 @@ export default function Navbar() {
 
     const handleModeChange = async (mode: 'en ligne' | 'présentiel') => {
         try {
+            console.log('Début de la mise à jour du mode:', mode);
+            setIsUpdatingMode(true);
+            console.log('isUpdatingMode mis à true');
             await updateParticipationMode(mode);
+            console.log('Mise à jour terminée');
         } catch (error) {
             console.error('Erreur lors du changement de mode:', error);
+        } finally {
+            setIsUpdatingMode(false);
+            console.log('isUpdatingMode mis à false');
         }
     };
 
@@ -91,18 +99,6 @@ export default function Navbar() {
                         </Link>
                     ))}
 
-                    {/* Sélecteur de mode de participation */}
-                    <div className="participation-mode">
-                        <select
-                            value={user?.participationMode || 'en ligne'}
-                            onChange={(e) => handleModeChange(e.target.value as 'en ligne' | 'présentiel')}
-                            className="mode-select"
-                            aria-label="Mode de participation"
-                        >
-                            <option value="en ligne">En ligne</option>
-                            <option value="présentiel">Sur place</option>
-                        </select>
-                    </div>
 
                     <button
                         onClick={handleLogout}
@@ -117,6 +113,30 @@ export default function Navbar() {
                         />
                         <span>Déconnexion</span>
                     </button>
+                    {/* Sélecteur de mode de participation */}
+                    <div className="nav-list participation-mode flex items-center gap-2">
+                        <label htmlFor="participation-mode" className="text-sm text-gray-600 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                            </svg>
+                            Je participe :
+                        </label>
+                        {isUpdatingMode && (
+                            <div className="animate-spin h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+                        )}
+                        <select
+                            id="participation-mode"
+                            value={user?.participationMode || 'en ligne'}
+                            onChange={(e) => handleModeChange(e.target.value as 'en ligne' | 'présentiel')}
+                            className="mode-select text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            aria-label="Choisir votre mode de participation"
+                            disabled={isUpdatingMode}
+                        >
+                            <option value="en ligne">En ligne</option>
+                            <option value="présentiel">Sur place</option>
+                        </select>
+                    </div>
+
                 </div>
             </div>
 
@@ -153,6 +173,32 @@ export default function Navbar() {
                     aria-label="Menu mobile"
                 >
                     <div className="flex flex-col p-4 space-y-4">
+                        {/* Mode de participation en haut du menu mobile */}
+                        <div className="participation-mode bg-gray-50 p-3 rounded-lg mb-2">
+                            <div className="flex items-center justify-between mb-2">
+                                <label htmlFor="participation-mode-mobile" className="block text-sm font-medium text-gray-700 flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                                    </svg>
+                                    Je participe au forum :
+                                </label>
+                                {isUpdatingMode && (
+                                    <div className="animate-spin h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+                                )}
+                            </div>
+                            <select
+                                id="participation-mode-mobile"
+                                value={user?.participationMode || 'en ligne'}
+                                onChange={(e) => handleModeChange(e.target.value as 'en ligne' | 'présentiel')}
+                                className="mode-select w-full text-sm border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                aria-label="Choisir votre mode de participation"
+                                disabled={isUpdatingMode}
+                            >
+                                <option value="en ligne">En ligne</option>
+                                <option value="présentiel">Sur place</option>
+                            </select>
+                        </div>
+
                         <div className="nav-list space-y-2">
                             {navLinks.map((link) => (
                                 <Link
@@ -164,19 +210,6 @@ export default function Navbar() {
                                     {link.label}
                                 </Link>
                             ))}
-
-                            {/* Sélecteur de mode de participation mobile */}
-                            <div className="participation-mode py-2">
-                                <select
-                                    value={user?.participationMode || 'en ligne'}
-                                    onChange={(e) => handleModeChange(e.target.value as 'en ligne' | 'présentiel')}
-                                    className="mode-select w-full"
-                                    aria-label="Mode de participation"
-                                >
-                                    <option value="en ligne">En ligne</option>
-                                    <option value="présentiel">Sur place</option>
-                                </select>
-                            </div>
 
                             <button
                                 onClick={handleLogout}

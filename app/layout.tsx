@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "./contexts/AuthContext";
 //import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { CountDown } from "./components/CountDown";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -65,6 +66,7 @@ export default function RootLayout({
             <main className="flex-grow">
               {children}
             </main>
+            <CountDown />
             <Footer />
           </div>
         </AuthProvider>
