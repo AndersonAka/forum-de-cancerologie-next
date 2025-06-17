@@ -312,7 +312,23 @@ header .hotel img {
   height: auto;
   border-radius: 0 0 0.5rem 0.5rem;
 }
+.title-menu .restez-connectes {
+  color: var(--bleu-roche);
+  font-size: 3rem;
+  margin-top: 6rem;
+  text-align: center;
+  font-weight: 600;
+}
 
+.title-menu .bientot {
+  color: var(--bleu-roche);
+  font-size: 1.5rem;
+  letter-spacing: 10px;
+  margin-top: 6rem;
+  text-align: center;
+  font-weight: 500;
+  text-transform: uppercase;
+}
 .title-menu .theme-title {
   width: 100%;
   margin-top: 5rem;
@@ -332,6 +348,10 @@ header .hotel img {
 .title-menu .theme-title .theme-des img {
   width: 700px;
   height: auto;
+}
+
+.title-menu .theme-title .direct-webinair {
+  width: 100%;
 }
 
 .title-menu .date-location {
@@ -927,7 +947,6 @@ footer .contact img {
 }
 
 /* agenda section */
-
 .agenda {
   margin-top: 10rem;
   display: flex;
@@ -1133,7 +1152,104 @@ footer .contact img {
   width: 40px;
 }
 
+/* direct section */
+
+.disclaimer {
+  margin-top: 10rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  background: #eaf4ff;
+  padding: 2rem;
+  gap: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 1px 10px 20px rgb(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.disclaimer .disclaimer-icon svg {
+  width: 200px;
+  fill: #6e9cce;
+}
+
+.disclaimer .disclaimer-des {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 75%;
+}
+
+.disclaimer .disclaimer-des p {
+  color: rgb(0, 0, 0);
+  font-size: 0.9rem;
+}
+
+.disclaimer .disclaimer-des button {
+  background: var(--bleu-roche);
+  color: white;
+  padding: 0.3rem 1.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.disclaimer .disclaimer-des button:hover {
+  background: var(--rose-strong);
+}
+
+.title-menu .webinar-container {
+  width: 90%;
+  margin-top: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: animate 2s ease-in-out 1 forwards;
+}
+
+.title-menu .webinar-container .webinar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: animate 2s ease-in-out 1 forwards;
+}
+
+.title-menu .webinar-container .webinar img {
+  width: 1000px;
+}
+
 /* Media query pour tablette et mobile */
+@media (width < 1050px) {
+  .disclaimer {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .disclaimer .disclaimer-des {
+    align-items: center;
+  }
+
+  .disclaimer .disclaimer-des p {
+    color: gray;
+    text-align: center;
+  }
+}
+
+@media (width < 1000px) {
+  .title-menu .webinar-container {
+    width: 100%;
+    margin-top: 3rem;
+  }
+  .title-menu .theme-title .theme img {
+    max-width: 1000px;
+    height: auto;
+  }
+  .title-menu .webinar-container .webinar img {
+    max-width: 98%;
+  }
+}
 @media screen and (max-width: 1024px) {
   .hamburgerButton {
     display: block;
@@ -1504,6 +1620,20 @@ footer .contact img {
   }
 }
 
+@media (width < 310px) {
+  .title-menu .webinar-container {
+    width: 100%;
+    margin-top: 3rem;
+  }
+
+  .title-menu .theme-title .theme img {
+    max-width: 70%;
+  }
+
+  .title-menu .webinar-container .webinar img {
+    max-width: 70%;
+  }
+}
 @media (width < 315px) {
   .program .program-title {
     font-size: 1.5rem;
