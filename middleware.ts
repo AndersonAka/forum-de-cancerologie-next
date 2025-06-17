@@ -10,32 +10,32 @@ const publicRoutes = ["/connexion", "/inscription"];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  console.log("Middleware - Vérification de la route:", pathname);
+  // console.log("Middleware - Vérification de la route:", pathname);
 
   // Ne pas rediriger les routes API
   if (pathname.startsWith("/api/")) {
-    console.log("Middleware - Route API détectée, passage");
+    // console.log("Middleware - Route API détectée, passage");
     return NextResponse.next();
   }
 
   // Vérifier si c'est une route publique
   if (publicRoutes.includes(pathname)) {
-    console.log("Middleware - Route publique détectée, passage");
+    // console.log("Middleware - Route publique détectée, passage");
     return NextResponse.next();
   }
 
   // Vérifier si l'utilisateur est authentifié
   const token = request.cookies.get("access_token")?.value;
-  const user = request.cookies.get("user");
+  // const user = request.cookies.get("user");
 
-  console.log("🔒 Middleware - État de l'authentification:", {
-    hasToken: !!token,
-    hasUser: !!user,
-    pathname,
-    tokenValue: token ? "présent" : "absent",
-    userValue: user?.value ? "présent" : "absent",
-    cookies: request.cookies.getAll().map((c) => c.name),
-  });
+  // console.log("🔒 Middleware - État de l'authentification:", {
+  //   hasToken: !!token,
+  //   hasUser: !!user,
+  //   pathname,
+  //   tokenValue: token ? "présent" : "absent",
+  //   userValue: user?.value ? "présent" : "absent",
+  //   cookies: request.cookies.getAll().map((c) => c.name),
+  // });
 
   // Liste des routes protégées (à adapter si besoin)
   const protectedPaths = [
@@ -54,7 +54,7 @@ export function middleware(request: NextRequest) {
   );
 
   if (isProtected && !token) {
-    console.log("Middleware - Non authentifié, redirection vers connexion");
+    // console.log("Middleware - Non authentifié, redirection vers connexion");
     const url = request.nextUrl.clone();
     url.pathname = "/connexion";
     const response = NextResponse.redirect(url);
@@ -69,7 +69,7 @@ export function middleware(request: NextRequest) {
         sameSite: "lax",
         maxAge: 300, // 5 minutes
       });
-      console.log("Middleware - Chemin de redirection sauvegardé:", pathname);
+      // console.log("Middleware - Chemin de redirection sauvegardé:", pathname);
     }
 
     // Nettoyer les cookies d'authentification
@@ -94,7 +94,7 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  console.log("Middleware - Authentifié, passage");
+  // console.log("Middleware - Authentifié, passage");
   return NextResponse.next();
 }
 

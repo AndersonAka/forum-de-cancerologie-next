@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image";
+import { DownloadProgramButton } from "../DownloadProgramButton";
 
 export const AgendaSection = () => {
     return (
@@ -13,6 +14,16 @@ export const AgendaSection = () => {
                         <div className="jour-number">1</div>
                     </div>
                     <div className="date-complete">Jeudi 26 Juin 2025</div>
+                </div>
+
+                {/* Bouton de téléchargement du programme */}
+                <div className="flex justify-center mb-6">
+                    <DownloadProgramButton
+                        day={1}
+                        size="large"
+                        variant="outline"
+                        className="shadow-lg hover:shadow-xl"
+                    />
                 </div>
 
                 <div className="agenda-container ATELIERS">
@@ -59,10 +70,10 @@ export const AgendaSection = () => {
                                     </ul>
                                 </div>
 
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                             {/*   ANATOMOPATOLOGIE    */}
@@ -96,7 +107,7 @@ export const AgendaSection = () => {
 
                                 <a href="rediffusion.html" className="event-title">
                                     <h3>
-                                        Demande d’examen anatomopathologique
+                                        Demande d&apos;examen anatomopathologique
                                     </h3>
                                 </a>
 
@@ -106,10 +117,10 @@ export const AgendaSection = () => {
                                     </ul>
                                 </div>
 
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
 
@@ -143,10 +154,10 @@ export const AgendaSection = () => {
                                 </div>
 
 
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
 
@@ -176,10 +187,10 @@ export const AgendaSection = () => {
 
 
 
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
@@ -244,7 +255,7 @@ export const AgendaSection = () => {
 
                                 <a href="rediffusion.html" className="event-title">
                                     <h3>
-                                        Place de l’imagerie métabolique dans le diagnostic
+                                        Place de l&apos;imagerie métabolique dans le diagnostic
                                     </h3>
                                 </a>
 
@@ -288,7 +299,7 @@ export const AgendaSection = () => {
 
                                 <a href="rediffusion.html" className="event-title">
                                     <h3>
-                                        Défis à relever pour rendre l’imagerie plus performante dans notre contexte
+                                        Défis à relever pour rendre l&apos;imagerie plus performante dans notre contexte
                                     </h3>
                                 </a>
 
@@ -301,10 +312,10 @@ export const AgendaSection = () => {
 
 
 
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
 
                             </div>
 
@@ -384,10 +395,10 @@ export const AgendaSection = () => {
 
 
 
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
 
@@ -454,10 +465,10 @@ export const AgendaSection = () => {
 
 
 
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
 
                             </div>
 
@@ -524,10 +535,10 @@ export const AgendaSection = () => {
 
 
 
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
 
                             </div>
 
@@ -571,26 +582,16 @@ export const AgendaSection = () => {
                                     </ul>
                                 </div>
 
-
-
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
 
                             </div>
-
-
-
-
                         </div>
 
                     </div>
-
                 </div>
-
-
-
             </div>
             <div className="agenda-list jour-2">
 
@@ -601,7 +602,15 @@ export const AgendaSection = () => {
                     </div>
                     <div className="date-complete">Vendredi 27 Juin 2025</div>
                 </div>
-
+                {/* Bouton de téléchargement du programme */}
+                <div className="flex justify-center mb-6">
+                    <DownloadProgramButton
+                        day={2}
+                        size="large"
+                        variant="outline"
+                        className="shadow-lg hover:shadow-xl"
+                    />
+                </div>
 
                 <div className="agenda-container CONFERENCES">
 
@@ -644,26 +653,16 @@ export const AgendaSection = () => {
                                     </ul>
                                 </div>
 
-
-
-
-
-
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
 
-
                 <div className="agenda-container CONFERENCES">
-
                     <div className="agenda-title title-1"> <h1>CONFERENCES</h1></div>
 
                     <div className="agenda-group">
@@ -702,16 +701,10 @@ export const AgendaSection = () => {
                                         <li>Dr Narjiss Berrada (Maroc)</li>
                                     </ul>
                                 </div>
-
-
-
-
-
-
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
@@ -786,12 +779,10 @@ export const AgendaSection = () => {
                                         <li>Pr Yvon Kouassi (Côte d&apos;Ivoire)</li>
                                     </ul>
                                 </div>
-
-
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
@@ -819,7 +810,7 @@ export const AgendaSection = () => {
 
                                 <a href="rediffusion.html" className="event-title">
                                     <h3>
-                                        Solutions pour la réussite d’une stratégie néo-adjuvante et de la personnalisation du traitement adjuvant en Afrique
+                                        Solutions pour la réussite d&apos;une stratégie néo-adjuvante et de la personnalisation du traitement adjuvant en Afrique
                                     </h3>
                                 </a>
 
@@ -831,14 +822,10 @@ export const AgendaSection = () => {
                                         <li>Pr Kouassi Yvon (Côte d&apos;Ivoire)</li>
                                     </ul>
                                 </div>
-
-
-
-
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
@@ -893,7 +880,7 @@ export const AgendaSection = () => {
 
                                 <a href="rediffusion.html" className="event-title">
                                     <h3>
-                                        Soins palliatifs et accompagnement : Expériences du Maroc et du CNRAO en Côte d’Ivoire
+                                        Soins palliatifs et accompagnement : Expériences du Maroc et du CNRAO en Côte d&apos;Ivoire
                                     </h3>
                                 </a>
 
@@ -905,14 +892,10 @@ export const AgendaSection = () => {
                                         <li>Dr Narjiss Berrada (Maroc)</li>
                                     </ul>
                                 </div>
-
-
-
-
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
@@ -951,14 +934,10 @@ export const AgendaSection = () => {
                                         <li>Pr Adil El Melhaoui (Maroc)</li>
                                     </ul>
                                 </div>
-
-
-
-
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
@@ -994,19 +973,15 @@ export const AgendaSection = () => {
 
                                 <div className="orateur ort-1">
                                     <ul>
-                                        <li>Pr Judith Didi-Kouko (Côte d’Ivoire)</li>
-                                        <li>Pr Jean Baptiste Anzouan-Kacou (Côte d’Ivoire)</li>
-                                        <li>Pr Benedicte Boka (Côte d’Ivoire)</li>
+                                        <li>Pr Judith Didi-Kouko (Côte d&apos;Ivoire)</li>
+                                        <li>Pr Jean Baptiste Anzouan-Kacou (Côte d&apos;Ivoire)</li>
+                                        <li>Pr Benedicte Boka (Côte d&apos;Ivoire)</li>
                                     </ul>
                                 </div>
-
-
-
-
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
@@ -1049,13 +1024,10 @@ export const AgendaSection = () => {
                                     </ul>
                                 </div>
 
-
-
-
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
@@ -1120,13 +1092,10 @@ export const AgendaSection = () => {
                                     </ul>
                                 </div>
 
-
-
-
-                                <div className="notification-mail">
+                                {/* <div className="notification-mail">
                                     <Image src="/img/notification-icon-pink.png" alt="#" width={40} height={40} />
                                     <div className="notif-title">RECEVOIR UN RAPPEL</div>
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
