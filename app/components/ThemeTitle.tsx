@@ -1,10 +1,36 @@
 "use client";
 
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import { BoutonLiveReplay } from "./BoutonLiveReplay";
 
 export const ThemeTitle = () => {
+    const [isEventInProgress, setIsEventInProgress] = useState(false);
+
+    useEffect(() => {
+        const eventStartDate = new Date('2025-06-26T00:00:00');
+        const eventEndDate = new Date('2025-06-27T23:59:59');
+
+        const checkEventStatus = () => {
+            const currentTime = new Date();
+            const isInProgress = currentTime >= eventStartDate && currentTime <= eventEndDate;
+            setIsEventInProgress(isInProgress);
+        };
+
+        // Vérifier immédiatement
+        checkEventStatus();
+
+        // Vérifier toutes les minutes
+        const timer = setInterval(checkEventStatus, 60000);
+
+        return () => clearInterval(timer);
+    }, []);
+
     return (
         <>
+            {isEventInProgress && (
+                <BoutonLiveReplay activeReplay={false} width={150} height={35} />
+            )}
             <section className="title-menu">
                 <div className="title-intro">
                     <p>FORUM DE CANCEROLOGIE DE ROCHE 2025</p>

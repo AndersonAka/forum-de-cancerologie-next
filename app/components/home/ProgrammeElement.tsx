@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { BoutonLiveReplay } from "../BoutonLiveReplay";
 
 export const ProgrammeElement = () => {
     return (
@@ -43,8 +44,6 @@ export const ProgrammeElement = () => {
                     </p>
                 </div>
 
-
-
                 <Link href="/rediffusion" className="menu rediffussion">
                     <span className="icon">
                         <Image src="/img/replay-icon-color.png" alt="#" width={70} height={60} />
@@ -84,8 +83,6 @@ export const ProgrammeElement = () => {
                     <p>Consultez Nos Etudes</p>
                 </Link>
 
-
-
                 <Link href="/itineraire" className="menu itinéraire">
                     <span className="icon">
                         <Image src="/img/localisation-icon.png" alt="#" width={70} height={60} />
@@ -111,10 +108,7 @@ export const ProgrammeElement = () => {
                 <div className=""><Image src="/img/people-connect.png" alt="#" width={370} height={270} /></div>
             </div>
 
-            <div className="live-replay">
-                <Link href="/direct" className="live lv1"><Image src="/img/live.png" alt="#" width={270} height={65} /></Link>
-                <Link href="/rediffusion" className="live lv2"><Image src="/img/replay.png" alt="#" width={270} height={65} /></Link>
-            </div>
+            <BoutonLiveReplay />
 
         </section>
     )
