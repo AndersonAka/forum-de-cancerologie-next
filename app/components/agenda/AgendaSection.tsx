@@ -81,7 +81,7 @@ export const AgendaSection = () => {
 
                                 <a href="rediffusion.html" className="event-title">
                                     <h3>
-                                        Thème à définir
+                                        BI-RADS échographie et mammographie
                                     </h3>
                                 </a>
 
@@ -166,7 +166,7 @@ export const AgendaSection = () => {
 
                                 <a href="rediffusion.html" className="event-title">
                                     <h3>
-                                        Traitements sous cutanées en oncologie
+                                        Traitements sous cutanés en oncologie
                                     </h3>
                                 </a>
 
@@ -754,13 +754,13 @@ export const AgendaSection = () => {
 
                                 <a href="rediffusion.html" className="event-title">
                                     <h3>
-                                        Intérêt des formes sous cutanées dans le traitement des cancers du sein HER2+
+                                        Intérêt des formes sous cutanés dans le traitement des cancers du sein HER2+
                                     </h3>
                                 </a>
 
                                 <div className="orateur ort-1">
                                     <ul>
-                                        <li>Orateurs</li>
+                                        <li>Dr Doudou Diouf (Sénégal)</li>
                                     </ul>
                                 </div>
 

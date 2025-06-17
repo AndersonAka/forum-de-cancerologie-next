@@ -10,6 +10,13 @@ import { CountrySelect } from '@/app/components/CountrySelect';
 import { ConsentModal } from './ConsentModal';
 import { InscriptionData } from './types';
 
+interface ApiError {
+    response?: {
+        json: () => Promise<{ message: string }>;
+    };
+    message?: string;
+}
+
 export default function InscriptionPage() {
     const router = useRouter();
     const [formData, setFormData] = useState<InscriptionData>({
@@ -65,31 +72,49 @@ export default function InscriptionPage() {
             localStorage.setItem('inscriptionSuccess', '1');
 
             router.push('/connexion');
-        } catch (err: any) {
+        } catch (err: unknown) {
             // Gestion de l'erreur backend
             let backendMessage = '';
-            if (err?.response && typeof err.response.json === 'function') {
+            const apiError = err as ApiError;
+
+            if (apiError?.response?.json) {
                 try {
-                    const data = await err.response.json();
-                    if (data && data.message) {
+                    const data = await apiError.response.json();
+                    if (data?.message) {
                         backendMessage = data.message;
                     }
                 } catch { }
             }
+
+            // Messages d'erreur plus conviviaux
             if (backendMessage) {
-                setError(backendMessage);
+                if (backendMessage.toLowerCase().includes('email')) {
+                    if (backendMessage.toLowerCase().includes('already exists') || backendMessage.toLowerCase().includes('déjà utilisé')) {
+                        setError('Cette adresse email est déjà utilisée. Veuillez utiliser une autre adresse email ou vous connecter si vous avez déjà un compte.');
+                    } else if (backendMessage.toLowerCase().includes('invalid') || backendMessage.toLowerCase().includes('invalide')) {
+                        setError('L\'adresse email saisie n\'est pas valide. Veuillez vérifier votre saisie.');
+                    } else {
+                        setError(backendMessage);
+                    }
+                } else if (backendMessage.toLowerCase().includes('required') || backendMessage.toLowerCase().includes('manquant')) {
+                    setError('Veuillez remplir tous les champs obligatoires.');
+                } else if (backendMessage.toLowerCase().includes('phone') || backendMessage.toLowerCase().includes('téléphone')) {
+                    setError('Le numéro de téléphone saisi n\'est pas valide. Veuillez vérifier votre saisie.');
+                } else {
+                    setError(backendMessage);
+                }
             } else if (err instanceof Error) {
                 if (err.message.includes('409') || err.message.includes('already exists')) {
-                    setError('Cette adresse email est déjà utilisée');
+                    setError('Cette adresse email est déjà utilisée.');
                 } else if (err.message.includes('401')) {
-                    setError(err.message);
+                    setError('Une erreur d\'authentification est survenue. Veuillez réessayer.');
                 } else if (err.message.includes('400')) {
-                    setError('Veuillez vérifier les informations saisies');
+                    setError('Certaines informations saisies ne sont pas valides. Veuillez vérifier vos données.');
                 } else {
-                    setError(err.message);
+                    setError('Une erreur est survenue lors de l\'inscription. Veuillez réessayer ultérieurement.');
                 }
             } else {
-                setError('Une erreur est survenue lors de l\'inscription');
+                setError('Une erreur inattendue est survenue. Veuillez réessayer ultérieurement.');
             }
         } finally {
             setIsLoading(false);
@@ -365,7 +390,8 @@ export default function InscriptionPage() {
                 }}
                 onSubmit={() => {
                     setShowModal(false);
-                    handleSubmit(new Event('submit') as any);
+                    const submitEvent = new Event('submit') as unknown as React.FormEvent<HTMLFormElement>;
+                    handleSubmit(submitEvent);
                 }}
                 formData={formData}
                 isLoading={isLoading}
