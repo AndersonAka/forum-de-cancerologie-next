@@ -37,28 +37,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Fonction pour relire les cookies et mettre à jour l'état d'auth
     const refreshAuth = () => {
-        try {
-            const userCookie = Cookies.get("user");
-            const token = Cookies.get("access_token");
+            try {
+                const userCookie = Cookies.get("user");
+                const token = Cookies.get("access_token");
 
-            if (userCookie && token) {
-                try {
-                    const userData = JSON.parse(userCookie);
-                    setUser(userData);
-                    setIsAuthenticated(true);
+                if (userCookie && token) {
+                    try {
+                        const userData = JSON.parse(userCookie);
+                        setUser(userData);
+                        setIsAuthenticated(true);
                 } catch {
-                    Cookies.remove("user", { path: "/" });
-                    Cookies.remove("access_token", { path: "/" });
+                        Cookies.remove("user", { path: "/" });
+                        Cookies.remove("access_token", { path: "/" });
+                        setUser(null);
+                        setIsAuthenticated(false);
+                    }
+                } else {
                     setUser(null);
                     setIsAuthenticated(false);
                 }
-            } else {
+        } catch {
                 setUser(null);
                 setIsAuthenticated(false);
-            }
-        } catch {
-            setUser(null);
-            setIsAuthenticated(false);
         }
     };
 

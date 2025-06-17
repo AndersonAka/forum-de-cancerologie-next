@@ -22,9 +22,7 @@ export default function DirectContent() {
                 </div>
 
                 <div className="theme-title">
-                    <div className="theme">
-                        <Image src="/img/orateur-icon-03.png" alt="#" width={50} height={50} />
-                    </div>
+                    <Image src="/img/orateur-icon-03.png" alt="#" width={1000} height={971} />
                 </div>
 
                 <div className="webinar-container">
