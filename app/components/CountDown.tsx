@@ -65,7 +65,7 @@ export const CountDown = () => {
 
     if (isEventInProgress) {
         return (
-            <div className="fixed bottom-4 right-4 z-50 countdown-container bg-green-50/95 backdrop-blur-sm rounded-lg p-3 shadow-xl border border-green-200 max-w-xs">
+            <div className="fixed bottom-4 left-4 z-40 countdown-container bg-green-50/95 backdrop-blur-sm rounded-lg p-3 shadow-xl border border-green-200 max-w-xs">
                 <h3 className="text-sm font-semibold text-green-800 mb-2 text-center">
                     🎉 Événement en cours !
                 </h3>
@@ -77,7 +77,7 @@ export const CountDown = () => {
     }
 
     return (
-        <div className="fixed bottom-4 right-4 z-50 countdown-container bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-xl border border-gray-200 max-w-xs">
+        <div className="fixed bottom-4 left-4 z-40 countdown-container bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-xl border border-gray-200 max-w-xs">
             <h3 className="text-sm font-semibold text-gray-800 mb-2 text-center">
                 Temps restant avant l&apos;événement
             </h3>
