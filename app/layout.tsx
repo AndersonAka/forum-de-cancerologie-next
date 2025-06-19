@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "./contexts/AuthContext";
+import { PageTrackingProvider } from "./components/PageTrackingProvider";
 //import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { CountDown } from "./components/CountDown";
@@ -62,13 +63,15 @@ export default function RootLayout({
     <html lang="fr">
       <body className={inter.className}>
         <AuthProvider>
-          <div className="min-h-screen flex flex-col">
-            <main className="flex-grow">
-              {children}
-            </main>
-            <CountDown />
-            <Footer />
-          </div>
+          <PageTrackingProvider>
+            <div className="min-h-screen flex flex-col">
+              <main className="flex-grow">
+                {children}
+              </main>
+              <CountDown />
+              <Footer />
+            </div>
+          </PageTrackingProvider>
         </AuthProvider>
       </body>
     </html>

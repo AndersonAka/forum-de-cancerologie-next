@@ -12,7 +12,7 @@ const nextConfig = {
     output: 'standalone',
     experimental: {
         serverActions: {
-            allowedOrigins: ['localhost:3000', 'forum-cancerologie.vercel.app'],
+            allowedOrigins: ['localhost:3000', 'https://www.forumcancerologie-roche.com'],
         },
     },
     compiler: {

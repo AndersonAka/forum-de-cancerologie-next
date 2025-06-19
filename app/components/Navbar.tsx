@@ -14,11 +14,11 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
     { href: '/', label: 'Accueil', requiresAuth: true },
-    { href: '/edition-2024', label: 'Edition 2024', requiresAuth: true },
+    // { href: '/edition-2024', label: 'Edition 2024', requiresAuth: true },
     { href: '/orateur', label: 'Orateurs', requiresAuth: true },
     { href: '/agenda', label: 'Agenda', requiresAuth: true },
     { href: '/direct', label: 'Direct', requiresAuth: true },
-    { href: '/rediffusion-2024', label: 'Rediffusion 2024', requiresAuth: true },
+    // { href: '/rediffusion-2024', label: 'Rediffusion 2024', requiresAuth: true },
     { href: '/etude', label: 'Etudes', requiresAuth: true },
     { href: '/itineraire', label: 'Itinéraire', requiresAuth: true },
 ];
