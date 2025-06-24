@@ -573,7 +573,7 @@ export const AgendaSection = () => {
 
                                 <div className="orateur ort-1">
                                     <ul>
-                                        <li>Pr Simplice Anongba (Côte d&apos;Ivoire)                                      Pr Driss Moussaoui (Maroc)</li>
+                                        <li>Pr Simplice Anongba (Côte d&apos;Ivoire)</li>
                                         <li>Pr Sidy Ka (Sénégal)</li>
                                         <li>Pr Appolinaire Horo (Côte d&apos;Ivoire)</li>
                                         <li>Pr Driss Moussaoui (Maroc)</li>
