@@ -255,7 +255,7 @@ export default function ConnexionPage() {
             >
                 <video
                     ref={videoRef}
-                    src="http://forumcv.cluster023.hosting.ovh.net/medias/teaser-forum-de-cancerologie.mp4"
+                    src="https://medias.forumcancerologie-roche.com/teaser-forum-de-cancerologie.mp4"
                     controls
                     loop
                     playsInline
