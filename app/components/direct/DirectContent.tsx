@@ -2,18 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import VideoSection from "../VideoSection";
 
 export default function DirectContent() {
     return (
         <header>
             <section className="title-menu">
-
                 <div className="title-intro">
                     <p>FORUM DE CANCEROLOGIE DE ROCHE 2025</p>
                 </div>
 
                 <div className="restez-connectes">Restez Connectés !</div>
-
+                <VideoSection
+                    src="https://medias.forumcancerologie-roche.com/teaser-forum-de-cancerologie.mp4"
+                    title=""
+                    className="mt-8 mb-4"
+                />
                 <div className="bientot">Nous démarrons bientôt</div>
 
                 <div style={{ width: "100%", height: "0px", position: "relative", paddingBottom: "56.25%" }}>

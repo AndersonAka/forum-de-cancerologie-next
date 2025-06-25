@@ -36,12 +36,12 @@ export const ProgrammeElement = () => {
                         <span className="icon">
                             <Image src="/img/play-icon.png" alt="#" width={70} height={60} />
                         </span>
+                        <h1>Direct 2025</h1>
+                        <p>Lancez une session en live depuis
+                            votre position et participer
+                            virtuellement au forum.
+                        </p>
                     </Link>
-                    <h1>Direct 2025</h1>
-                    <p>Lancez une session en live depuis
-                        votre position et participer
-                        virtuellement au forum.
-                    </p>
                 </div>
 
                 <Link href="/rediffusion" className="menu rediffussion">
