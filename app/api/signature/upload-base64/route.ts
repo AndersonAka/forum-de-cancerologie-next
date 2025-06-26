@@ -78,6 +78,16 @@ export async function POST(request: NextRequest) {
         "⚠️ Serveur OVH non accessible, fallback vers stockage local:",
         externalError
       );
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          {
+            success: false,
+            error:
+              "Une erreur s'est produite lors de l'enregistrement de votre signature. Veuillez patienter quelques instants puis réessayer.",
+          },
+          { status: 500 }
+        );
+      }
     }
 
     // Fallback : stockage local

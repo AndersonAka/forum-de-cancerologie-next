@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(arrayBuffer);
 
     // Essayer d'abord l'upload vers le serveur externe
-    const externalUploadUrl = `http://medias.forumcancerologie-roche.com/signatures/${filename}`;
+    const externalUploadUrl = `https://medias.forumcancerologie-roche.com/signatures/${filename}`;
 
     try {
       const uploadResponse = await fetch(externalUploadUrl, {
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
       if (uploadResponse.ok) {
         // Succès : serveur externe
-        const finalSignatureUrl = `http://medias.forumcancerologie-roche.com/signatures/${filename}`;
+        const finalSignatureUrl = `https://medias.forumcancerologie-roche.com/signatures/${filename}`;
         console.log(
           "✅ Signature uploadée sur serveur externe:",
           finalSignatureUrl
@@ -75,6 +75,16 @@ export async function POST(request: NextRequest) {
         "⚠️ Serveur externe non accessible, fallback vers stockage local:",
         externalError
       );
+      if (process.env.NODE_ENV === "production") {
+        return NextResponse.json(
+          {
+            success: false,
+            error:
+              "Une erreur s'est produite lors de l'enregistrement de votre signature. Veuillez patienter quelques instants puis réessayer.",
+          },
+          { status: 500 }
+        );
+      }
     }
 
     // Fallback : stockage local
