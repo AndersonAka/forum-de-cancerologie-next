@@ -7,13 +7,20 @@
     "build": "next build --no-lint",
     "start": "next start",
     "lint": "next lint",
-    "optimize-images": "node scripts/optimize-images.js"
+    "optimize-images": "node scripts/optimize-images.js",
+    "test-signature": "node scripts/test-signature-system.cjs",
+    "optimize-performance": "node scripts/optimize-performance.cjs",
+    "test-upload": "node scripts/test-upload.cjs",
+    "test-external": "node scripts/test-external-server.cjs",
+    "test-php": "node scripts/test-php-upload.cjs",
+    "test-all": "npm run test-signature && npm run optimize-performance && npm run test-upload && npm run test-external && npm run test-php"
   },
   "dependencies": {
     "@tanstack/react-query": "latest",
     "@types/js-cookie": "^3.0.6",
     "@types/react-signature-canvas": "^1.0.7",
     "axios": "^1.9.0",
+    "critters": "^0.0.23",
     "framer-motion": "^12.18.1",
     "js-cookie": "^3.0.5",
     "next": "15.3.3",

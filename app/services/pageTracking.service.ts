@@ -28,9 +28,6 @@ class PageTrackingService {
       const token = Cookies.get("access_token");
 
       if (!token) {
-        console.warn(
-          "PageTracking: Token JWT non trouvé, impossible d'envoyer les données"
-        );
         return { success: false, message: "Token non trouvé" };
       }
 
@@ -50,8 +47,6 @@ class PageTrackingService {
 
       return { success: true, message: "Visite enregistrée avec succès" };
     } catch (error) {
-      console.error("PageTracking: Erreur lors de l'envoi des données:", error);
-
       // Stocker les données pour retry ultérieur
       this.storePendingVisit(data);
 
@@ -107,10 +102,6 @@ class PageTrackingService {
 
     if (pendingVisits.length === 0) return;
 
-    console.log(
-      `PageTracking: Tentative de retry pour ${pendingVisits.length} visites en attente`
-    );
-
     const successfulVisits: number[] = [];
     const failedVisits: Array<PageVisitData & { retryCount: number }> = [];
 
@@ -118,10 +109,6 @@ class PageTrackingService {
       const visit = pendingVisits[i];
 
       if (visit.retryCount >= this.MAX_RETRIES) {
-        console.warn(
-          `PageTracking: Visite abandonnée après ${this.MAX_RETRIES} tentatives:`,
-          visit
-        );
         continue;
       }
 
@@ -146,18 +133,6 @@ class PageTrackingService {
 
     // Mettre à jour le stockage local
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(failedVisits));
-
-    if (successfulVisits.length > 0) {
-      console.log(
-        `PageTracking: ${successfulVisits.length} visites retryées avec succès`
-      );
-    }
-
-    if (failedVisits.length > 0) {
-      console.warn(
-        `PageTracking: ${failedVisits.length} visites toujours en attente`
-      );
-    }
   }
 
   /**
@@ -175,11 +150,6 @@ class PageTrackingService {
 
       if (filteredVisits.length !== pendingVisits.length) {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(filteredVisits));
-        console.log(
-          `PageTracking: ${
-            pendingVisits.length - filteredVisits.length
-          } anciennes visites nettoyées`
-        );
       }
     } catch (error) {
       console.error(

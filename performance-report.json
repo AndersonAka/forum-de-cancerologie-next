@@ -1,0 +1,43 @@
+{
+  "timestamp": "2025-06-25T23:17:28.164Z",
+  "optimizations": {
+    "images": {
+      "formats": [
+        "webp",
+        "avif"
+      ],
+      "quality": 85,
+      "sizes": [
+        320,
+        640,
+        768,
+        1024,
+        1280,
+        1920
+      ]
+    },
+    "bundle": {
+      "analyze": true,
+      "minify": true,
+      "treeShaking": true
+    },
+    "cache": {
+      "maxAge": 31536000,
+      "immutable": true
+    }
+  },
+  "recommendations": [
+    "Utiliser React.memo() pour les composants qui ne changent pas souvent",
+    "Implémenter la lazy loading pour les composants lourds",
+    "Optimiser les requêtes API avec du caching",
+    "Utiliser des images WebP/AVIF pour de meilleures performances",
+    "Implémenter la compression gzip/brotli",
+    "Utiliser des CDN pour les assets statiques"
+  ],
+  "nextSteps": [
+    "Tester les performances avec Lighthouse",
+    "Analyser le bundle avec @next/bundle-analyzer",
+    "Implémenter le service worker pour le cache offline",
+    "Optimiser les polices avec font-display: swap"
+  ]
+}

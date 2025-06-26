@@ -15,6 +15,29 @@ interface RegisterData {
   signature?: string;
 }
 
+interface RegisterResponse {
+  access_token: string;
+  user: {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    title: string;
+    specialty: string;
+    country: string | null;
+    workplace: string | null;
+    phoneNumber: string;
+    participationMode: string | null;
+    role: string;
+    gdprConsent: boolean;
+    rememberMeToken: string | null;
+    signature: string | null;
+    has_signature: boolean;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
 export const authService = {
   async login(credentials: { email: string }) {
     try {
@@ -33,12 +56,18 @@ export const authService = {
     }
   },
 
-  async register(data: RegisterData): Promise<{ message: string }> {
+  async register(data: RegisterData): Promise<RegisterResponse> {
     try {
-      const response = await axios.post<{ message: string }>(
+      const response = await axios.post<RegisterResponse>(
         "/api/auth/register",
         data
       );
+
+      // Stocker le token dans les cookies
+      if (response.data.access_token) {
+        Cookies.set("access_token", response.data.access_token, { expires: 7 });
+      }
+
       return response.data;
     } catch (error) {
       throw error;
@@ -57,6 +86,9 @@ export const authService = {
           },
         }
       );
+
+      // Supprimer le token des cookies
+      Cookies.remove("access_token");
     } catch (error) {
       throw error;
     }

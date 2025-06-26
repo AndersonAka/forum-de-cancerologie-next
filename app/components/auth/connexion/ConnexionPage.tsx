@@ -4,49 +4,36 @@ import Link from "next/link";
 import { useAuth } from "@/app/contexts/AuthContext";
 import Image from "next/image";
 import { HeaderSection } from "@/app/components/auth/HaederSection";
-import Cookies from "js-cookie";
 import VideoSection from "@/app/components/VideoSection";
 
 function getFriendlyMessage(message: string): string {
-    if (!message) return "Une erreur est survenue. Veuillez réessayer.";
-    if (message.includes("401")) return "Identifiants incorrects. Veuillez vérifier votre email.";
-    if (message.includes("409") || message.toLowerCase().includes("already exists")) return "Cette adresse email est déjà utilisée.";
-    if (message.includes("400")) return "Veuillez vérifier les informations saisies.";
-    if (message.toLowerCase().includes("network")) return "Problème de connexion réseau. Veuillez réessayer.";
-    if (message.toLowerCase().includes("request failed")) return "Impossible de se connecter au serveur. Veuillez réessayer.";
+    if (message.includes("401")) {
+        return "Email ou mot de passe incorrect";
+    } else if (message.includes("404")) {
+        return "Utilisateur non trouvé";
+    } else if (message.includes("409")) {
+        return "Cette adresse email est déjà utilisée";
+    } else if (message.includes("500")) {
+        return "Erreur serveur, veuillez réessayer";
+    }
     return message;
 }
 
 function ConnexionForm() {
-    const { login, setRedirectPath } = useAuth();
     const [email, setEmail] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
-    const [successMessage, setSuccessMessage] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const { login } = useAuth();
 
+    // Récupérer l'email sauvegardé au chargement
     useEffect(() => {
-        // Vérifier si un email est stocké
         const savedEmail = localStorage.getItem('email');
         if (savedEmail) {
             setEmail(savedEmail);
             setRememberMe(true);
         }
-
-        // Vérifier si inscriptionSuccess est présent
-        if (localStorage.getItem('inscriptionSuccess')) {
-            setSuccessMessage('Votre inscription a été réalisée avec succès ! Vous pouvez maintenant vous connecter.');
-            localStorage.removeItem('inscriptionSuccess');
-        }
-
-        // Récupérer le chemin de redirection depuis le cookie
-        const redirectPath = Cookies.get('redirect_path');
-        if (redirectPath) {
-            setRedirectPath(redirectPath);
-            // Supprimer le cookie après l'avoir lu
-            Cookies.remove('redirect_path', { path: '/' });
-        }
-    }, [setRedirectPath]);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -61,6 +48,7 @@ function ConnexionForm() {
                 return;
             }
 
+            // Connexion de l'utilisateur
             await login(email);
 
             // Gérer le "Se souvenir de moi"
@@ -69,6 +57,9 @@ function ConnexionForm() {
             } else {
                 localStorage.removeItem('email');
             }
+
+            // La redirection sera gérée par le contexte d'authentification
+
         } catch (error) {
             setError(error instanceof Error ? error.message : "Une erreur est survenue");
         } finally {
@@ -77,67 +68,59 @@ function ConnexionForm() {
     };
 
     return (
-        <>
-            <form id="loginForm" className="connection" onSubmit={handleSubmit}>
-                <h1>Connexion</h1>
-                {error && (
-                    <div className="error-message" role="alert">
-                        <span>{getFriendlyMessage(error)}</span>
-                    </div>
-                )}
-                {successMessage && (
-                    <div className="success-message" role="status">
-                        <span>{successMessage}</span>
-                    </div>
-                )}
-                <div className="input-box">
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Adresse email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        disabled={loading}
-                    />
+        <form id="loginForm" className="connection" onSubmit={handleSubmit}>
+            <h1>Connexion</h1>
+            {error && (
+                <div className="error-message" role="alert">
+                    <span>{getFriendlyMessage(error)}</span>
                 </div>
-
-                <div className="se-souvenir">
-                    <span className="flex items-center gap-2 cursor-pointer" onClick={() => setRememberMe(!rememberMe)}>
-                        <input
-                            title="Se souvenir de moi"
-                            type="checkbox"
-                            id="seSouvenir"
-                            checked={rememberMe}
-                            onChange={(e) => setRememberMe(e.target.checked)}
-                            className="cursor-pointer"
-                        />
-                        Se souvenir de moi
-                    </span>
-                </div>
-                <button
-                    type="submit"
-                    className={`btn ${loading ? 'loading' : ''}`}
+            )}
+            <div className="input-box">
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Adresse email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
-                >
-                    {loading ? (
-                        <div className="flex items-center justify-center">
-                            <div className="spinner"></div>
-                            <span>Connexion en cours...</span>
-                        </div>
-                    ) : (
-                        'Soumettre'
-                    )}
-                </button>
-                <div className="flex flex-col justify-center items-center md:lien-de-connection">
-                    <p>Pas encore inscrit ?</p>
-                    <span className="text-rose-strong">
-                        <Link href="/inscription">Cliquez ici !</Link>
-                    </span>
-                </div>
-            </form>
+                />
+            </div>
 
-        </>
+            <div className="se-souvenir">
+                <span className="flex items-center gap-2 cursor-pointer" onClick={() => setRememberMe(!rememberMe)}>
+                    <input
+                        title="Se souvenir de moi"
+                        type="checkbox"
+                        id="seSouvenir"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className="cursor-pointer"
+                    />
+                    Se souvenir de moi
+                </span>
+            </div>
+            <button
+                type="submit"
+                className={`btn ${loading ? 'loading' : ''}`}
+                disabled={loading}
+            >
+                {loading ? (
+                    <div className="flex items-center justify-center">
+                        <div className="spinner"></div>
+                        <span>Connexion en cours...</span>
+                    </div>
+                ) : (
+                    'Soumettre'
+                )}
+            </button>
+            <div className="flex flex-col justify-center items-center md:lien-de-connection">
+                <p>Pas encore inscrit ?</p>
+                <span className="text-rose-strong">
+                    <Link href="/inscription">Cliquez ici !</Link>
+                </span>
+            </div>
+        </form>
     );
 }
 
@@ -178,7 +161,6 @@ function ConnexionContent() {
         </>
     );
 }
-
 
 export default function ConnexionPage() {
     return (

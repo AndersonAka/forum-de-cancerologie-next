@@ -21,6 +21,8 @@ export interface User {
   role: string;
   gdprConsent: boolean;
   rememberMeToken: string | null;
+  signature: string | null;
+  has_signature: boolean;
   createdAt: string;
   updatedAt: string;
 }

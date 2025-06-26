@@ -20,6 +20,9 @@
 # production
 /build
 
+# Fichiers temporaires
+/temp
+*.tmp
 
 # misc
 .DS_Store

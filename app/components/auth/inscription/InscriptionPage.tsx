@@ -9,12 +9,33 @@ import { HeaderSection } from '../HaederSection';
 import { CountrySelect } from '@/app/components/CountrySelect';
 import { ConsentModal } from './ConsentModal';
 import { InscriptionData } from './types';
+import { uploadSignatureAndUpdateUser } from '@/app/services/signature.service';
 
 interface ApiError {
     response?: {
         json: () => Promise<{ message: string }>;
     };
     message?: string;
+}
+
+interface UserResponse {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    title: string;
+    specialty: string;
+    country: string | null;
+    workplace: string | null;
+    phoneNumber: string;
+    participationMode: string | null;
+    role: string;
+    gdprConsent: boolean;
+    rememberMeToken: string | null;
+    signature: string | null;
+    has_signature: boolean;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export default function InscriptionPage() {
@@ -27,7 +48,7 @@ export default function InscriptionPage() {
         telephone: '',
         lieuExercice: '',
         email: '',
-        participation: '',
+        participation: 'présentiel'
     });
     const [rememberMe, setRememberMe] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -35,6 +56,7 @@ export default function InscriptionPage() {
     const [consentError, setConsentError] = useState<string | null>(null);
     const [hasConsented, setHasConsented] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [signatureData, setSignatureData] = useState<string>('');
 
     useEffect(() => {
         const savedEmail = localStorage.getItem('email');
@@ -57,10 +79,33 @@ export default function InscriptionPage() {
         }
 
         try {
-            await authService.register({
+            // 1. Créer l'utilisateur d'abord
+            const registerResponse = await authService.register({
                 ...formData,
                 gdprConsent: true,
             });
+
+            // Vérifier que la réponse contient bien un utilisateur
+            if (!registerResponse || !registerResponse.user || !registerResponse.user.id) {
+                throw new Error('Réponse invalide du serveur');
+            }
+
+            const user = registerResponse.user;
+            const userId = user.id;
+
+            // 2. Upload de la signature si elle existe
+            if (signatureData) {
+                const uploadResult = await uploadSignatureAndUpdateUser(
+                    signatureData,
+                    userId,
+                    registerResponse.access_token
+                );
+
+                if (!uploadResult.success) {
+                    // On continue même si l'upload échoue, l'utilisateur est créé
+                }
+            } else {
+            }
 
             if (rememberMe) {
                 localStorage.setItem('email', formData.email);
@@ -149,11 +194,106 @@ export default function InscriptionPage() {
 
             if (emptyFields.length > 0) {
                 setConsentError('Veuillez renseigner tous les champs');
-                console.log(emptyFields);
                 setHasConsented(false);
             } else {
                 setShowModal(true);
             }
+        }
+    };
+
+    const handleSubmitWithSignature = async (signature: string) => {
+        setIsLoading(true);
+        setError(null);
+        setConsentError(null);
+
+        if (!hasConsented) {
+            setConsentError('Vous devez accepter les termes du formulaire de consentement');
+            setIsLoading(false);
+            return;
+        }
+
+        try {
+            // 1. Créer l'utilisateur d'abord
+            const registerResponse = await authService.register({
+                ...formData,
+                gdprConsent: true,
+            });
+
+            // Vérifier que la réponse contient bien un utilisateur
+            if (!registerResponse || !registerResponse.user || !registerResponse.user.id) {
+                throw new Error('Réponse invalide du serveur');
+            }
+
+            const user = registerResponse.user;
+            const userId = user.id;
+
+            // 2. Upload de la signature
+            const uploadResult = await uploadSignatureAndUpdateUser(
+                signature,
+                userId,
+                registerResponse.access_token
+            );
+
+            if (!uploadResult.success) {
+                // On continue même si l'upload échoue, l'utilisateur est créé
+            }
+
+            if (rememberMe) {
+                localStorage.setItem('email', formData.email);
+            } else {
+                localStorage.removeItem('email');
+            }
+
+            // Indicateur de succès pour la page de connexion
+            localStorage.setItem('inscriptionSuccess', '1');
+
+            router.push('/connexion');
+        } catch (err: unknown) {
+            // Gestion de l'erreur backend
+            let backendMessage = '';
+            const apiError = err as ApiError;
+
+            if (apiError?.response?.json) {
+                try {
+                    const data = await apiError.response.json();
+                    if (data?.message) {
+                        backendMessage = data.message;
+                    }
+                } catch { }
+            }
+
+            // Messages d'erreur plus conviviaux
+            if (backendMessage) {
+                if (backendMessage.toLowerCase().includes('email')) {
+                    if (backendMessage.toLowerCase().includes('already exists') || backendMessage.toLowerCase().includes('déjà utilisé')) {
+                        setError('Cette adresse email est déjà utilisée. Veuillez utiliser une autre adresse email ou vous connecter si vous avez déjà un compte.');
+                    } else if (backendMessage.toLowerCase().includes('invalid') || backendMessage.toLowerCase().includes('invalide')) {
+                        setError('L\'adresse email saisie n\'est pas valide. Veuillez vérifier votre saisie.');
+                    } else {
+                        setError(backendMessage);
+                    }
+                } else if (backendMessage.toLowerCase().includes('required') || backendMessage.toLowerCase().includes('manquant')) {
+                    setError('Veuillez remplir tous les champs obligatoires.');
+                } else if (backendMessage.toLowerCase().includes('phone') || backendMessage.toLowerCase().includes('téléphone')) {
+                    setError('Le numéro de téléphone saisi n\'est pas valide. Veuillez vérifier votre saisie.');
+                } else {
+                    setError(backendMessage);
+                }
+            } else if (err instanceof Error) {
+                if (err.message.includes('409') || err.message.includes('already exists')) {
+                    setError('Cette adresse email est déjà utilisée.');
+                } else if (err.message.includes('401')) {
+                    setError('Une erreur d\'authentification est survenue. Veuillez réessayer.');
+                } else if (err.message.includes('400')) {
+                    setError('Certaines informations saisies ne sont pas valides. Veuillez vérifier vos données.');
+                } else {
+                    setError('Une erreur est survenue lors de l\'inscription. Veuillez réessayer ultérieurement.');
+                }
+            } else {
+                setError('Une erreur inattendue est survenue. Veuillez réessayer ultérieurement.');
+            }
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -388,10 +528,9 @@ export default function InscriptionPage() {
                     setShowModal(false);
                     setHasConsented(false);
                 }}
-                onSubmit={() => {
-                    setShowModal(false);
-                    const submitEvent = new Event('submit') as unknown as React.FormEvent<HTMLFormElement>;
-                    handleSubmit(submitEvent);
+                onSubmit={(signature: string) => {
+                    // Passer la signature directement à handleSubmit
+                    handleSubmitWithSignature(signature);
                 }}
                 formData={formData}
                 isLoading={isLoading}

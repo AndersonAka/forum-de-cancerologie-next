@@ -1,32 +1,46 @@
 'use client';
 
 import Image from 'next/image';
-import { InscriptionData } from './types';
 import { useEffect, useState, useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
+import { uploadSignatureAndUpdateUser } from '@/app/services/signature.service';
 
-interface ConsentModalProps {
+interface SignatureRequiredModalProps {
     isOpen: boolean;
-    onClose: () => void;
-    onSubmit: (signature: string) => void;
-    formData: InscriptionData;
-    isLoading: boolean;
+    onSuccess: () => void;
+    userData: {
+        id: number;
+        firstName: string;
+        lastName: string;
+        email: string;
+    };
+    isLoading?: boolean;
 }
 
-export function ConsentModal({ isOpen, onClose, onSubmit, formData, isLoading }: ConsentModalProps) {
+export function SignatureRequiredModal({
+    isOpen,
+    onSuccess,
+    userData,
+    isLoading = false
+}: SignatureRequiredModalProps) {
     const [isVisible, setIsVisible] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [signature, setSignature] = useState<string>('');
     const [signatureError, setSignatureError] = useState<string>('');
+    const [uploadLoading, setUploadLoading] = useState(false);
     const signatureRef = useRef<SignatureCanvas>(null);
 
     useEffect(() => {
         if (isOpen) {
             setIsMounted(true);
-            setTimeout(() => setIsVisible(true), 10);
+            setTimeout(() => {
+                setIsVisible(true);
+            }, 10);
         } else {
             setIsVisible(false);
-            setTimeout(() => setIsMounted(false), 300);
+            setTimeout(() => {
+                setIsMounted(false);
+            }, 300);
         }
     }, [isOpen]);
 
@@ -52,8 +66,27 @@ export function ConsentModal({ isOpen, onClose, onSubmit, formData, isLoading }:
             return;
         }
 
-        // Passer la signature au composant parent
-        onSubmit(signature);
+        setUploadLoading(true);
+        setSignatureError('');
+
+        try {
+
+            // Upload de la signature vers le serveur de fichiers
+            const uploadResult = await uploadSignatureAndUpdateUser(signature, userData.id);
+
+            if (!uploadResult.success) {
+                setSignatureError(uploadResult.error || 'Erreur lors de l\'upload de la signature');
+                return;
+            }
+
+            // Appeler le callback de succès
+            onSuccess();
+
+        } catch (error) {
+            setSignatureError('Erreur inattendue lors de l\'upload de la signature');
+        } finally {
+            setUploadLoading(false);
+        }
     };
 
     if (!isMounted) return null;
@@ -65,22 +98,14 @@ export function ConsentModal({ isOpen, onClose, onSubmit, formData, isLoading }:
                     <Image src="/img/logo-roche.png" alt="Logo Roche" width={200} height={100} className="mx-auto w-32 h-auto sm:w-40 md:w-52" />
                 </div>
 
-                <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">Formulaire de consentement</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">Signature obligatoire</h2>
 
                 <div className="mb-4 sm:mb-6">
-                    <h3 className="font-semibold mb-2">Vos informations :</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                        <div className="space-y-1">
-                            <p className="text-sm sm:text-base"><strong>Titre :</strong> {formData.titre}</p>
-                            <p className="text-sm sm:text-base"><strong>Nom :</strong> {formData.nom}</p>
-                            <p className="text-sm sm:text-base"><strong>Spécialité :</strong> {formData.specialite}</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-sm sm:text-base"><strong>Pays :</strong> {formData.pays}</p>
-                            <p className="text-sm sm:text-base"><strong>Téléphone :</strong> {formData.telephone}</p>
-                            <p className="text-sm sm:text-base"><strong>Email :</strong> {formData.email}</p>
-                        </div>
-                    </div>
+                    <h3 className="font-semibold mb-2">Bonjour {userData.firstName} {userData.lastName},</h3>
+                    <p className="text-sm sm:text-base mb-4">
+                        Pour accéder au Forum de Cancérologie, vous devez signer le formulaire de consentement.
+                        Cette signature est obligatoire pour continuer.
+                    </p>
                 </div>
 
                 <div className="mb-4 sm:mb-6">
@@ -94,7 +119,7 @@ export function ConsentModal({ isOpen, onClose, onSubmit, formData, isLoading }:
                 </div>
 
                 <div className="mb-4 sm:mb-6">
-                    <h3 className="font-semibold mb-2">Signature :</h3>
+                    <h3 className="font-semibold mb-2">Veuillez signer le formulaire de consentement :</h3>
                     <div className="border-2 border-gray-300 rounded-lg p-2">
                         <SignatureCanvas
                             ref={signatureRef}
@@ -111,6 +136,7 @@ export function ConsentModal({ isOpen, onClose, onSubmit, formData, isLoading }:
                             type="button"
                             onClick={clearSignature}
                             className="text-sm text-red-600 hover:text-red-800 underline"
+                            disabled={uploadLoading}
                         >
                             Effacer la signature
                         </button>
@@ -127,31 +153,23 @@ export function ConsentModal({ isOpen, onClose, onSubmit, formData, isLoading }:
                     )}
                 </div>
 
-                <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                    <button
-                        disabled={isLoading}
-                        type="button"
-                        onClick={onClose}
-                        className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 text-sm sm:text-base disabled:opacity-50"
-                    >
-                        Annuler
-                    </button>
+                <div className="flex justify-end">
                     <button
                         type="button"
-                        disabled={isLoading}
+                        disabled={isLoading || uploadLoading}
                         title="Soumettre le formulaire de consentement"
                         onClick={handleSubmit}
-                        className="w-full sm:w-auto px-4 py-2 bg-rose-strong text-white rounded-md hover:bg-rose-strong disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+                        className="w-full px-4 py-2 bg-rose-strong text-white rounded-md hover:bg-rose-strong disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                     >
-                        {isLoading ? (
+                        {isLoading || uploadLoading ? (
                             <div className="flex items-center justify-center space-x-2">
                                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                                 <span>
-                                    Inscription en cours...
+                                    {uploadLoading ? 'Upload en cours...' : 'Traitement en cours...'}
                                 </span>
                             </div>
                         ) : (
-                            'Soumettre'
+                            'Signer et continuer'
                         )}
                     </button>
                 </div>
