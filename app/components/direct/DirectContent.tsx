@@ -18,10 +18,9 @@ export default function DirectContent() {
                     title=""
                     className="mt-8 mb-4"
                 />
-                <div className="bientot">Nous démarrons bientôt</div>
 
                 <div style={{ width: "100%", height: "0px", position: "relative", paddingBottom: "56.25%" }}>
-                    <iframe src="https://streamyard.com/watch/YgtYDyCpAGjC?embed=true" width="100%" height="100%" frameBorder="0" allow="autoplay; fullscreen" style={{ width: "100%", height: "100%", position: "absolute", left: "0px", top: "0px", overflow: "hidden" }}>
+                    <iframe src="https://streamyard.com/watch/SswQTRnqiJP3?embed=true" width="100%" height="100%" frameBorder="0" allow="autoplay; fullscreen" style={{ width: "100%", height: "100%", position: "absolute", left: "0px", top: "0px", overflow: "hidden" }}>
                     </iframe>
                 </div>
 
