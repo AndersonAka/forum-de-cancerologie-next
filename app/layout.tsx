@@ -5,7 +5,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { PageTrackingProvider } from "./components/PageTrackingProvider";
 //import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import { CountDown } from "./components/CountDown";
+//import { CountDown } from "./components/CountDown";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -68,7 +68,7 @@ export default function RootLayout({
               <main className="flex-grow">
                 {children}
               </main>
-              <CountDown />
+              {/* <CountDown /> */}
               <Footer />
             </div>
           </PageTrackingProvider>

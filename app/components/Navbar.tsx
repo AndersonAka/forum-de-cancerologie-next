@@ -25,11 +25,14 @@ const navLinks: NavLink[] = [
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isRediffusionOpen, setIsRediffusionOpen] = useState(false);
+    const [isRediffusion2025Open, setIsRediffusion2025Open] = useState(false);
     const [isUpdatingMode, setIsUpdatingMode] = useState(false);
     const { logout, loading, user, updateParticipationMode } = useAuth();
     const pathname = usePathname();
     const menuRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const rediffusionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -42,11 +45,20 @@ export default function Navbar() {
             ) {
                 setIsMenuOpen(false);
             }
+            
+            if (
+                isRediffusionOpen &&
+                rediffusionRef.current &&
+                !rediffusionRef.current.contains(event.target as Node)
+            ) {
+                setIsRediffusionOpen(false);
+                setIsRediffusion2025Open(false);
+            }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [isMenuOpen]);
+    }, [isMenuOpen, isRediffusionOpen]);
 
     const handleLogout = async () => {
         try {
@@ -66,6 +78,8 @@ export default function Navbar() {
             setIsUpdatingMode(false);
         }
     };
+
+    const isRediffusionActive = pathname.includes('rediffusion-2025');
 
     // Afficher un état de chargement
     if (loading) {
@@ -157,6 +171,65 @@ export default function Navbar() {
                                 {link.label}
                             </Link>
                         ))}
+                        
+                        {/* Menu Rediffusion Mobile */}
+                        <div className="relative">
+                            <button
+                                onClick={() => setIsRediffusionOpen(!isRediffusionOpen)}
+                                className={`w-full py-2 px-4 text-center flex items-center justify-center gap-2 ${isRediffusionOpen ? 'active' : 'text-gray-600 hover:bg-gray-50'}`}
+                                aria-label="Menu Rediffusion"
+                            >
+                                <span>Rediffusion</span>
+                                <svg
+                                    className={`w-4 h-4 transition-transform ${isRediffusionOpen ? 'rotate-180' : ''}`}
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            {isRediffusionOpen && (
+                                <div className="bg-gray-50 border-l-4 border-[var(--bleu-roche)]">
+                                    <div className="relative">
+                                        <button
+                                            onClick={() => setIsRediffusion2025Open(!isRediffusion2025Open)}
+                                            className="w-full py-2 px-8 text-left text-sm text-gray-600 hover:bg-gray-100 flex items-center justify-between"
+                                            aria-label="Sous-menu 2025"
+                                        >
+                                            <span>2025</span>
+                                            <svg
+                                                className={`w-3 h-3 transition-transform ${isRediffusion2025Open ? 'rotate-90' : ''}`}
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </button>
+                                        {isRediffusion2025Open && (
+                                            <div className="pl-8 border-l-2 border-gray-200 bg-gray-100">
+                                                <Link
+                                                    href="/rediffusion-2025/podcasts"
+                                                    className="block py-2 px-4 text-sm text-gray-500 hover:bg-gray-200"
+                                                    onClick={() => { setIsMenuOpen(false); setIsRediffusion2025Open(false); }}
+                                                >
+                                                    Podcasts
+                                                </Link>
+                                            </div>
+                                        )}
+                                    </div>
+                                    {/* <Link
+                                        href="/rediffusion-2024"
+                                        className="block py-2 px-8 text-sm text-gray-600 hover:bg-gray-100"
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        2024
+                                    </Link> */}
+                                </div>
+                            )}
+                        </div>
+
                         <button
                             onClick={() => { setIsMenuOpen(false); handleLogout(); }}
                             className="logout flex items-center gap-2 justify-center w-full py-2 px-4 text-center"
@@ -172,7 +245,7 @@ export default function Navbar() {
                         </button>
                     </div>
                     {/* Sélecteur de mode de participation mobile */}
-                    <div className="participation-mode flex justify-center w-full px-4 py-2 border-t border-gray-100">
+                    {/* <div className="participation-mode flex justify-center w-full px-4 py-2 border-t border-gray-100">
                         <div className="flex items-center justify-between gap-2">
                             <label htmlFor="participation-mode-mobile" className="text-sm text-gray-600 flex items-center gap-1 whitespace-nowrap">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -197,7 +270,7 @@ export default function Navbar() {
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
@@ -227,6 +300,72 @@ export default function Navbar() {
                         </Link>
                     ))}
 
+                    {/* Menu Rediffusion Desktop */}
+                    <div className="relative" ref={rediffusionRef}>
+                        <button
+                            onClick={() => setIsRediffusionOpen(!isRediffusionOpen)}
+                            className={`flex text-bleu-roche items-center gap-1 py-2 px-3 rounded-md transition-colors ${(isRediffusionOpen || isRediffusionActive) ? 'active' : 'text-gray-600 hover:text-gray-900'}`}
+                            aria-label="Menu Rediffusion"
+                        >
+                            <span className="text-sm ">Rediffusion</span>
+                            <svg
+                                className={`w-4 h-4  transition-transform ${isRediffusionOpen ? 'rotate-180' : ''}`}
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        {isRediffusionOpen && (
+                            <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50">
+                                <div className="py-1">
+                                    <div className="relative group">
+                                        <button
+                                            onClick={() => setIsRediffusion2025Open(!isRediffusion2025Open)}
+                                            className="w-full px-4 py-2 text-left text-sm text-bleu-roche hover:bg-gray-100 flex items-center justify-between"
+                                            aria-label="Sous-menu 2025"
+                                            onMouseEnter={() => setIsRediffusion2025Open(true)}
+                                            onMouseLeave={() => setIsRediffusion2025Open(false)}
+                                        >
+                                            <span>2025</span>
+                                            <svg
+                                                className={`w-3 h-3 transition-transform ${isRediffusion2025Open ? 'rotate-90' : ''}`}
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </button>
+                                        {isRediffusion2025Open && (
+                                            <div
+                                                className="absolute left-full top-0 min-w-[160px] bg-white border border-gray-200 rounded-md shadow-lg z-50"
+                                                onMouseEnter={() => setIsRediffusion2025Open(true)}
+                                                onMouseLeave={() => setIsRediffusion2025Open(false)}
+                                            >
+                                                <Link
+                                                    href="/rediffusion-2025/podcasts"
+                                                    className="block px-6 py-2 text-sm text-gray-500 hover:bg-gray-100 whitespace-nowrap"
+                                                    onClick={() => { setIsRediffusionOpen(false); setIsRediffusion2025Open(false); }}
+                                                >
+                                                    Podcasts
+                                                </Link>
+                                            </div>
+                                        )}
+                                    </div>
+                                    {/* <Link
+                                        href="/rediffusion-2024"
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        onClick={() => setIsRediffusionOpen(false)}
+                                    >
+                                        2024
+                                    </Link> */}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
                     <button
                         onClick={handleLogout}
                         className="logout"
@@ -241,7 +380,7 @@ export default function Navbar() {
                         <span>Déconnexion</span>
                     </button>
                     {/* Sélecteur de mode de participation */}
-                    <div className="nav-list participation-mode flex items-center gap-2">
+                    {/* <div className="nav-list participation-mode flex items-center gap-2">
                         <label htmlFor="participation-mode" className="text-sm text-gray-600 flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
@@ -262,7 +401,7 @@ export default function Navbar() {
                             <option value="en ligne">En ligne</option>
                             <option value="présentiel">Sur place</option>
                         </select>
-                    </div>
+                    </div> */}
 
                 </div>
             </div>
