@@ -5,35 +5,35 @@ import VideoSection from "@/app/components/VideoSection";
 const videos = [
   {
     title: "Pr Ernest BELEMBAOGO",
-    src: "https://medias.forumcancerologie-roche.com/rediffusion-25/1-pr-ernest-belembaogo-a-ci.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/1-pr-ernest-belembaogo-a-ci.mp4"
   },
   {
     title: "Dr Bitti ODO",
-    src: "https://medias.forumcancerologie-roche.com/rediffusion-25/2-pr-oddo-bitty-a-ci.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/2-pr-oddo-bitty-a-ci.mp4"
   },
   {
     title: "Pr Driss MOUSSAOUI",
-    src: "https://medias.forumcancerologie-roche.com/rediffusion-25/3-pr-idriss-a-ci.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/3-pr-idriss-a-ci.mp4"
   },
   {
     title: "Dr Doudou DIOUF",
-    src: "https://medias.forumcancerologie-roche.com/rediffusion-25/4-dr-doudou-diouf-a-ci.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/4-dr-doudou-diouf-a-ci.mp4"
   },
   {
     title: "Dr Narjiss BERRADA",
-    src: "https://medias.forumcancerologie-roche.com/rediffusion-25/5-dr-narjiss-a-ci.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/5-dr-narjiss-a-ci.mp4"
   },
   {
     title: "Mr Eugene MWOKE",
-    src: "https://medias.forumcancerologie-roche.com/rediffusion-25/6-eugene-moke-directeur-general-roche-fr-a-ci.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/6-eugene-moke-directeur-general-roche-fr-a-ci.mp4"
   },
   {
     title: "Dr Jean Pascal Demba DIOP",
-    src: "https://medias.forumcancerologie-roche.com/rediffusion-25/7-dr-jean-pascal-a-ci.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/7-dr-jean-pascal-a-ci.mp4"
   },
   {
     title: "Dr Mouhamadou BACHIR BA",
-    src: "https://medias.forumcancerologie-roche.com/rediffusion-25/8-dr-bachir-b-a-ci.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/8-dr-bachir-b-a-ci.mp4"
   }
 ];
 

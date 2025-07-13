@@ -167,7 +167,7 @@ export default function ConnexionPage() {
         <Suspense fallback={<div>Chargement...</div>}>
             <ConnexionContent />
             <VideoSection
-                src="https://medias.forumcancerologie-roche.com/teaser-forum-de-cancerologie.mp4"
+                src="https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/teaser-forum-de-cancerologie.mp4"
                 title="Teaser Forum de Cancérologie"
                 className="mt-8"
             />

@@ -51,7 +51,7 @@ export const HomePage = () => {
             <header className='body-head'>
                 <ThemeTitle />
                 <VideoSection
-                    src="https://medias.forumcancerologie-roche.com/teaser-forum-de-cancerologie.mp4"
+                    src="https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/teaser-forum-de-cancerologie.mp4"
                     title=""
                     className="mt-8 mb-4"
                 />
