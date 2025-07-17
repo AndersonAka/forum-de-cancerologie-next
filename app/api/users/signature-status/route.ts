@@ -50,9 +50,8 @@ export async function PUT(request: NextRequest) {
 
     // Validation de l'URL de signature
     if (
-      !signature.startsWith(
-        "https://medias.forumcancerologie-roche.com/signatures/"
-      )
+      !signature.startsWith("https://medias.forumcancerologie-roche.com/signatures/") &&
+      !signature.startsWith("https://medias-forum-cancerologie.s3.")
     ) {
       return NextResponse.json(
         {

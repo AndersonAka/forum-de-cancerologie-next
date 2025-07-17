@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { existsSync } from "fs";
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+
+// Config AWS S3
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  },
+});
 
 /**
  * Endpoint pour l'upload de signature en base64
@@ -45,45 +55,40 @@ export async function POST(request: NextRequest) {
     // Générer le nom de fichier unique
     const timestamp = Date.now();
     const filename = `user_${userId}_${timestamp}.png`;
+    const s3Key = `signatures/${filename}`;
 
-    // Essayer d'abord l'upload vers le serveur externe OVH
-    const externalUploadUrl = `https://medias.forumcancerologie-roche.com/signatures/upload.php/${filename}`;
-
+    // Essayer d'abord l'upload vers AWS S3
     try {
-      const uploadResponse = await fetch(externalUploadUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/octet-stream",
-          "Content-Length": buffer.length.toString(),
+      await s3Client.send(new PutObjectCommand({
+        Bucket: process.env.AWS_S3_BUCKET_NAME!,
+        Key: s3Key,
+        Body: buffer,
+        ContentType: 'image/png',
+        Metadata: {
+          uploadedAt: new Date().toISOString(),
+          source: 'forum-cancerologie',
         },
-        body: buffer,
+      }));
+      const s3Url = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${s3Key}`;
+      console.log("✅ Signature uploadée sur AWS S3:", s3Url);
+      return NextResponse.json({
+        success: true,
+        signatureUrl: s3Url,
+        storage: "aws",
+        filename: filename,
+        size: buffer.length,
       });
-
-      if (uploadResponse.ok) {
-        const result = await uploadResponse.json();
-
-        if (result.success) {
-          console.log("✅ Signature uploadée sur serveur OVH:", result.url);
-          return NextResponse.json({
-            success: true,
-            signatureUrl: result.url,
-            storage: "ovh",
-            filename: result.filename,
-            size: result.size,
-          });
-        }
-      }
-    } catch (externalError) {
+    } catch (awsError) {
       console.log(
-        "⚠️ Serveur OVH non accessible, fallback vers stockage local:",
-        externalError
+        "⚠️ AWS S3 non accessible, fallback vers stockage local:",
+        awsError
       );
       if (process.env.NODE_ENV === "production") {
         return NextResponse.json(
           {
             success: false,
             error:
-              "Une erreur s'est produite lors de l'enregistrement de votre signature. Veuillez patienter quelques instants puis réessayer.",
+              "Une erreur s'est produite lors de l'enregistrement de votre signature sur AWS. Veuillez patienter quelques instants puis réessayer.",
           },
           { status: 500 }
         );
@@ -112,7 +117,7 @@ export async function POST(request: NextRequest) {
       storage: "local",
       filename: filename,
       size: buffer.length,
-      message: "Signature stockée temporairement (serveur OVH non accessible)",
+      message: "Signature stockée temporairement (AWS S3 non accessible)",
     });
   } catch (error) {
     console.error("❌ Erreur upload signature base64:", error);
@@ -136,6 +141,6 @@ export async function GET() {
     methods: ["POST"],
     maxSize: "1MB",
     format: "data:image/png;base64,...",
-    features: ["OVH server upload", "Local fallback storage"],
+    features: ["AWS S3 upload", "Local fallback storage"],
   });
 }

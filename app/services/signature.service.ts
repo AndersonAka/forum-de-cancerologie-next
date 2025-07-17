@@ -37,7 +37,7 @@ const base64ToBlob = (base64Data: string): Blob => {
 };
 
 /**
- * Upload la signature directement vers le serveur OVH
+ * Upload la signature vers AWS S3 via URL pré-signée
  */
 export const uploadSignatureToServer = async (
   signatureData: string,
@@ -47,46 +47,60 @@ export const uploadSignatureToServer = async (
     // Convertir base64 en Blob
     const signatureBlob = base64ToBlob(signatureData);
 
-    // Convertir Blob en ArrayBuffer pour l'upload direct
-    const arrayBuffer = await signatureBlob.arrayBuffer();
-    const uint8Array = new Uint8Array(arrayBuffer);
-
     // Générer un nom de fichier unique
     const timestamp = Date.now();
     const filename = `user_${userId}_${timestamp}.png`;
 
-    // URL d'upload OVH
-    const uploadUrl = `https://medias.forumcancerologie-roche.com/signatures/upload.php/${filename}`;
-
-    // Upload direct vers OVH
-    const response = await fetch(uploadUrl, {
-      method: "POST",
+    // 1. Demander une URL pré-signée à notre API
+    const presignResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/signature/presign`, {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/octet-stream",
-        "Content-Length": uint8Array.length.toString(),
+        'Content-Type': 'application/json',
       },
-      body: uint8Array,
+      body: JSON.stringify({
+        filename,
+        contentType: 'image/png',
+      }),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
+    if (!presignResponse.ok) {
+      const errorData = await presignResponse.json().catch(() => ({}));
       throw new Error(
-        `Erreur upload OVH: ${response.status} ${response.statusText} - ${errorText}`
+        `Erreur génération URL pré-signée: ${presignResponse.status} - ${
+          errorData.error || ''
+        }`
       );
     }
 
-    const result = await response.json();
+    const presignResult = await presignResponse.json();
 
-    if (!result.success) {
-      throw new Error(result.error || "Échec de l'upload OVH");
+    if (!presignResult.success) {
+      throw new Error(presignResult.error || 'Échec de la génération de l\'URL pré-signée');
+    }
+
+    // 2. Upload direct vers S3 via l'URL pré-signée
+    const uploadResponse = await fetch(presignResult.presignedUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'image/png',
+      },
+      body: signatureBlob,
+    });
+
+    if (!uploadResponse.ok) {
+      const errorText = await uploadResponse.text();
+      throw new Error(
+        `Erreur upload S3: ${uploadResponse.status} ${uploadResponse.statusText} - ${errorText}`
+      );
     }
 
     return {
       success: true,
-      signatureUrl: result.url,
+      signatureUrl: presignResult.publicUrl,
     };
   } catch (error) {
-    // Fallback vers l'endpoint local si OVH échoue
+    console.error('❌ Erreur upload S3, fallback vers local:', error);
+    // Fallback vers l'endpoint local si S3 échoue
     return await uploadSignatureToLocalServer(signatureData, userId);
   }
 };
@@ -100,7 +114,7 @@ const uploadSignatureToLocalServer = async (
 ): Promise<SignatureUploadResponse> => {
   try {
     // Utiliser le nouvel endpoint base64
-    const response = await fetch("/api/signature/upload-base64", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/signature/upload-base64`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -160,7 +174,7 @@ export const updateUserSignatureStatus = async (
         : null);
 
     // Utiliser l'endpoint avec authentification
-    const response = await fetch("/api/users/signature-status", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signature-status`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -248,7 +262,7 @@ export const checkUserSignatureStatus = async (
 ): Promise<{ success: boolean; has_signature: boolean; error?: string }> => {
   try {
     const response = await fetch(
-      `/api/users/signature-status?userId=${userId}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signature-status?userId=${userId}`,
       {
         method: "GET",
         headers: {
@@ -295,7 +309,7 @@ export const updateAuthContextAfterSignature = async (
     }
 
     // Récupérer les données utilisateur mises à jour depuis le backend
-    const response = await fetch("/api/auth/me", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

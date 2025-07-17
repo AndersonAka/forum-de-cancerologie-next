@@ -16,6 +16,8 @@
     "test-all": "npm run test-signature && npm run optimize-performance && npm run test-upload && npm run test-external && npm run test-php"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.846.0",
+    "@aws-sdk/s3-request-presigner": "^3.846.0",
     "@tanstack/react-query": "latest",
     "@types/js-cookie": "^3.0.6",
     "@types/react-signature-canvas": "^1.0.7",
