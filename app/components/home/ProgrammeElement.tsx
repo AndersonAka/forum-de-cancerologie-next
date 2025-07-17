@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { BoutonLiveReplay } from "../BoutonLiveReplay";
+// import { BoutonLiveReplay } from "../BoutonLiveReplay";
 
 export const ProgrammeElement = () => {
     return (
@@ -108,7 +108,7 @@ export const ProgrammeElement = () => {
                 <div className=""><Image src="/img/people-connect.png" alt="#" width={370} height={270} /></div>
             </div>
 
-            <BoutonLiveReplay />
+            {/* <BoutonLiveReplay /> */}
 
         </section>
     )

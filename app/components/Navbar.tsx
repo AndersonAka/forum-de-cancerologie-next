@@ -13,14 +13,23 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
-    { href: '/', label: 'Accueil', requiresAuth: true },
+    { href: '/edition-2025', label: 'Accueil', requiresAuth: true },
     // { href: '/edition-2024', label: 'Edition 2024', requiresAuth: true },
-    { href: '/orateur', label: 'Orateurs', requiresAuth: true },
-    { href: '/agenda', label: 'Agenda', requiresAuth: true },
-    { href: '/direct', label: 'Direct', requiresAuth: true },
+    { href: '/edition-2025/orateur', label: 'Orateurs', requiresAuth: true },
+    // { href: '/edition-2025/agenda', label: 'Agenda', requiresAuth: true },
+    // { href: '/edition-2025/direct', label: 'Direct', requiresAuth: true },
     // { href: '/rediffusion-2024', label: 'Rediffusion 2024', requiresAuth: true },
-    { href: '/etude', label: 'Etudes', requiresAuth: true },
-    { href: '/itineraire', label: 'Itinéraire', requiresAuth: true },
+    { href: '/edition-2025/etude', label: 'Etudes', requiresAuth: true },
+    // { href: '/edition-2025/itineraire', label: 'Itinéraire', requiresAuth: true },
+    { href: '/edition-2024', label: 'Edition 2024', requiresAuth: true },
+];
+
+const navLinks2024: NavLink[] = [
+    { href: '/edition-2024', label: 'Accueil', requiresAuth: true },
+    { href: '/edition-2024/orateur', label: 'Orateurs', requiresAuth: true },
+    { href: '/edition-2024/etude', label: 'Etudes', requiresAuth: true },
+    // { href: '/edition-2024/itineraire', label: 'Itinéraire', requiresAuth: true },
+    { href: '/edition-2025', label: 'Edition 2025', requiresAuth: true },
 ];
 
 export default function Navbar() {
@@ -33,6 +42,13 @@ export default function Navbar() {
     const menuRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const rediffusionRef = useRef<HTMLDivElement>(null);
+
+    // Déterminer quel menu afficher selon la page
+    const isHomePage = pathname === '/';
+    const isEdition2025 = pathname.startsWith('/edition-2025');
+    const isEdition2024 = pathname.startsWith('/edition-2024');
+    const shouldShowMenu = !isHomePage;
+    const currentNavLinks = isEdition2024 ? navLinks2024 : navLinks;
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -158,7 +174,7 @@ export default function Navbar() {
             >
                 <div className="flex flex-col items-center py-4 gap-2">
                     <div className="nav-list w-full">
-                        {navLinks.map((link) => (
+                        {shouldShowMenu && currentNavLinks.map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
@@ -172,63 +188,66 @@ export default function Navbar() {
                             </Link>
                         ))}
                         
-                        {/* Menu Rediffusion Mobile */}
-                        <div className="relative">
-                            <button
-                                onClick={() => setIsRediffusionOpen(!isRediffusionOpen)}
-                                className={`w-full py-2 px-4 text-center flex items-center justify-center gap-2 ${isRediffusionOpen ? 'active' : 'text-gray-600 hover:bg-gray-50'}`}
-                                aria-label="Menu Rediffusion"
-                            >
-                                <span>Rediffusion</span>
-                                <svg
-                                    className={`w-4 h-4 transition-transform ${isRediffusionOpen ? 'rotate-180' : ''}`}
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
+                        {/* Menu Rediffusion Mobile - seulement si pas sur la page d'accueil */}
+                        {shouldShowMenu && (
+                            <div className="relative">
+                                <button
+                                    onClick={() => setIsRediffusionOpen(!isRediffusionOpen)}
+                                    className={`w-full py-2 px-4 text-center flex items-center justify-center gap-2 ${isRediffusionOpen ? 'active' : 'text-gray-600 hover:bg-gray-50'}`}
+                                    aria-label="Menu Rediffusion"
                                 >
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-                            {isRediffusionOpen && (
-                                <div className="bg-gray-50 border-l-4 border-[var(--bleu-roche)]">
-                                    <div className="relative">
-                                        <button
-                                            onClick={() => setIsRediffusion2025Open(!isRediffusion2025Open)}
-                                            className="w-full py-2 px-8 text-left text-sm text-gray-600 hover:bg-gray-100 flex items-center justify-between"
-                                            aria-label="Sous-menu 2025"
-                                        >
-                                            <span>2025</span>
-                                            <svg
-                                                className={`w-3 h-3 transition-transform ${isRediffusion2025Open ? 'rotate-90' : ''}`}
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </button>
-                                        {isRediffusion2025Open && (
-                                            <div className="pl-8 border-l-2 border-gray-200 bg-gray-100">
-                                                <Link
-                                                    href="/rediffusion-2025/podcasts"
-                                                    className="block py-2 px-4 text-sm text-gray-500 hover:bg-gray-200"
-                                                    onClick={() => { setIsMenuOpen(false); setIsRediffusion2025Open(false); }}
-                                                >
-                                                    Podcasts
-                                                </Link>
-                                            </div>
-                                        )}
-                                    </div>
-                                    {/* <Link
-                                        href="/rediffusion-2024"
-                                        className="block py-2 px-8 text-sm text-gray-600 hover:bg-gray-100"
-                                        onClick={() => setIsMenuOpen(false)}
+                                    <span>Rediffusion</span>
+                                    <svg
+                                        className={`w-4 h-4 transition-transform ${isRediffusionOpen ? 'rotate-180' : ''}`}
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
                                     >
-                                        2024
-                                    </Link> */}
-                                </div>
-                            )}
-                        </div>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                {isRediffusionOpen && (
+                                    <div className="bg-gray-50 border-l-4 border-[var(--bleu-roche)]">
+                                        <div className="relative">
+                                            <button
+                                                onClick={() => setIsRediffusion2025Open(!isRediffusion2025Open)}
+                                                className="w-full py-2 px-8 text-left text-sm text-gray-600 hover:bg-gray-100 flex items-center justify-between"
+                                                aria-label="Sous-menu 2025"
+                                            >
+                                                <span>2025</span>
+                                                <svg
+                                                    className={`w-3 h-3 transition-transform ${isRediffusion2025Open ? 'rotate-90' : ''}`}
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </button>
+                                            {isRediffusion2025Open && (
+                                                <div className="pl-8 border-l-2 border-gray-200 bg-gray-100">
+                                                    <Link
+                                                        href="/rediffusion-2025/podcasts"
+                                                        className="block py-2 px-4 text-sm text-gray-500 hover:bg-gray-200"
+                                                        onClick={() => { setIsMenuOpen(false); setIsRediffusion2025Open(false); }}
+                                                    >
+                                                        Podcasts
+                                                    </Link>
+                                                </div>
+                                            )}
+                                        </div>
+                                        {/* <Link
+                                            href="/edition-2024"
+                                            className="block py-2 px-8 text-sm text-gray-600 hover:bg-gray-100"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            target='_blank'
+                                        >
+                                           Edition 2024
+                                        </Link> */}
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
                         <button
                             onClick={() => { setIsMenuOpen(false); handleLogout(); }}
@@ -287,7 +306,7 @@ export default function Navbar() {
             </div>
             <div className="hidden md:flex">
                 <div className="nav-list space-x-2">
-                    {navLinks.map((link) => (
+                    {shouldShowMenu && currentNavLinks.map((link) => (
                         <Link
                             key={link.href}
                             href={link.href}
@@ -300,71 +319,80 @@ export default function Navbar() {
                         </Link>
                     ))}
 
-                    {/* Menu Rediffusion Desktop */}
-                    <div className="relative" ref={rediffusionRef}>
-                        <button
-                            onClick={() => setIsRediffusionOpen(!isRediffusionOpen)}
-                            className={`flex text-bleu-roche items-center gap-1 py-2 px-3 rounded-md transition-colors ${(isRediffusionOpen || isRediffusionActive) ? 'active' : 'text-gray-600 hover:text-gray-900'}`}
-                            aria-label="Menu Rediffusion"
-                        >
-                            <span className="text-sm ">Rediffusion</span>
-                            <svg
-                                className={`w-4 h-4  transition-transform ${isRediffusionOpen ? 'rotate-180' : ''}`}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                    {/* Menu Rediffusion Desktop - seulement si pas sur la page d'accueil */}
+                    {shouldShowMenu && (
+                        <div className="relative" ref={rediffusionRef}>
+                            <button
+                                onClick={() => setIsRediffusionOpen(!isRediffusionOpen)}
+                                className={`flex text-bleu-roche items-center gap-1 py-2 px-3 rounded-md transition-colors ${(isRediffusionOpen || isRediffusionActive) ? 'active' : 'text-gray-600 hover:text-gray-900'}`}
+                                aria-label="Menu Rediffusion"
+                                id="rediffusion-button"
                             >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        {isRediffusionOpen && (
-                            <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50">
-                                <div className="py-1">
-                                    <div className="relative group">
-                                        <button
-                                            onClick={() => setIsRediffusion2025Open(!isRediffusion2025Open)}
-                                            className="w-full px-4 py-2 text-left text-sm text-bleu-roche hover:bg-gray-100 flex items-center justify-between"
-                                            aria-label="Sous-menu 2025"
-                                            onMouseEnter={() => setIsRediffusion2025Open(true)}
-                                            onMouseLeave={() => setIsRediffusion2025Open(false)}
-                                        >
-                                            <span>2025</span>
-                                            <svg
-                                                className={`w-3 h-3 transition-transform ${isRediffusion2025Open ? 'rotate-90' : ''}`}
-                                                fill="none"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </button>
-                                        {isRediffusion2025Open && (
-                                            <div
-                                                className="absolute left-full top-0 min-w-[160px] bg-white border border-gray-200 rounded-md shadow-lg z-50"
+                                <span className="text-sm ">Rediffusion</span>
+                                <svg
+                                    className={`w-4 h-4  transition-transform ${isRediffusionOpen ? 'rotate-180' : ''}`}
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            {isRediffusionOpen && (
+                                <div className="absolute top-full left-0 mt-1 w-52 bg-white rounded-md shadow-xl border border-gray-200 z-[9999]">
+                                    <div className="py-2 space-y-1">
+                                        <div className="relative">
+                                            <button
+                                                onClick={() => setIsRediffusion2025Open(!isRediffusion2025Open)}
+                                                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex text-bleu-roche items-center justify-between rounded-md"
+                                                aria-label="Sous-menu 2025"
                                                 onMouseEnter={() => setIsRediffusion2025Open(true)}
                                                 onMouseLeave={() => setIsRediffusion2025Open(false)}
                                             >
-                                                <Link
-                                                    href="/rediffusion-2025/podcasts"
-                                                    className="block px-6 py-2 text-sm text-gray-500 hover:bg-gray-100 whitespace-nowrap"
-                                                    onClick={() => { setIsRediffusionOpen(false); setIsRediffusion2025Open(false); }}
+                                                <span>2025</span>
+                                                <svg
+                                                    className={`w-4 h-4 transition-transform ${isRediffusion2025Open ? 'rotate-90' : ''}`}
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
                                                 >
-                                                    Podcasts
-                                                </Link>
-                                            </div>
-                                        )}
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </button>
+                                            {isRediffusion2025Open && (
+                                                <div
+                                                    className="absolute left-full top-0 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-[60]"
+                                                    onMouseEnter={() => setIsRediffusion2025Open(true)}
+                                                    onMouseLeave={() => setIsRediffusion2025Open(false)}
+                                                >
+                                                    <div className="py-1">
+                                                        <Link
+                                                            href="/rediffusion-2025/podcasts"
+                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                            onClick={() => { setIsRediffusionOpen(false); setIsRediffusion2025Open(false); }}
+                                                        >
+                                                            Podcasts
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        {/* <div className="border-t border-gray-100 pt-1">
+                                            <Link
+                                                href="/edition-2024"
+                                                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+                                                aria-label="Edition 2024"
+                                                onClick={() => setIsRediffusionOpen(false)}
+                                                target='_blank'
+                                            >
+                                                Edition 2024
+                                            </Link>
+                                        </div> */}
                                     </div>
-                                    {/* <Link
-                                        href="/rediffusion-2024"
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        onClick={() => setIsRediffusionOpen(false)}
-                                    >
-                                        2024
-                                    </Link> */}
                                 </div>
-                            </div>
-                        )}
-                    </div>
+                            )}
+                        </div>
+                    )}
 
                     <button
                         onClick={handleLogout}
