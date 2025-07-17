@@ -20,7 +20,7 @@ export default function Edition2024Content() {
           <div className="interview it1">
             <div className="video">
               <video
-                src="/img/2024/INTERVIEW/M-CI-00000327.INTERVIEW ALLALI.mp4"
+                src="https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/INTERVIEW/M-CI-00000327.INTERVIEW+ALLALI.mp4"
                 controls
                 muted
                 autoPlay
@@ -33,8 +33,8 @@ export default function Edition2024Content() {
           <div className="interview it2">
             <div className="video">
               <video
-                src="/img/2024/INTERVIEW/M-CI-00000328.INTERVIEW DOUDOU DIOUF.mp4"
-                controls
+                src="https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/INTERVIEW/M-CI-00000328.INTERVIEW+DOUDOU+DIOUF.mp4"
+                controls  
                 muted
                 autoPlay
               ></video>
@@ -46,7 +46,7 @@ export default function Edition2024Content() {
           <div className="interview it3">
             <div className="video">
               <video
-                src="/img/2024/INTERVIEW/M-CI-00000329.INTERVIEW NARJISS.mp4"
+                src="https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/INTERVIEW/M-CI-00000329.INTERVIEW+NARJISS.mp4"
                 controls
                 muted
                 autoPlay
@@ -59,7 +59,7 @@ export default function Edition2024Content() {
           <div className="interview it4">
             <div className="video">
               <video
-                src="/img/2024/INTERVIEW/M-CI-00000334.INTERVIEW DOUKOURE BRAHIMA.mp4"
+                src="https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/INTERVIEW/M-CI-00000334.INTERVIEW+DOUKOURE+BRAHIMA.mp4"
                 controls
                 muted
                 autoPlay
