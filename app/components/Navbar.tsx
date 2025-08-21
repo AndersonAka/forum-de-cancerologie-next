@@ -227,7 +227,7 @@ export default function Navbar() {
                                             {isRediffusion2025Open && (
                                                 <div className="pl-8 border-l-2 border-gray-200 bg-gray-100">
                                                     <Link
-                                                        href="/rediffusion-2025/podcasts"
+                                                        href="/edition-2025/rediffusion-2025/podcasts"
                                                         className="block py-2 px-4 text-sm text-gray-500 hover:bg-gray-200"
                                                         onClick={() => { setIsMenuOpen(false); setIsRediffusion2025Open(false); }}
                                                     >
@@ -367,7 +367,7 @@ export default function Navbar() {
                                                 >
                                                     <div className="py-1">
                                                         <Link
-                                                            href="/rediffusion-2025/podcasts"
+                                                            href="/edition-2025/rediffusion-2025/podcasts"
                                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                             onClick={() => { setIsRediffusionOpen(false); setIsRediffusion2025Open(false); }}
                                                         >

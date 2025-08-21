@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 interface VideoSectionProps {
     src: string;
     title?: string;
+    question?: string;
     className?: string;
     autoPlay?: boolean;
     loop?: boolean;
@@ -33,6 +34,7 @@ interface VideoSectionProps {
 export default function VideoSection({
     src,
     title,
+    question,
     className = "",
     autoPlay = true,
     loop = true,
@@ -93,6 +95,11 @@ export default function VideoSection({
             id="video-container"
             className={`w-full max-w-5xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 mt-4 sm:mt-6 md:mt-8 ${className}`}
         >
+            {question && (
+                <h3 className="text-lg sm:text-xl font-semibold text-center mb-3 sm:mb-4 text-rose-strong px-2">
+                    {question}
+                </h3>
+            )}
             {title && (
                 <h3 className="text-lg sm:text-xl font-semibold text-center mb-3 sm:mb-4 text-bleu-roche px-2">
                     {title}

@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     // Validation de l'URL de signature (plus permissive pour les tests)
     const allowedDomains = [
       "https://medias.forumcancerologie-roche.com/signatures/",
-      "http://localhost:3000/api/signature/temp/",
+      // "http://localhost:3000/api/signature/temp/",
     ];
 
     const isValidUrl = allowedDomains.some((domain) =>
