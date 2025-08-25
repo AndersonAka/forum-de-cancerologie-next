@@ -43,7 +43,6 @@ export default function EtudePage() {
   return (
     <Suspense fallback={<div>Chargement...</div>}>
      
-
       <section className="program-element py-5">
         <div className="menu-list">
           <Link href="/edition-2024/rediffusion" className="menu rediffussion">
