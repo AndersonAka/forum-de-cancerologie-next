@@ -1,7 +1,6 @@
 import VideoSection from "@/app/components/VideoSection";
 
 // Page rediffusion 2025 podcasts
-
 const videos = [
   {
     id:1,
@@ -38,19 +37,19 @@ const videos = [
     question:"Quelle est la place de la génomique dans la prise en charge des cancers du sein ?",
     title: "Dr Jean Pascal Demba (Sénégal)",
     // src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/6-eugene-moke-directeur-general-roche-fr-a-ci.mp4"
-    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/Dr+JEAN+PASCAL_A-CI-00000009.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/Dr%2BJEAN%2BPASCAL_A-CI-00000009.mp4"
   },
   {
     id:7,
     question:"Comment l'absence d'équipements de radiothérapie limite-t-elle la prise charge des cancers du sein en Afrique ?",
     title: "Dr Mouhamadou Bachir Ba (Sénégal)",
-    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/7-dr-jean-pascal-a-ci.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/7-pr-mamdou-bachir-a-ci.mp4"
   },
   {
     id:8,
     question:"Quel est l'état des lieux de la prise en charge des cancers du sein en Côte d'Ivoire ?",
     title: "Pr Innocent Adoubi (Côte d'Ivoire)",
-    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/8-dr-bachir-b-a-ci.mp4"
+    src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/8-pr-innocent-adobi-ci.mp4"
   }
 ];
 
