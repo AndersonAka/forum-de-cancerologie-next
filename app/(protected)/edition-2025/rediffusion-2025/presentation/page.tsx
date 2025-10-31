@@ -17,8 +17,8 @@ const videos = [
     },
     {
       id:3,
-      question:"Quelles chirurgies du sein pour les patients mutées ?",
-      title: "Pr Driss Moussaoui (Maroc)",
+      question:"Place de la génomique dans la prise en charge des cancers du sein",
+      title: "Dr Jean Pascal Demba Diop",
       src: "https://medias-forum-cancerologie.s3.eu-west-3.amazonaws.com/redifussion-2025/podcasts/JEAN-PASCAL+_M-CI-00000469.mp4"
     },
     {
