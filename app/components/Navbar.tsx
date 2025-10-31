@@ -233,6 +233,13 @@ export default function Navbar() {
                                                     >
                                                         Podcasts
                                                     </Link>
+                                                    <Link
+                                                        href="/edition-2025/rediffusion-2025/presentation"
+                                                        className="block py-2 px-4 text-sm text-gray-500 hover:bg-gray-200"
+                                                        onClick={() => { setIsMenuOpen(false); setIsRediffusion2025Open(false); }}
+                                                    >
+                                                        Présentation
+                                                    </Link>
                                                 </div>
                                             )}
                                         </div>
@@ -372,6 +379,13 @@ export default function Navbar() {
                                                             onClick={() => { setIsRediffusionOpen(false); setIsRediffusion2025Open(false); }}
                                                         >
                                                             Podcasts
+                                                        </Link>
+                                                        <Link
+                                                            href="/edition-2025/rediffusion-2025/presentation"
+                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                            onClick={() => { setIsRediffusionOpen(false); setIsRediffusion2025Open(false); }}
+                                                        >
+                                                            Présentation
                                                         </Link>
                                                     </div>
                                                 </div>

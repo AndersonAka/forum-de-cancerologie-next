@@ -47,6 +47,7 @@ export function middleware(request: NextRequest) {
     "/rediffusion-2024",
     "/etude",
     "/itineraire",
+    "/edition-2025",
   ];
 
   const isProtected = protectedPaths.some(
