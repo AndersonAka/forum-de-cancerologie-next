@@ -7,9 +7,11 @@ import { useRouter } from 'next/navigation';
 import { authService } from '@/app/services/auth.service';
 import { HeaderSection } from '../HaederSection';
 import { CountrySelect } from '@/app/components/CountrySelect';
-import { ConsentModal } from './ConsentModal';
+// SIGNATURE COMMENTÉE - Demande client
+// import { ConsentModal } from './ConsentModal';
 import { InscriptionData } from './types';
-import { uploadSignatureAndUpdateUser } from '@/app/services/signature.service';
+// SIGNATURE COMMENTÉE - Demande client
+// import { uploadSignatureAndUpdateUser } from '@/app/services/signature.service';
 
 interface ApiError {
     response?: {
@@ -55,8 +57,9 @@ export default function InscriptionPage() {
     const [error, setError] = useState<string | null>(null);
     const [consentError, setConsentError] = useState<string | null>(null);
     const [hasConsented, setHasConsented] = useState(false);
-    const [showModal, setShowModal] = useState(false);
-    const [signatureData, setSignatureData] = useState<string>('');
+    // SIGNATURE COMMENTÉE - Demande client
+    // const [showModal, setShowModal] = useState(false);
+    // const [signatureData, setSignatureData] = useState<string>('');
 
     useEffect(() => {
         const savedEmail = localStorage.getItem('email');
@@ -93,19 +96,20 @@ export default function InscriptionPage() {
             const user = registerResponse.user;
             const userId = user.id;
 
+            // SIGNATURE COMMENTÉE - Demande client
             // 2. Upload de la signature si elle existe
-            if (signatureData) {
-                const uploadResult = await uploadSignatureAndUpdateUser(
-                    signatureData,
-                    userId,
-                    registerResponse.access_token
-                );
+            // if (signatureData) {
+            //     const uploadResult = await uploadSignatureAndUpdateUser(
+            //         signatureData,
+            //         userId,
+            //         registerResponse.access_token
+            //     );
 
-                if (!uploadResult.success) {
-                    // On continue même si l'upload échoue, l'utilisateur est créé
-                }
-            } else {
-            }
+            //     if (!uploadResult.success) {
+            //         // On continue même si l'upload échoue, l'utilisateur est créé
+            //     }
+            // } else {
+            // }
 
             if (rememberMe) {
                 localStorage.setItem('email', formData.email);
@@ -196,106 +200,108 @@ export default function InscriptionPage() {
                 setConsentError('Veuillez renseigner tous les champs');
                 setHasConsented(false);
             } else {
-                setShowModal(true);
+                // SIGNATURE COMMENTÉE - Demande client
+                // setShowModal(true);
             }
         }
     };
 
-    const handleSubmitWithSignature = async (signature: string) => {
-        setIsLoading(true);
-        setError(null);
-        setConsentError(null);
+    // SIGNATURE COMMENTÉE - Demande client
+    // const handleSubmitWithSignature = async (signature: string) => {
+    //     setIsLoading(true);
+    //     setError(null);
+    //     setConsentError(null);
 
-        if (!hasConsented) {
-            setConsentError('Vous devez accepter les termes du formulaire de consentement');
-            setIsLoading(false);
-            return;
-        }
+    //     if (!hasConsented) {
+    //         setConsentError('Vous devez accepter les termes du formulaire de consentement');
+    //         setIsLoading(false);
+    //         return;
+    //     }
 
-        try {
-            // 1. Créer l'utilisateur d'abord
-            const registerResponse = await authService.register({
-                ...formData,
-                gdprConsent: true,
-            });
+    //     try {
+    //         // 1. Créer l'utilisateur d'abord
+    //         const registerResponse = await authService.register({
+    //             ...formData,
+    //             gdprConsent: true,
+    //         });
 
-            // Vérifier que la réponse contient bien un utilisateur
-            if (!registerResponse || !registerResponse.user || !registerResponse.user.id) {
-                throw new Error('Réponse invalide du serveur');
-            }
+    //         // Vérifier que la réponse contient bien un utilisateur
+    //         if (!registerResponse || !registerResponse.user || !registerResponse.user.id) {
+    //             throw new Error('Réponse invalide du serveur');
+    //         }
 
-            const user = registerResponse.user;
-            const userId = user.id;
+    //         const user = registerResponse.user;
+    //         const userId = user.id;
 
-            // 2. Upload de la signature
-            const uploadResult = await uploadSignatureAndUpdateUser(
-                signature,
-                userId,
-                registerResponse.access_token
-            );
+    //         // 2. Upload de la signature
+    //         const uploadResult = await uploadSignatureAndUpdateUser(
+    //             signature,
+    //             userId,
+    //             registerResponse.access_token
+    //         );
 
-            if (!uploadResult.success) {
-                // On continue même si l'upload échoue, l'utilisateur est créé
-            }
+    //         if (!uploadResult.success) {
+    //             // On continue même si l'upload échoue, l'utilisateur est créé
+    //         }
 
-            if (rememberMe) {
-                localStorage.setItem('email', formData.email);
-            } else {
-                localStorage.removeItem('email');
-            }
+    //         if (rememberMe) {
+    //             localStorage.setItem('email', formData.email);
+    //         } else {
+    //             localStorage.removeItem('email');
+    //         }
 
-            // Indicateur de succès pour la page de connexion
-            localStorage.setItem('inscriptionSuccess', '1');
+    //         // Indicateur de succès pour la page de connexion
+    //         localStorage.setItem('inscriptionSuccess', '1');
 
-            router.push('/connexion');
-        } catch (err: unknown) {
-            // Gestion de l'erreur backend
-            let backendMessage = '';
-            const apiError = err as ApiError;
+    //         router.push('/connexion');
+    //     } catch (err: unknown) {
+    //         // Gestion de l'erreur backend
+    //         let backendMessage = '';
+    //         const apiError = err as ApiError;
 
-            if (apiError?.response?.json) {
-                try {
-                    const data = await apiError.response.json();
-                    if (data?.message) {
-                        backendMessage = data.message;
-                    }
-                } catch { }
-            }
+    //         if (apiError?.response?.json) {
+    //             try {
+    //                 const data = await apiError.response.json();
+    //                 if (data?.message) {
+    //                     backendMessage = data.message;
+    //                 }
+    //             } catch { }
+    //         }
 
-            // Messages d'erreur plus conviviaux
-            if (backendMessage) {
-                if (backendMessage.toLowerCase().includes('email')) {
-                    if (backendMessage.toLowerCase().includes('already exists') || backendMessage.toLowerCase().includes('déjà utilisé')) {
-                        setError('Cette adresse email est déjà utilisée. Veuillez utiliser une autre adresse email ou vous connecter si vous avez déjà un compte.');
-                    } else if (backendMessage.toLowerCase().includes('invalid') || backendMessage.toLowerCase().includes('invalide')) {
-                        setError('L\'adresse email saisie n\'est pas valide. Veuillez vérifier votre saisie.');
-                    } else {
-                        setError(backendMessage);
-                    }
-                } else if (backendMessage.toLowerCase().includes('required') || backendMessage.toLowerCase().includes('manquant')) {
-                    setError('Veuillez remplir tous les champs obligatoires.');
-                } else if (backendMessage.toLowerCase().includes('phone') || backendMessage.toLowerCase().includes('téléphone')) {
-                    setError('Le numéro de téléphone saisi n\'est pas valide. Veuillez vérifier votre saisie.');
-                } else {
-                    setError(backendMessage);
-                }
-            } else if (err instanceof Error) {
-                if (err.message.includes('409') || err.message.includes('already exists')) {
-                    setError('Cette adresse email est déjà utilisée.');
-                } else if (err.message.includes('401')) {
-                    setError('Une erreur d\'authentification est survenue. Veuillez réessayer.');
-                } else if (err.message.includes('400')) {
-                    setError('Certaines informations saisies ne sont pas valides. Veuillez vérifier vos données.');
-                } else {
-                    setError('Une erreur est survenue lors de l\'inscription. Veuillez réessayer ultérieurement.');
-                }
-            } else {
-                setError('Une erreur inattendue est survenue. Veuillez réessayer ultérieurement.');
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    //         // Messages d'erreur plus conviviaux
+    //         if (backendMessage) {
+    //             if (backendMessage.toLowerCase().includes('email')) {
+    //                 if (backendMessage.toLowerCase().includes('already exists') || backendMessage.toLowerCase().includes('déjà utilisé')) {
+    //                     setError('Cette adresse email est déjà utilisée. Veuillez utiliser une autre adresse email ou vous connecter si vous avez déjà un compte.');
+    //                 } else if (backendMessage.toLowerCase().includes('invalid') || backendMessage.toLowerCase().includes('invalide')) {
+    //                     setError('L\'adresse email saisie n\'est pas valide. Veuillez vérifier votre saisie.');
+    //                 } else {
+    //                     setError(backendMessage);
+    //                 }
+    //             } else if (backendMessage.toLowerCase().includes('required') || backendMessage.toLowerCase().includes('manquant')) {
+    //                 setError('Veuillez remplir tous les champs obligatoires.');
+    //             } else if (backendMessage.toLowerCase().includes('phone') || backendMessage.toLowerCase().includes('téléphone')) {
+    //                 setError('Le numéro de téléphone saisi n\'est pas valide. Veuillez vérifier votre saisie.');
+    //             } else {
+    //                 setError(backendMessage);
+    //             }
+    //         } else if (err instanceof Error) {
+    //             if (err.message.includes('409') || err.message.includes('already exists')) {
+    //                 setError('Cette adresse email est déjà utilisée.');
+    //             } else if (err.message.includes('401')) {
+    //                 setError('Une erreur d\'authentification est survenue. Veuillez réessayer.');
+    //             } else if (err.message.includes('400')) {
+    //                 setError('Certaines informations saisies ne sont pas valides. Veuillez vérifier vos données.');
+    //             } else {
+    //                 setError('Une erreur est survenue lors de l\'inscription. Veuillez réessayer ultérieurement.');
+    //             }
+    //         } else {
+    //             setError('Une erreur inattendue est survenue. Veuillez réessayer ultérieurement.');
+    //         }
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
 
     return (
         <main>
@@ -522,7 +528,8 @@ export default function InscriptionPage() {
                 </div>
             </section>
 
-            <ConsentModal
+            {/* SIGNATURE COMMENTÉE - Demande client */}
+            {/* <ConsentModal
                 isOpen={showModal}
                 onClose={() => {
                     setShowModal(false);
@@ -534,7 +541,7 @@ export default function InscriptionPage() {
                 }}
                 formData={formData}
                 isLoading={isLoading}
-            />
+            /> */}
         </main>
     );
 }
